@@ -52,7 +52,7 @@ fn field(value: &str, line: usize, column: &str) -> Result<(), CoreError> {
             "expected nonempty text without NUL",
         ));
     }
-    if value.chars().count() > MAX_CODE_POINTS {
+    if value.len() > MAX_CODE_POINTS && value.chars().count() > MAX_CODE_POINTS {
         return Err(limit_error(line, column, MAX_CODE_POINTS));
     }
     Ok(())
@@ -110,68 +110,81 @@ fn weight(value: &str, line: usize) -> Result<f64, CoreError> {
     Ok(score)
 }
 
+fn scan_tsv<'a>(
+    bytes: &'a [u8],
+    mut row: impl FnMut(&'a str, &'a str, f64, usize) -> Result<(), CoreError>,
+) -> Result<(), CoreError> {
+    if bytes.len() > MAX_FILE_BYTES {
+        return Err(limit_error(0, "file bytes", MAX_FILE_BYTES));
+    }
+    let text = std::str::from_utf8(bytes).map_err(|error| {
+        CoreError::new(
+            "dictionary-encoding",
+            format!("invalid UTF-8 at byte {}", error.valid_up_to()),
+        )
+    })?;
+    let text = text.strip_prefix('\u{feff}').unwrap_or(text);
+    let mut saw_header = false;
+    for (index, segment) in text.split_inclusive('\n').enumerate() {
+        let line_number = index + 1;
+        let line = match segment.strip_suffix('\n') {
+            Some(line) => line.strip_suffix('\r').unwrap_or(line),
+            None => segment,
+        };
+        if line.len() > MAX_LINE_BYTES {
+            return Err(limit_error(line_number, "line bytes", MAX_LINE_BYTES));
+        }
+        if line.contains('\r') {
+            return Err(format_error(
+                line_number,
+                "line",
+                "bare CR is not supported",
+            ));
+        }
+        if index == 0 {
+            if line != HEADER {
+                return Err(format_error(
+                    1,
+                    "header",
+                    "expected reading, surface, weight",
+                ));
+            }
+            saw_header = true;
+            continue;
+        }
+        if index > MAX_ROWS {
+            return Err(limit_error(line_number, "data rows", MAX_ROWS));
+        }
+        let mut columns = line.split('\t');
+        let (Some(reading), Some(surface), Some(raw_weight), None) = (
+            columns.next(),
+            columns.next(),
+            columns.next(),
+            columns.next(),
+        ) else {
+            return Err(format_error(
+                line_number,
+                "line",
+                "expected exactly three columns",
+            ));
+        };
+        field(reading, line_number, "reading")?;
+        field(surface, line_number, "surface")?;
+        let score = weight(raw_weight, line_number)?;
+        row(reading, surface, score, line_number)?;
+    }
+    if !saw_header {
+        return Err(format_error(1, "header", "dictionary is empty"));
+    }
+    Ok(())
+}
+
 impl ExactDictionary {
     /// UTF-8/BOM、改行、全行、重複、上限を検査し、成功時だけ辞書を返す。
     /// 呼出元のバイト列を借用し続けず、入力から独立した所有データを作る。
     pub fn from_tsv_bytes(bytes: &[u8]) -> Result<Self, CoreError> {
-        if bytes.len() > MAX_FILE_BYTES {
-            return Err(limit_error(0, "file bytes", MAX_FILE_BYTES));
-        }
-        let text = std::str::from_utf8(bytes).map_err(|error| {
-            CoreError::new(
-                "dictionary-encoding",
-                format!("invalid UTF-8 at byte {}", error.valid_up_to()),
-            )
-        })?;
-        let text = text.strip_prefix('\u{feff}').unwrap_or(text);
         let mut entries: BTreeMap<String, Vec<Entry>> = BTreeMap::new();
-        let mut saw_header = false;
-        for (index, segment) in text.split_inclusive('\n').enumerate() {
-            let line_number = index + 1;
-            let line = match segment.strip_suffix('\n') {
-                Some(line) => line.strip_suffix('\r').unwrap_or(line),
-                None => segment,
-            };
-            if line.len() > MAX_LINE_BYTES {
-                return Err(limit_error(line_number, "line bytes", MAX_LINE_BYTES));
-            }
-            if line.contains('\r') {
-                return Err(format_error(
-                    line_number,
-                    "line",
-                    "bare CR is not supported",
-                ));
-            }
-            if index == 0 {
-                if line != HEADER {
-                    return Err(format_error(
-                        1,
-                        "header",
-                        "expected reading, surface, weight",
-                    ));
-                }
-                saw_header = true;
-                continue;
-            }
-            if index > MAX_ROWS {
-                return Err(limit_error(line_number, "data rows", MAX_ROWS));
-            }
-            let mut columns = line.split('\t');
-            let (Some(reading), Some(surface), Some(raw_weight), None) = (
-                columns.next(),
-                columns.next(),
-                columns.next(),
-                columns.next(),
-            ) else {
-                return Err(format_error(
-                    line_number,
-                    "line",
-                    "expected exactly three columns",
-                ));
-            };
-            field(reading, line_number, "reading")?;
-            field(surface, line_number, "surface")?;
-            let score = weight(raw_weight, line_number)?;
+        scan_tsv(bytes, |reading, surface, score, line_number| {
             let candidates = entries.entry(reading.to_owned()).or_default();
             if let Some(first) = candidates.iter().find(|entry| entry.surface == surface) {
                 return Err(format_error(
@@ -192,10 +205,8 @@ impl ExactDictionary {
                 score,
                 line: line_number,
             });
-        }
-        if !saw_header {
-            return Err(format_error(1, "header", "dictionary is empty"));
-        }
+            Ok(())
+        })?;
         Ok(Self { entries })
     }
 
