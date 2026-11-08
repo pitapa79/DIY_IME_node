@@ -1,0 +1,16 @@
+{
+  "repository": "pitapa79/DIY_IME2",
+  "files": [
+    {
+      "sourcePath": "examples/appcontainer_worker_probe.rs",
+      "path": "dev/appcontainer-worker-probe.rs",
+      "blob": "6ae7fcdbf0c8369102be48134545f0df2dbcae1a"
+    },
+    {
+      "sourcePath": "examples/security_support/windows_worker.rs",
+      "path": "dev/security_support/windows_worker.rs",
+      "blob": "7063d48d1e3ae3da7a15eea571ea08d99d57e818"
+    }
+  ],
+  "commit": "71e4c37f73fd5a202ac2e0f3c0bd3939b73ff114"
+}

@@ -1,0 +1,70 @@
+name: Node contracts
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: nodes-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  windows-nodes:
+    runs-on: windows-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: pwsh
+    env:
+      CARGO_INCREMENTAL: '0'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install project Rust
+        run: |
+          rustup toolchain install 1.90.0-x86_64-pc-windows-gnu --profile minimal --component rustfmt --component clippy
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          rustup override set 1.90.0-x86_64-pc-windows-gnu
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $compiler = rustup which rustc
+          $toolchain = Split-Path (Split-Path $compiler)
+          $linker = Join-Path $toolchain 'lib/rustlib/x86_64-pc-windows-gnu/bin/self-contained/x86_64-w64-mingw32-gcc.exe'
+          if (-not (Test-Path -LiteralPath $linker)) { throw 'Project GNU linker unavailable' }
+          "CARGO_TARGET_X86_64_PC_WINDOWS_GNU_LINKER=$linker" >> $env:GITHUB_ENV
+      - name: Verify imported source and SDK
+        run: ./scripts/check-migration.ps1
+      - name: All Node and SDK contracts
+        run: |
+          cargo test --locked --workspace --all-targets
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo test --locked --workspace --doc
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo fmt --all -- --check
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo clippy --locked --workspace --all-targets -- -D warnings
+          exit $LASTEXITCODE
+      - name: Install Wasm target
+        run: rustup target add wasm32-unknown-unknown --toolchain 1.90.0-x86_64-pc-windows-gnu
+      - name: Real Wasm ABI and rejection probes
+        run: ./scripts/check-wasm-runtime.ps1
+      - name: Real Wasm in AppContainer and Job
+        run: ./scripts/check-wasm-runtime.ps1 -Isolated
+      - name: Build and verify official Node packages
+        run: ./scripts/build-official-packages.ps1 -SourceCommit $env:GITHUB_SHA -Output target/official-nodes -Isolated
+      - name: Preserve verified official distribution
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6, verified upstream tag
+        with:
+          name: official-nodes-${{ github.sha }}
+          path: |
+            target/official-nodes/
+            target/official-nodes.build-receipt.json
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 9
+      - name: Source provenance
+        if: always()
+        run: |
+          "Source: $env:GITHUB_SHA" >> $env:GITHUB_STEP_SUMMARY
+          Get-FileHash Cargo.lock,migration-provenance.json -Algorithm SHA256 | Format-Table | Out-String >> $env:GITHUB_STEP_SUMMARY

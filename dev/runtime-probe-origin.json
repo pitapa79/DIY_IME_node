@@ -1,0 +1,16 @@
+{
+  "files": [
+    {
+      "blob": "24d56e9e5e2cf87c99cf3b07c9410bf1a3f15a08",
+      "path": "dev/runtime-probe.rs",
+      "sourcePath": "examples/wasm_c_api_probe.rs"
+    },
+    {
+      "blob": "4803f712199beebc80a99ebee0b17734b46f9608",
+      "path": "scripts/check-wasm-guest.ps1",
+      "sourcePath": "scripts/check-wasm-guest.ps1"
+    }
+  ],
+  "commit": "84177a5d88e558a2d71089e9987c185bdb97044c",
+  "repository": "pitapa79/DIY_IME2"
+}

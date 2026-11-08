@@ -1,0 +1,2 @@
+# Preserve exact imported bytes for provenance checks on every OS.
+* -text

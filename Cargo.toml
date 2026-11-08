@@ -1,0 +1,49 @@
+[package]
+name = "diy-ime2-nodes"
+version = "0.1.0"
+edition = "2024"
+publish = false
+description = "Official primitive and function Nodes for DIY_IME2"
+autoexamples = false
+
+[features]
+default = []
+custom-guest = []
+
+[dependencies]
+diy-ime2-runtime = { path = "sdk/runtime" }
+serde_json = "1"
+serde = { version = "1", features = ["derive"] }
+
+[[bin]]
+name = "diy-ime2"
+path = "tests/support/cli.rs"
+test = false
+bench = false
+
+[workspace]
+resolver = "3"
+members = ["sdk/runtime"]
+default-members = ["."]
+
+[lib]
+crate-type = ["rlib", "cdylib"]
+
+[profile.release]
+opt-level = "s"
+lto = true
+strip = "debuginfo"
+panic = "abort"
+
+[[example]]
+name = "wasm_runtime_probe"
+path = "dev/runtime-probe.rs"
+
+[target.'cfg(windows)'.dev-dependencies]
+windows-sys = { version = "=0.59.0", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Isolation", "Win32_Security_Authorization", "Win32_Security_Cryptography", "Win32_Storage_FileSystem", "Win32_System_Threading", "Win32_System_JobObjects", "Win32_System_Pipes", "Win32_System_Memory"] }
+[[example]]
+name = "appcontainer_worker_probe"
+path = "dev/appcontainer-worker-probe.rs"
+[[example]]
+name = "official_packages"
+path = "dev/official-packages.rs"

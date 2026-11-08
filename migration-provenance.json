@@ -1,0 +1,1723 @@
+{
+  "formatVersion": 1,
+  "sourceRepository": "pitapa79/DIY_IME2",
+  "sourceCommit": "1a385a9d9bfe0d2bcf083bf3bec35901a8d30133",
+  "files": [
+    {
+      "sourcePath": "src/nodes/ascii_width/mod.rs",
+      "sourceBlob": "faecab782bf48931dc556850ccd72439fb48dc64",
+      "path": "src/nodes/ascii_width/mod.rs",
+      "change": "copied",
+      "blob": "faecab782bf48931dc556850ccd72439fb48dc64"
+    },
+    {
+      "sourcePath": "src/nodes/candidate_selection/mod.rs",
+      "sourceBlob": "eb456496399fa6efbf090f8a6297f6c589ca76fa",
+      "path": "src/nodes/candidate_selection/mod.rs",
+      "change": "copied",
+      "blob": "eb456496399fa6efbf090f8a6297f6c589ca76fa"
+    },
+    {
+      "sourcePath": "src/nodes/character_filter/mod.rs",
+      "sourceBlob": "62946096f96d2692ede47d97a65fe54ee9fbd870",
+      "path": "src/nodes/character_filter/mod.rs",
+      "change": "copied",
+      "blob": "62946096f96d2692ede47d97a65fe54ee9fbd870"
+    },
+    {
+      "sourcePath": "src/nodes/choice_build/mod.rs",
+      "sourceBlob": "0bb98aef85b27741dd911a5832f00186690a0a75",
+      "path": "src/nodes/choice_build/mod.rs",
+      "change": "copied",
+      "blob": "0bb98aef85b27741dd911a5832f00186690a0a75"
+    },
+    {
+      "sourcePath": "src/nodes/choice_deduplicate/mod.rs",
+      "sourceBlob": "2bbb03a19d597b8e85af58e7d87315fbb1c97872",
+      "path": "src/nodes/choice_deduplicate/mod.rs",
+      "change": "copied",
+      "blob": "2bbb03a19d597b8e85af58e7d87315fbb1c97872"
+    },
+    {
+      "sourcePath": "src/nodes/choice_extract/mod.rs",
+      "sourceBlob": "88d80365eced5f624d2804b106f27fce55e85480",
+      "path": "src/nodes/choice_extract/mod.rs",
+      "change": "copied",
+      "blob": "88d80365eced5f624d2804b106f27fce55e85480"
+    },
+    {
+      "sourcePath": "src/nodes/choice_limit/mod.rs",
+      "sourceBlob": "af6f1c8d8937dfca2e382c66bf0733b215f274f5",
+      "path": "src/nodes/choice_limit/mod.rs",
+      "change": "copied",
+      "blob": "af6f1c8d8937dfca2e382c66bf0733b215f274f5"
+    },
+    {
+      "sourcePath": "src/nodes/choice_merge/mod.rs",
+      "sourceBlob": "f60e7cde2339525ee9395a885482e80f4b1d31a2",
+      "path": "src/nodes/choice_merge/mod.rs",
+      "change": "copied",
+      "blob": "f60e7cde2339525ee9395a885482e80f4b1d31a2"
+    },
+    {
+      "sourcePath": "src/nodes/choice_remove/mod.rs",
+      "sourceBlob": "1844aff0fb0f9a96d7a8eeb547db5e951622dc44",
+      "path": "src/nodes/choice_remove/mod.rs",
+      "change": "copied",
+      "blob": "1844aff0fb0f9a96d7a8eeb547db5e951622dc44"
+    },
+    {
+      "sourcePath": "src/nodes/choice_sort/mod.rs",
+      "sourceBlob": "7d75dfa2b8f1adea215d0e16aa95554c720e04ae",
+      "path": "src/nodes/choice_sort/mod.rs",
+      "change": "copied",
+      "blob": "7d75dfa2b8f1adea215d0e16aa95554c720e04ae"
+    },
+    {
+      "sourcePath": "src/nodes/choice_threshold/mod.rs",
+      "sourceBlob": "bc8e5e13d9f49b4c10e201cfc1066c145ac2bd69",
+      "path": "src/nodes/choice_threshold/mod.rs",
+      "change": "copied",
+      "blob": "bc8e5e13d9f49b4c10e201cfc1066c145ac2bd69"
+    },
+    {
+      "sourcePath": "src/nodes/choice_top_n/mod.rs",
+      "sourceBlob": "1976cf8616a85e18b811e0623ba240fa58944a8c",
+      "path": "src/nodes/choice_top_n/mod.rs",
+      "change": "copied",
+      "blob": "1976cf8616a85e18b811e0623ba240fa58944a8c"
+    },
+    {
+      "sourcePath": "src/nodes/dictionary_exact/mod.rs",
+      "sourceBlob": "1e88683fa5f9d33efa87c80c222caf5f9da57df5",
+      "path": "src/nodes/dictionary_exact/mod.rs",
+      "change": "copied",
+      "blob": "1e88683fa5f9d33efa87c80c222caf5f9da57df5"
+    },
+    {
+      "sourcePath": "src/nodes/experimental.rs",
+      "sourceBlob": "e23eea2d9a76cc19148f85fd7ae359010d66c3ae",
+      "path": "src/nodes/experimental.rs",
+      "change": "copied",
+      "blob": "e23eea2d9a76cc19148f85fd7ae359010d66c3ae"
+    },
+    {
+      "sourcePath": "src/nodes/hiragana_katakana/mod.rs",
+      "sourceBlob": "ca8c26f7025a2fb219d7f4254cbe166ad4140d96",
+      "path": "src/nodes/hiragana_katakana/mod.rs",
+      "change": "copied",
+      "blob": "ca8c26f7025a2fb219d7f4254cbe166ad4140d96"
+    },
+    {
+      "sourcePath": "src/nodes/japanese_punctuation/mod.rs",
+      "sourceBlob": "25e56ef4e5868ed6920d8beb10b0b3f56cfb15d5",
+      "path": "src/nodes/japanese_punctuation/mod.rs",
+      "change": "copied",
+      "blob": "25e56ef4e5868ed6920d8beb10b0b3f56cfb15d5"
+    },
+    {
+      "sourcePath": "src/nodes/json_escape/mod.rs",
+      "sourceBlob": "74522dbe3f59c61678c6bd2e5e99f0f91bdde6a1",
+      "path": "src/nodes/json_escape/mod.rs",
+      "change": "copied",
+      "blob": "74522dbe3f59c61678c6bd2e5e99f0f91bdde6a1"
+    },
+    {
+      "sourcePath": "src/nodes/katakana_hiragana/mod.rs",
+      "sourceBlob": "36a820d11e6acc5d9dac780af59459d5772f763c",
+      "path": "src/nodes/katakana_hiragana/mod.rs",
+      "change": "copied",
+      "blob": "36a820d11e6acc5d9dac780af59459d5772f763c"
+    },
+    {
+      "sourcePath": "src/nodes/line_endings/mod.rs",
+      "sourceBlob": "40ae6272e0fa1a05822f8781e1f69e3b4b80fcbd",
+      "path": "src/nodes/line_endings/mod.rs",
+      "change": "copied",
+      "blob": "40ae6272e0fa1a05822f8781e1f69e3b4b80fcbd"
+    },
+    {
+      "sourcePath": "src/nodes/mod.rs",
+      "sourceBlob": "10312d4bb3c6b5f0c318a1942cf8bdc32ef87521",
+      "path": "src/nodes/mod.rs",
+      "change": "adapted",
+      "blob": "56e765b25a40101e551a6ecb2c12e9f1164a0f8c"
+    },
+    {
+      "sourcePath": "src/nodes/packet_depth_limit/mod.rs",
+      "sourceBlob": "09d014190289171423c9093cbffa867d59cbc39c",
+      "path": "src/nodes/packet_depth_limit/mod.rs",
+      "change": "copied",
+      "blob": "09d014190289171423c9093cbffa867d59cbc39c"
+    },
+    {
+      "sourcePath": "src/nodes/packet_passthrough/mod.rs",
+      "sourceBlob": "70b30c6a26bfe4a7748d4c347f7a140a8750433a",
+      "path": "src/nodes/packet_passthrough/mod.rs",
+      "change": "copied",
+      "blob": "70b30c6a26bfe4a7748d4c347f7a140a8750433a"
+    },
+    {
+      "sourcePath": "src/nodes/packet_rebuild/mod.rs",
+      "sourceBlob": "18e583e1bdb8eab61615c5720a137a58f0021978",
+      "path": "src/nodes/packet_rebuild/mod.rs",
+      "change": "copied",
+      "blob": "18e583e1bdb8eab61615c5720a137a58f0021978"
+    },
+    {
+      "sourcePath": "src/nodes/paragraph_split/mod.rs",
+      "sourceBlob": "d0e7aba146f604afcf75919348daa67d51a46956",
+      "path": "src/nodes/paragraph_split/mod.rs",
+      "change": "copied",
+      "blob": "d0e7aba146f604afcf75919348daa67d51a46956"
+    },
+    {
+      "sourcePath": "src/nodes/recovery/mod.rs",
+      "sourceBlob": "ea850462528d3b622d71f273a388b11dbaf4a034",
+      "path": "src/nodes/recovery/mod.rs",
+      "change": "copied",
+      "blob": "ea850462528d3b622d71f273a388b11dbaf4a034"
+    },
+    {
+      "sourcePath": "src/nodes/romaji/convert.rs",
+      "sourceBlob": "f1311a49ca0821ce886b467d62d6968c40d6fb6c",
+      "path": "src/nodes/romaji/convert.rs",
+      "change": "copied",
+      "blob": "f1311a49ca0821ce886b467d62d6968c40d6fb6c"
+    },
+    {
+      "sourcePath": "src/nodes/romaji/default_table.tsv",
+      "sourceBlob": "f97e08572823a6dad8cd67a83ad5fb15029b2eaf",
+      "path": "src/nodes/romaji/default_table.tsv",
+      "change": "copied",
+      "blob": "f97e08572823a6dad8cd67a83ad5fb15029b2eaf"
+    },
+    {
+      "sourcePath": "src/nodes/romaji/mod.rs",
+      "sourceBlob": "9db37546e94e8f139fd882fb5d886a825295a2c7",
+      "path": "src/nodes/romaji/mod.rs",
+      "change": "copied",
+      "blob": "9db37546e94e8f139fd882fb5d886a825295a2c7"
+    },
+    {
+      "sourcePath": "src/nodes/score_add/mod.rs",
+      "sourceBlob": "0f18aa34c3c20447468d30d5332b015a71b4b19e",
+      "path": "src/nodes/score_add/mod.rs",
+      "change": "copied",
+      "blob": "0f18aa34c3c20447468d30d5332b015a71b4b19e"
+    },
+    {
+      "sourcePath": "src/nodes/score_multiply/mod.rs",
+      "sourceBlob": "09e14dd3cb50c14736c3c9c2a62d1a78bb458308",
+      "path": "src/nodes/score_multiply/mod.rs",
+      "change": "copied",
+      "blob": "09e14dd3cb50c14736c3c9c2a62d1a78bb458308"
+    },
+    {
+      "sourcePath": "src/nodes/score_normalize/mod.rs",
+      "sourceBlob": "7f64e2e9aeb289048fe1bb290a2203e31fdd3c34",
+      "path": "src/nodes/score_normalize/mod.rs",
+      "change": "copied",
+      "blob": "7f64e2e9aeb289048fe1bb290a2203e31fdd3c34"
+    },
+    {
+      "sourcePath": "src/nodes/score_set/mod.rs",
+      "sourceBlob": "83327115108903923db9484ee41e230271dc8fac",
+      "path": "src/nodes/score_set/mod.rs",
+      "change": "copied",
+      "blob": "83327115108903923db9484ee41e230271dc8fac"
+    },
+    {
+      "sourcePath": "src/nodes/sentence_split/mod.rs",
+      "sourceBlob": "c32f05a04cb7ff02b194065ecb457ace47c9ad30",
+      "path": "src/nodes/sentence_split/mod.rs",
+      "change": "copied",
+      "blob": "c32f05a04cb7ff02b194065ecb457ace47c9ad30"
+    },
+    {
+      "sourcePath": "src/nodes/sequence_build/mod.rs",
+      "sourceBlob": "ff6718deec3ee9e7555725ffc3511ce3c707c703",
+      "path": "src/nodes/sequence_build/mod.rs",
+      "change": "copied",
+      "blob": "ff6718deec3ee9e7555725ffc3511ce3c707c703"
+    },
+    {
+      "sourcePath": "src/nodes/sequence_extract/mod.rs",
+      "sourceBlob": "7e397ede4cd87899016ab0b5daade8b0dce410a2",
+      "path": "src/nodes/sequence_extract/mod.rs",
+      "change": "copied",
+      "blob": "7e397ede4cd87899016ab0b5daade8b0dce410a2"
+    },
+    {
+      "sourcePath": "src/nodes/stringify/mod.rs",
+      "sourceBlob": "f95fc2819eb954405219c18509c7bd2cff86f9b3",
+      "path": "src/nodes/stringify/mod.rs",
+      "change": "copied",
+      "blob": "f95fc2819eb954405219c18509c7bd2cff86f9b3"
+    },
+    {
+      "sourcePath": "src/nodes/text_case/mod.rs",
+      "sourceBlob": "0bd16810a2aeb909912cb00df562596305a7627e",
+      "path": "src/nodes/text_case/mod.rs",
+      "change": "copied",
+      "blob": "0bd16810a2aeb909912cb00df562596305a7627e"
+    },
+    {
+      "sourcePath": "src/nodes/text_concat/mod.rs",
+      "sourceBlob": "b7c8a52bafe81b0f24e6754c5f5759f5e27c6d20",
+      "path": "src/nodes/text_concat/mod.rs",
+      "change": "copied",
+      "blob": "b7c8a52bafe81b0f24e6754c5f5759f5e27c6d20"
+    },
+    {
+      "sourcePath": "src/nodes/text_extract/mod.rs",
+      "sourceBlob": "7f674b75215c3433c6942540f9b7556260812545",
+      "path": "src/nodes/text_extract/mod.rs",
+      "change": "copied",
+      "blob": "7f674b75215c3433c6942540f9b7556260812545"
+    },
+    {
+      "sourcePath": "src/nodes/text_prefix/mod.rs",
+      "sourceBlob": "10d14e471e9a477e3d3e953a6251f5013431b841",
+      "path": "src/nodes/text_prefix/mod.rs",
+      "change": "copied",
+      "blob": "10d14e471e9a477e3d3e953a6251f5013431b841"
+    },
+    {
+      "sourcePath": "src/nodes/text_replace/mod.rs",
+      "sourceBlob": "42b51af465e313196e77412a2ea0ceae590ba0fc",
+      "path": "src/nodes/text_replace/mod.rs",
+      "change": "copied",
+      "blob": "42b51af465e313196e77412a2ea0ceae590ba0fc"
+    },
+    {
+      "sourcePath": "src/nodes/text_split/mod.rs",
+      "sourceBlob": "49e7cee376c994fd9c8a05704b52a1586e8f9388",
+      "path": "src/nodes/text_split/mod.rs",
+      "change": "copied",
+      "blob": "49e7cee376c994fd9c8a05704b52a1586e8f9388"
+    },
+    {
+      "sourcePath": "src/nodes/text_suffix/mod.rs",
+      "sourceBlob": "a2fd1838ac391b60eccda3ce793313007c919588",
+      "path": "src/nodes/text_suffix/mod.rs",
+      "change": "copied",
+      "blob": "a2fd1838ac391b60eccda3ce793313007c919588"
+    },
+    {
+      "sourcePath": "src/nodes/text_trim/mod.rs",
+      "sourceBlob": "6ac215c03644a7254b5a5aface2b71b2102c592c",
+      "path": "src/nodes/text_trim/mod.rs",
+      "change": "copied",
+      "blob": "6ac215c03644a7254b5a5aface2b71b2102c592c"
+    },
+    {
+      "sourcePath": "src/nodes/whitespace_collapse/mod.rs",
+      "sourceBlob": "5f9815a1b821c7b5cd95cc99f0686a8682e124c6",
+      "path": "src/nodes/whitespace_collapse/mod.rs",
+      "change": "copied",
+      "blob": "5f9815a1b821c7b5cd95cc99f0686a8682e124c6"
+    },
+    {
+      "sourcePath": "src/builtins/demo.rs",
+      "sourceBlob": "406decbf62ddfb30d7ef64c822fe80fed8d7a859",
+      "path": "src/compat/demo.rs",
+      "change": "adapted",
+      "blob": "050b56bb9ec955a0da7c7d6bac159b623962cf21"
+    },
+    {
+      "sourcePath": "src/builtins/initial_e2e.rs",
+      "sourceBlob": "f4728591f590a9e68a91bde49a9b21fea066f8b2",
+      "path": "src/compat/initial_e2e.rs",
+      "change": "adapted",
+      "blob": "2ac244b40f90b442ec87827a0c8ccd4cd8c508ef"
+    },
+    {
+      "sourcePath": "src/nodes/runtime_input/mod.rs",
+      "sourceBlob": "afbe224be6ca6a2429ecd291e4c41068917fded8",
+      "path": "tests/support/runtime_input.rs",
+      "change": "adapted",
+      "blob": "217769fdbd416cad3731eb756e11709aa284ffad"
+    },
+    {
+      "sourcePath": "tests/nodes_ascii_width.rs",
+      "sourceBlob": "1bf36cce308b0f2987d8424c71dfd9d3ca23c75f",
+      "path": "tests/nodes_ascii_width.rs",
+      "change": "adapted",
+      "blob": "2ce61bf12f71c181f231ad324d345858e0eec9d0"
+    },
+    {
+      "sourcePath": "tests/nodes_candidate_selection.rs",
+      "sourceBlob": "532df9582f44faa9c65a0dd4d25b1e79233f15ca",
+      "path": "tests/nodes_candidate_selection.rs",
+      "change": "adapted",
+      "blob": "dee662fc36695c007504d01126a2e5f94688ccf4"
+    },
+    {
+      "sourcePath": "tests/nodes_character_filter.rs",
+      "sourceBlob": "6c495528c27ddee378eaa47de40c620c5decfacc",
+      "path": "tests/nodes_character_filter.rs",
+      "change": "adapted",
+      "blob": "8a4c3a85d4d6ef17e881158d12467924f2350a6b"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_build.rs",
+      "sourceBlob": "c7f7d4ee710957e1e084784d5667b5296974e69d",
+      "path": "tests/nodes_choice_build.rs",
+      "change": "adapted",
+      "blob": "5775f41f841e7862d347b97aa3b213f6cc48ee76"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_deduplicate.rs",
+      "sourceBlob": "b91582d01c8685395ed723d0b15ea9c8e96e4c6b",
+      "path": "tests/nodes_choice_deduplicate.rs",
+      "change": "adapted",
+      "blob": "fb685a654f383e39905202de4c48a9bf2f63d7c2"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_extract.rs",
+      "sourceBlob": "9634852a15b4f6d2978823460594e347e81d8ed1",
+      "path": "tests/nodes_choice_extract.rs",
+      "change": "adapted",
+      "blob": "d082ead7bb6f94402473401b52067f1364cbb5d9"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_limit.rs",
+      "sourceBlob": "7e20b11f65dcb22ae65ef5c87f6b3ce5a75bf1cc",
+      "path": "tests/nodes_choice_limit.rs",
+      "change": "adapted",
+      "blob": "b6a27f4abf2e3736b89cd82fad7d4feaef81229c"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_merge.rs",
+      "sourceBlob": "458f5dc4a78b587e089c395765f26c24341a7aac",
+      "path": "tests/nodes_choice_merge.rs",
+      "change": "adapted",
+      "blob": "ad98e7038553720ef76d159cd8dec0e559a40957"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_remove.rs",
+      "sourceBlob": "094549fc221fe78143a029e32419b63ddd153efc",
+      "path": "tests/nodes_choice_remove.rs",
+      "change": "adapted",
+      "blob": "fc7aaf9b400745eded66c5a0d1edcf0d11b03e6a"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_sort.rs",
+      "sourceBlob": "41326a4afadba5d7600fbbdd2272ba37ed8113cc",
+      "path": "tests/nodes_choice_sort.rs",
+      "change": "adapted",
+      "blob": "15abadc2a1bee8196c9b647fb8212f76285a09a4"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_threshold.rs",
+      "sourceBlob": "35b1a51ede8307d801ea335a365e0247c045c031",
+      "path": "tests/nodes_choice_threshold.rs",
+      "change": "adapted",
+      "blob": "fc55330aa2dd9c070f8a279e1bedd4eef49a9618"
+    },
+    {
+      "sourcePath": "tests/nodes_choice_top_n.rs",
+      "sourceBlob": "0872eb951114ba92b64b5b848a175366ebaf4e88",
+      "path": "tests/nodes_choice_top_n.rs",
+      "change": "adapted",
+      "blob": "1596dc50f1ecc46f0a8a3f15969c39137131d06b"
+    },
+    {
+      "sourcePath": "tests/nodes_dictionary_exact.rs",
+      "sourceBlob": "3f51a689cfd2fb89bcb84588208d9d983d849917",
+      "path": "tests/nodes_dictionary_exact.rs",
+      "change": "adapted",
+      "blob": "8c6bbf502a646c3fc5e964000a2fcd65ac32098c"
+    },
+    {
+      "sourcePath": "tests/nodes_hiragana_katakana.rs",
+      "sourceBlob": "471a8900a22fc488b3873bc58c8fb8a2702430b9",
+      "path": "tests/nodes_hiragana_katakana.rs",
+      "change": "adapted",
+      "blob": "4b3ea2a292bfdd40555ea3027bb612143024f440"
+    },
+    {
+      "sourcePath": "tests/nodes_japanese_punctuation.rs",
+      "sourceBlob": "c0e6275ca07f716409546bfd93a3fbbb3c610921",
+      "path": "tests/nodes_japanese_punctuation.rs",
+      "change": "adapted",
+      "blob": "d82d50bffff73933ac3c68d7984b17363f621443"
+    },
+    {
+      "sourcePath": "tests/nodes_json_escape.rs",
+      "sourceBlob": "e143b33082c20f1006809c8868cab4134bd742a3",
+      "path": "tests/nodes_json_escape.rs",
+      "change": "adapted",
+      "blob": "bdddd5b22034d54a496481c4d0d085e8f7a8bbc6"
+    },
+    {
+      "sourcePath": "tests/nodes_katakana_hiragana.rs",
+      "sourceBlob": "b5dc42dc07c5036fe8581915494e03b31e1e9123",
+      "path": "tests/nodes_katakana_hiragana.rs",
+      "change": "adapted",
+      "blob": "e119fda3abac323d1af43cb3e603a88dcdd1c476"
+    },
+    {
+      "sourcePath": "tests/nodes_line_endings.rs",
+      "sourceBlob": "98be60c60370182c4f8b5de6eb6e81f6034188cd",
+      "path": "tests/nodes_line_endings.rs",
+      "change": "adapted",
+      "blob": "5493cbf09d4edc2b34bce288b3e90af4a2ef352c"
+    },
+    {
+      "sourcePath": "tests/nodes_packet_depth_limit.rs",
+      "sourceBlob": "a3c760b1b44e1bd3bc0785de3a621bfcb63f5a26",
+      "path": "tests/nodes_packet_depth_limit.rs",
+      "change": "adapted",
+      "blob": "814da0df57e7925ced17223f56f4f1f21412cf29"
+    },
+    {
+      "sourcePath": "tests/nodes_packet_passthrough.rs",
+      "sourceBlob": "04edf304071738b17745cfb8f2e974610ffdd32f",
+      "path": "tests/nodes_packet_passthrough.rs",
+      "change": "adapted",
+      "blob": "a79b16cfbe03e7f50e42a55255fd4d1cac435fb1"
+    },
+    {
+      "sourcePath": "tests/nodes_packet_rebuild.rs",
+      "sourceBlob": "086400058086e05bed2f6ff07d4724238828bb41",
+      "path": "tests/nodes_packet_rebuild.rs",
+      "change": "adapted",
+      "blob": "834f39ec558ae7300ed2ce24960c1b956701f94f"
+    },
+    {
+      "sourcePath": "tests/nodes_paragraph_split.rs",
+      "sourceBlob": "387afce1974f022669a4f74e1dc39df1e6d5e1a7",
+      "path": "tests/nodes_paragraph_split.rs",
+      "change": "adapted",
+      "blob": "368c1d166c59817c1a8bd4e5bb5cfeb848b81555"
+    },
+    {
+      "sourcePath": "tests/nodes_recovery.rs",
+      "sourceBlob": "25d5903110f95834ba119b550ab9583acb00409d",
+      "path": "tests/nodes_recovery.rs",
+      "change": "adapted",
+      "blob": "91b53b8ef1fb244ed28a9c21309ca88c26d6a4d6"
+    },
+    {
+      "sourcePath": "tests/nodes_romaji.rs",
+      "sourceBlob": "75c213adf64f4f71a9c0ef724a1464d182852088",
+      "path": "tests/nodes_romaji.rs",
+      "change": "adapted",
+      "blob": "fd6b990a32abbee260131969d45cd1067169f44e"
+    },
+    {
+      "sourcePath": "tests/nodes_score_add.rs",
+      "sourceBlob": "baf3f9b0129ee6ac6c4aeba86890a782fc196aca",
+      "path": "tests/nodes_score_add.rs",
+      "change": "adapted",
+      "blob": "fbd9d904907cc65ef2ec7300efb55a8c768a6672"
+    },
+    {
+      "sourcePath": "tests/nodes_score_multiply.rs",
+      "sourceBlob": "6df80a34d51144e63fd942a4ea36c676ff11d065",
+      "path": "tests/nodes_score_multiply.rs",
+      "change": "adapted",
+      "blob": "efdf2b3251c49b42713d022dd229691c007a4c90"
+    },
+    {
+      "sourcePath": "tests/nodes_score_normalize.rs",
+      "sourceBlob": "3d42897372cb4bb49bbec372c4f13c978405768c",
+      "path": "tests/nodes_score_normalize.rs",
+      "change": "adapted",
+      "blob": "804a9ba5d7d510575ab42447407bfa55bca6efef"
+    },
+    {
+      "sourcePath": "tests/nodes_score_set.rs",
+      "sourceBlob": "661edb028c39165e8366914ee6df7006c0d4fc31",
+      "path": "tests/nodes_score_set.rs",
+      "change": "adapted",
+      "blob": "658d66c142d06a908f28a1f339168d4444ec73f0"
+    },
+    {
+      "sourcePath": "tests/nodes_sentence_split.rs",
+      "sourceBlob": "9cea9f42dfcf7ef1b173bb392fa3616db052f4ee",
+      "path": "tests/nodes_sentence_split.rs",
+      "change": "adapted",
+      "blob": "1f209c865f8a4890097e7d76c626de0bd78d1614"
+    },
+    {
+      "sourcePath": "tests/nodes_sequence_build.rs",
+      "sourceBlob": "ec4fbcefa0ba5923bbdb6b24d12b3bc40cae51fd",
+      "path": "tests/nodes_sequence_build.rs",
+      "change": "adapted",
+      "blob": "fb2f0d30090a33de5ca24e30819e2f947b46f15a"
+    },
+    {
+      "sourcePath": "tests/nodes_sequence_extract.rs",
+      "sourceBlob": "e26450ee25bd375a6fe6b030f7c55f5c91e746cd",
+      "path": "tests/nodes_sequence_extract.rs",
+      "change": "adapted",
+      "blob": "9019c40e8592293150140d8ffbe7f72f87145ab5"
+    },
+    {
+      "sourcePath": "tests/nodes_stringify.rs",
+      "sourceBlob": "ef8034ccfac824f5c1d632259e1ddee9d067664a",
+      "path": "tests/nodes_stringify.rs",
+      "change": "adapted",
+      "blob": "6eea1c52f68623d8f0e71dce21de603fe8ec53a0"
+    },
+    {
+      "sourcePath": "tests/nodes_text_case.rs",
+      "sourceBlob": "130858269b8bc14bd7e27000d509e5eaf16f7935",
+      "path": "tests/nodes_text_case.rs",
+      "change": "adapted",
+      "blob": "467d262f6b1e0e4e88c2083d72349079fb697913"
+    },
+    {
+      "sourcePath": "tests/nodes_text_concat.rs",
+      "sourceBlob": "f02e7e812cd5b7bf35ccb8628a1c06963ee3b1b0",
+      "path": "tests/nodes_text_concat.rs",
+      "change": "adapted",
+      "blob": "b6dd0fd2967bad6506df5ae4efc7b081751b3e03"
+    },
+    {
+      "sourcePath": "tests/nodes_text_extract.rs",
+      "sourceBlob": "1f5488818be6ca02088deec48ecc8a04785d5a58",
+      "path": "tests/nodes_text_extract.rs",
+      "change": "adapted",
+      "blob": "95289ed756dbfc1f748a0b552e3968b197410c1a"
+    },
+    {
+      "sourcePath": "tests/nodes_text_prefix.rs",
+      "sourceBlob": "c6e94184bd0d0cdf35791f56de1375d4d64ce6e0",
+      "path": "tests/nodes_text_prefix.rs",
+      "change": "adapted",
+      "blob": "b5c08ea71d23396ed50beda8cc2b26a7c2715387"
+    },
+    {
+      "sourcePath": "tests/nodes_text_replace.rs",
+      "sourceBlob": "acb48c8b6a4bb0c46a67743b650e1f7147019262",
+      "path": "tests/nodes_text_replace.rs",
+      "change": "adapted",
+      "blob": "2468e57c3ce295020172fa4d77f4724f811292f5"
+    },
+    {
+      "sourcePath": "tests/nodes_text_split.rs",
+      "sourceBlob": "45f02d6cf83a92496004cc5c6929947c4ff28b9b",
+      "path": "tests/nodes_text_split.rs",
+      "change": "adapted",
+      "blob": "51d7535dd35c1ae762e13f9a33de86c35a0b77ac"
+    },
+    {
+      "sourcePath": "tests/nodes_text_suffix.rs",
+      "sourceBlob": "b36f45a031603f6aa36ab5bd66015319be3befd5",
+      "path": "tests/nodes_text_suffix.rs",
+      "change": "adapted",
+      "blob": "eb73c492537938a343106c7dad9c50577bd95dde"
+    },
+    {
+      "sourcePath": "tests/nodes_text_trim.rs",
+      "sourceBlob": "6c63e7bc81a3a189fd8e912efd8e3825e926568b",
+      "path": "tests/nodes_text_trim.rs",
+      "change": "adapted",
+      "blob": "3512a16d2e24042d2309c25a13a6c66f0081b476"
+    },
+    {
+      "sourcePath": "tests/nodes_whitespace_collapse.rs",
+      "sourceBlob": "aae8e2a6253ecda51c47e67c829be506eec1f0e1",
+      "path": "tests/nodes_whitespace_collapse.rs",
+      "change": "adapted",
+      "blob": "a8a69ef0ce042101133ffe79a92c31d8c958a666"
+    },
+    {
+      "sourcePath": "tests/contracts/candidate_selection.json",
+      "sourceBlob": "e9e34fa74cb6b748ad2ea1838b155aa23da69eff",
+      "path": "tests/contracts/candidate_selection.json",
+      "change": "copied",
+      "blob": "e9e34fa74cb6b748ad2ea1838b155aa23da69eff"
+    },
+    {
+      "sourcePath": "tests/contracts/dictionary_exact.json",
+      "sourceBlob": "543c97f81e67de7f5a5d3b8c1cc77bfc41f3f6e8",
+      "path": "tests/contracts/dictionary_exact.json",
+      "change": "copied",
+      "blob": "543c97f81e67de7f5a5d3b8c1cc77bfc41f3f6e8"
+    },
+    {
+      "sourcePath": "tests/contracts/execution_control.json",
+      "sourceBlob": "cd19f1eb0e1c761366e5cbfe3c47b1d75e8ebbd1",
+      "path": "tests/contracts/execution_control.json",
+      "change": "copied",
+      "blob": "cd19f1eb0e1c761366e5cbfe3c47b1d75e8ebbd1"
+    },
+    {
+      "sourcePath": "tests/contracts/README.md",
+      "sourceBlob": "a076002e7e6966f8cb4c99bd226df8eb3ebf0906",
+      "path": "tests/contracts/README.md",
+      "change": "adapted",
+      "blob": "b8a7d0f3e9279e0d1c59e7cc01941925c959cb51"
+    },
+    {
+      "sourcePath": "tests/contracts/recovery.json",
+      "sourceBlob": "0098f1353948c231b891232b692c861800917d48",
+      "path": "tests/contracts/recovery.json",
+      "change": "copied",
+      "blob": "0098f1353948c231b891232b692c861800917d48"
+    },
+    {
+      "sourcePath": "tests/contracts/romaji.json",
+      "sourceBlob": "fd9d192eed7a5af76797141a14b663504b5cfa3d",
+      "path": "tests/contracts/romaji.json",
+      "change": "copied",
+      "blob": "fd9d192eed7a5af76797141a14b663504b5cfa3d"
+    },
+    {
+      "sourcePath": "tests/contracts/runtime_input.json",
+      "sourceBlob": "977b17b0278863519801cfc6b54939158e72e86e",
+      "path": "tests/contracts/runtime_input.json",
+      "change": "copied",
+      "blob": "977b17b0278863519801cfc6b54939158e72e86e"
+    },
+    {
+      "sourcePath": "tests/contracts/stringify.json",
+      "sourceBlob": "2cf8b002f9eb4238db6463667b049b6fd01f2641",
+      "path": "tests/contracts/stringify.json",
+      "change": "copied",
+      "blob": "2cf8b002f9eb4238db6463667b049b6fd01f2641"
+    },
+    {
+      "sourcePath": "tests/execution_clock_cases.json",
+      "sourceBlob": "c8bd6d405c1816f7dcd0ba4f6b14f96bc5a8f851",
+      "path": "tests/execution_clock_cases.json",
+      "change": "copied",
+      "blob": "c8bd6d405c1816f7dcd0ba4f6b14f96bc5a8f851"
+    },
+    {
+      "sourcePath": "tests/execution_coverage.json",
+      "sourceBlob": "e892a73376eacc21a577f965747d2b210230d11b",
+      "path": "tests/execution_coverage.json",
+      "change": "copied",
+      "blob": "e892a73376eacc21a577f965747d2b210230d11b"
+    },
+    {
+      "sourcePath": "tests/execution_prestart_cases.json",
+      "sourceBlob": "d7d5a88e63abb57276a6d44d636a8172b7114a04",
+      "path": "tests/execution_prestart_cases.json",
+      "change": "copied",
+      "blob": "d7d5a88e63abb57276a6d44d636a8172b7114a04"
+    },
+    {
+      "sourcePath": "tests/execution_private_cases.json",
+      "sourceBlob": "3cec23ea6fd9a4ceb119f3fb4b0b91a6f816ed73",
+      "path": "tests/execution_private_cases.json",
+      "change": "copied",
+      "blob": "3cec23ea6fd9a4ceb119f3fb4b0b91a6f816ed73"
+    },
+    {
+      "sourcePath": "examples/nodes/ascii_width/contract.json",
+      "sourceBlob": "600f8ae1da0811a183ce8e844fab2a22e7e95dfb",
+      "path": "examples/nodes/ascii_width/contract.json",
+      "change": "copied",
+      "blob": "600f8ae1da0811a183ce8e844fab2a22e7e95dfb"
+    },
+    {
+      "sourcePath": "examples/nodes/ascii_width/README.md",
+      "sourceBlob": "1a6c4110805e5cc97663cffa0587186bf24831ec",
+      "path": "examples/nodes/ascii_width/README.md",
+      "change": "adapted",
+      "blob": "ef9d91f8523cd363344fac02e3df3451c76067d3"
+    },
+    {
+      "sourcePath": "examples/nodes/candidate_selection/README.md",
+      "sourceBlob": "5ff73e09160546d7d456458500bd225467a8a676",
+      "path": "examples/nodes/candidate_selection/README.md",
+      "change": "adapted",
+      "blob": "3f84a6380965ad5a64f3d329fb6c0304a9c47491"
+    },
+    {
+      "sourcePath": "examples/nodes/candidate_selection/select-by-score.json",
+      "sourceBlob": "42dbd7498677e5c9d8fc9a39e5e303d11662061e",
+      "path": "examples/nodes/candidate_selection/select-by-score.json",
+      "change": "copied",
+      "blob": "42dbd7498677e5c9d8fc9a39e5e303d11662061e"
+    },
+    {
+      "sourcePath": "examples/nodes/character_filter/contract.json",
+      "sourceBlob": "1b9f35fe0bcf128ba78f62efd1d141784f7f885c",
+      "path": "examples/nodes/character_filter/contract.json",
+      "change": "copied",
+      "blob": "1b9f35fe0bcf128ba78f62efd1d141784f7f885c"
+    },
+    {
+      "sourcePath": "examples/nodes/character_filter/README.md",
+      "sourceBlob": "d99fc170e4c8c6f6293a2f34cedd710a219c239b",
+      "path": "examples/nodes/character_filter/README.md",
+      "change": "adapted",
+      "blob": "9914521f310e5665abc9dbf5ef3da8c0d3471b1b"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_build/contract.json",
+      "sourceBlob": "c14d8b4b32effc5b52231eb943898f38d94bfa85",
+      "path": "examples/nodes/choice_build/contract.json",
+      "change": "copied",
+      "blob": "c14d8b4b32effc5b52231eb943898f38d94bfa85"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_build/README.md",
+      "sourceBlob": "5a8899fd58d04ebcc61a7ac6f9d07ff8f4595748",
+      "path": "examples/nodes/choice_build/README.md",
+      "change": "adapted",
+      "blob": "895eaaf3b6233a6b7bf76fb2da216d6c3ee9af9d"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_deduplicate/contract.json",
+      "sourceBlob": "0bb40e99d7f299cc0cbb29d4045269ba455f1f82",
+      "path": "examples/nodes/choice_deduplicate/contract.json",
+      "change": "copied",
+      "blob": "0bb40e99d7f299cc0cbb29d4045269ba455f1f82"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_deduplicate/README.md",
+      "sourceBlob": "da210c5320987fcf44a756d9160e00dbbd386b7c",
+      "path": "examples/nodes/choice_deduplicate/README.md",
+      "change": "adapted",
+      "blob": "093062bea08a3c29f176cc7e7401ff3c10bdde31"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_extract/contract.json",
+      "sourceBlob": "8e402fce9f60ad68f815bd70c84e94919b6e0b96",
+      "path": "examples/nodes/choice_extract/contract.json",
+      "change": "copied",
+      "blob": "8e402fce9f60ad68f815bd70c84e94919b6e0b96"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_extract/README.md",
+      "sourceBlob": "39fe7d37bf99ce738959212af66ca2e69c6062fa",
+      "path": "examples/nodes/choice_extract/README.md",
+      "change": "adapted",
+      "blob": "842c40e8339ead45f499963524b2021f79c8ae1c"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_limit/contract.json",
+      "sourceBlob": "f612cd1a1673e0a2f8d2fd9c633877f6d35170c3",
+      "path": "examples/nodes/choice_limit/contract.json",
+      "change": "copied",
+      "blob": "f612cd1a1673e0a2f8d2fd9c633877f6d35170c3"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_limit/README.md",
+      "sourceBlob": "e33a1e67141ddc83f388b0a6de0aee4ddaf62246",
+      "path": "examples/nodes/choice_limit/README.md",
+      "change": "adapted",
+      "blob": "58b4b35d6dfef77329a7cfce3c48915276f3b8fc"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_merge/contract.json",
+      "sourceBlob": "2748b910f7f125b749553a3b0ab274f28167e360",
+      "path": "examples/nodes/choice_merge/contract.json",
+      "change": "copied",
+      "blob": "2748b910f7f125b749553a3b0ab274f28167e360"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_merge/README.md",
+      "sourceBlob": "6f8ed5be736a4b932d2e20eee6bde049b2158721",
+      "path": "examples/nodes/choice_merge/README.md",
+      "change": "adapted",
+      "blob": "37d57328fdd9007af586e804a78c25cf31a23220"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_remove/contract.json",
+      "sourceBlob": "9b7964e98069809c1f1b4b38fb84fbabf1130ce0",
+      "path": "examples/nodes/choice_remove/contract.json",
+      "change": "copied",
+      "blob": "9b7964e98069809c1f1b4b38fb84fbabf1130ce0"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_remove/README.md",
+      "sourceBlob": "f353a2a52c6ef90d2f01b9ed20e28453bacbed2d",
+      "path": "examples/nodes/choice_remove/README.md",
+      "change": "adapted",
+      "blob": "ba10896f66b41e081aa5a674c74d8a7bff825f4f"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_sort/contract.json",
+      "sourceBlob": "8b3e2b8740771a47b4e8869aa6507a2debcfa996",
+      "path": "examples/nodes/choice_sort/contract.json",
+      "change": "copied",
+      "blob": "8b3e2b8740771a47b4e8869aa6507a2debcfa996"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_sort/README.md",
+      "sourceBlob": "5dca0cc0aecd205a8a0315c255d8964ce2c6aae8",
+      "path": "examples/nodes/choice_sort/README.md",
+      "change": "adapted",
+      "blob": "7185754b07d394cf45714f4625ab53c117071322"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_threshold/contract.json",
+      "sourceBlob": "ef5f0c5775ed98cf63f5c0ed65280e34c1e92f6e",
+      "path": "examples/nodes/choice_threshold/contract.json",
+      "change": "copied",
+      "blob": "ef5f0c5775ed98cf63f5c0ed65280e34c1e92f6e"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_threshold/README.md",
+      "sourceBlob": "00df043f5e37527b0260befe6f61cb324cfe52ed",
+      "path": "examples/nodes/choice_threshold/README.md",
+      "change": "adapted",
+      "blob": "933361021710781d2f2625c703cc5cc178bd7c89"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_top_n/contract.json",
+      "sourceBlob": "bafb93f30d077501fe71fbabc98f4f5bd6072ae6",
+      "path": "examples/nodes/choice_top_n/contract.json",
+      "change": "copied",
+      "blob": "bafb93f30d077501fe71fbabc98f4f5bd6072ae6"
+    },
+    {
+      "sourcePath": "examples/nodes/choice_top_n/README.md",
+      "sourceBlob": "d3c5b0bd0eabf292ba54521f91edb27bd2564292",
+      "path": "examples/nodes/choice_top_n/README.md",
+      "change": "adapted",
+      "blob": "03630ef573b6c0bfa5aa567f4a9b5d50cd75c120"
+    },
+    {
+      "sourcePath": "examples/nodes/dictionary_exact/dictionary.tsv",
+      "sourceBlob": "9e3a50069c7910edb71a46de2f5662ad8931677b",
+      "path": "examples/nodes/dictionary_exact/dictionary.tsv",
+      "change": "copied",
+      "blob": "9e3a50069c7910edb71a46de2f5662ad8931677b"
+    },
+    {
+      "sourcePath": "examples/nodes/dictionary_exact/README.md",
+      "sourceBlob": "b9b954805b8f75c7d69c00c2efe0ef499eeed3e0",
+      "path": "examples/nodes/dictionary_exact/README.md",
+      "change": "adapted",
+      "blob": "8fda986c893840cbe40ee42ec76a9aa7e7635c3d"
+    },
+    {
+      "sourcePath": "examples/nodes/hiragana_katakana/contract.json",
+      "sourceBlob": "975fbfc891de55a5aced2648df3a2e234d737a84",
+      "path": "examples/nodes/hiragana_katakana/contract.json",
+      "change": "copied",
+      "blob": "975fbfc891de55a5aced2648df3a2e234d737a84"
+    },
+    {
+      "sourcePath": "examples/nodes/hiragana_katakana/README.md",
+      "sourceBlob": "0ef776a24a3e1575ea5e1499d4b7b8736828475f",
+      "path": "examples/nodes/hiragana_katakana/README.md",
+      "change": "adapted",
+      "blob": "11028433711b4ed74d9f4928daa398b4523fc1b1"
+    },
+    {
+      "sourcePath": "examples/nodes/japanese_punctuation/contract.json",
+      "sourceBlob": "d08ec4c736e8701b9959afb6cf8010495614f6a2",
+      "path": "examples/nodes/japanese_punctuation/contract.json",
+      "change": "copied",
+      "blob": "d08ec4c736e8701b9959afb6cf8010495614f6a2"
+    },
+    {
+      "sourcePath": "examples/nodes/japanese_punctuation/README.md",
+      "sourceBlob": "7477d1c1d16570974157029a85dd8584fefbb415",
+      "path": "examples/nodes/japanese_punctuation/README.md",
+      "change": "adapted",
+      "blob": "96ec4c69a7125274e79df7c0bd407992ed06fc75"
+    },
+    {
+      "sourcePath": "examples/nodes/json_escape/contract.json",
+      "sourceBlob": "8383dd385981d09409aedb81a5b0eb9157c553c0",
+      "path": "examples/nodes/json_escape/contract.json",
+      "change": "copied",
+      "blob": "8383dd385981d09409aedb81a5b0eb9157c553c0"
+    },
+    {
+      "sourcePath": "examples/nodes/json_escape/README.md",
+      "sourceBlob": "d647de25e72282a494f05b8193e14497f9e7565c",
+      "path": "examples/nodes/json_escape/README.md",
+      "change": "adapted",
+      "blob": "c1665c53c591332c73324c71e0f216e0d7057cc7"
+    },
+    {
+      "sourcePath": "examples/nodes/katakana_hiragana/contract.json",
+      "sourceBlob": "5cb83fa43b335a1606444408d587aca5e402cf9a",
+      "path": "examples/nodes/katakana_hiragana/contract.json",
+      "change": "copied",
+      "blob": "5cb83fa43b335a1606444408d587aca5e402cf9a"
+    },
+    {
+      "sourcePath": "examples/nodes/katakana_hiragana/README.md",
+      "sourceBlob": "7fb998d9825b9500c968cccc38a97febb42f1ec6",
+      "path": "examples/nodes/katakana_hiragana/README.md",
+      "change": "adapted",
+      "blob": "70006c1db14007755993a81038c93d21e7531b86"
+    },
+    {
+      "sourcePath": "examples/nodes/line_endings/contract.json",
+      "sourceBlob": "4f6a6a742e42148c65d45e2ff54ff7e5beac2f9a",
+      "path": "examples/nodes/line_endings/contract.json",
+      "change": "copied",
+      "blob": "4f6a6a742e42148c65d45e2ff54ff7e5beac2f9a"
+    },
+    {
+      "sourcePath": "examples/nodes/line_endings/README.md",
+      "sourceBlob": "925f58c53a60de754072ab6535dc4c31b322e64a",
+      "path": "examples/nodes/line_endings/README.md",
+      "change": "adapted",
+      "blob": "8a4cad5c5625a9125dc7ba2187cddee79fb52818"
+    },
+    {
+      "sourcePath": "examples/nodes/packet_depth_limit/contract.json",
+      "sourceBlob": "f5101e4cb34c2d89ec09dbbd6f79674e56eda172",
+      "path": "examples/nodes/packet_depth_limit/contract.json",
+      "change": "copied",
+      "blob": "f5101e4cb34c2d89ec09dbbd6f79674e56eda172"
+    },
+    {
+      "sourcePath": "examples/nodes/packet_depth_limit/README.md",
+      "sourceBlob": "a93953f241bb3fa1c46d698e2557514a4af7ab9b",
+      "path": "examples/nodes/packet_depth_limit/README.md",
+      "change": "adapted",
+      "blob": "a28162ade6bfab757dd0b9ca6466f4f39de1a479"
+    },
+    {
+      "sourcePath": "examples/nodes/packet_passthrough/contract.json",
+      "sourceBlob": "c69f3598aad8f4263c68f45048e5a83bc2f1d164",
+      "path": "examples/nodes/packet_passthrough/contract.json",
+      "change": "copied",
+      "blob": "c69f3598aad8f4263c68f45048e5a83bc2f1d164"
+    },
+    {
+      "sourcePath": "examples/nodes/packet_passthrough/README.md",
+      "sourceBlob": "e71b6b7b1177c53c7ec606af2a93ab37cb9b2052",
+      "path": "examples/nodes/packet_passthrough/README.md",
+      "change": "adapted",
+      "blob": "018bd808381d5cc30c58f1d8fc114e1ce4cc3c9e"
+    },
+    {
+      "sourcePath": "examples/nodes/packet_rebuild/contract.json",
+      "sourceBlob": "827ec67ca6fbb1d3a06c8ebe4d29e234d3a2c2ee",
+      "path": "examples/nodes/packet_rebuild/contract.json",
+      "change": "copied",
+      "blob": "827ec67ca6fbb1d3a06c8ebe4d29e234d3a2c2ee"
+    },
+    {
+      "sourcePath": "examples/nodes/packet_rebuild/README.md",
+      "sourceBlob": "c8c2bf2b0a9f4ba6511ce81decdd9e75d910644b",
+      "path": "examples/nodes/packet_rebuild/README.md",
+      "change": "adapted",
+      "blob": "87134fc3374d263ceb67ef520d15aa4d36c34e8f"
+    },
+    {
+      "sourcePath": "examples/nodes/paragraph_split/contract.json",
+      "sourceBlob": "7ebe49e42621d0a11008f88bae7c8c488ae00994",
+      "path": "examples/nodes/paragraph_split/contract.json",
+      "change": "copied",
+      "blob": "7ebe49e42621d0a11008f88bae7c8c488ae00994"
+    },
+    {
+      "sourcePath": "examples/nodes/paragraph_split/README.md",
+      "sourceBlob": "bd046faf006cd6c9bc0e3c6f2e5b2df795510d02",
+      "path": "examples/nodes/paragraph_split/README.md",
+      "change": "copied",
+      "blob": "bd046faf006cd6c9bc0e3c6f2e5b2df795510d02"
+    },
+    {
+      "sourcePath": "examples/nodes/recovery/primary-fails.json",
+      "sourceBlob": "ed3cb7cc9a3f13555a60b326a6a8e915650bb6f4",
+      "path": "examples/nodes/recovery/primary-fails.json",
+      "change": "copied",
+      "blob": "ed3cb7cc9a3f13555a60b326a6a8e915650bb6f4"
+    },
+    {
+      "sourcePath": "examples/nodes/recovery/primary-succeeds.json",
+      "sourceBlob": "118eba530ad06961e58b4ecec65a6813db98585a",
+      "path": "examples/nodes/recovery/primary-succeeds.json",
+      "change": "copied",
+      "blob": "118eba530ad06961e58b4ecec65a6813db98585a"
+    },
+    {
+      "sourcePath": "examples/nodes/recovery/README.md",
+      "sourceBlob": "fc390f83db9b3c600bb4fbccc8bde70fa2960dc1",
+      "path": "examples/nodes/recovery/README.md",
+      "change": "adapted",
+      "blob": "03693a84045bdc8f5b2f152ec3c4b5dd0c29b376"
+    },
+    {
+      "sourcePath": "examples/nodes/romaji/config-examples.json",
+      "sourceBlob": "a06ed46253d75eaedb217b2dd82d5268d4c570e9",
+      "path": "examples/nodes/romaji/config-examples.json",
+      "change": "copied",
+      "blob": "a06ed46253d75eaedb217b2dd82d5268d4c570e9"
+    },
+    {
+      "sourcePath": "examples/nodes/romaji/fixed-graph.json",
+      "sourceBlob": "585fe3973c0de2ae3186251fdfac79a3396a87b0",
+      "path": "examples/nodes/romaji/fixed-graph.json",
+      "change": "copied",
+      "blob": "585fe3973c0de2ae3186251fdfac79a3396a87b0"
+    },
+    {
+      "sourcePath": "examples/nodes/romaji/README.md",
+      "sourceBlob": "7a9c0a187d6d61b2b0db193f1559100928cc8694",
+      "path": "examples/nodes/romaji/README.md",
+      "change": "copied",
+      "blob": "7a9c0a187d6d61b2b0db193f1559100928cc8694"
+    },
+    {
+      "sourcePath": "examples/nodes/score_add/contract.json",
+      "sourceBlob": "e6f453504d0d643340c02d826b3b6aa266fe332c",
+      "path": "examples/nodes/score_add/contract.json",
+      "change": "copied",
+      "blob": "e6f453504d0d643340c02d826b3b6aa266fe332c"
+    },
+    {
+      "sourcePath": "examples/nodes/score_add/README.md",
+      "sourceBlob": "2f0ed575bea547fd21bed9ddb89a41883d7a424e",
+      "path": "examples/nodes/score_add/README.md",
+      "change": "adapted",
+      "blob": "69efc9d6d8375b15da4bcc8fa59a5aaf98f03582"
+    },
+    {
+      "sourcePath": "examples/nodes/score_multiply/contract.json",
+      "sourceBlob": "602dfc9679593c84e16f426b2ae4788bff3cf5ad",
+      "path": "examples/nodes/score_multiply/contract.json",
+      "change": "copied",
+      "blob": "602dfc9679593c84e16f426b2ae4788bff3cf5ad"
+    },
+    {
+      "sourcePath": "examples/nodes/score_multiply/README.md",
+      "sourceBlob": "dd0517af3f03f37f64f65b34050a93d57343f07c",
+      "path": "examples/nodes/score_multiply/README.md",
+      "change": "adapted",
+      "blob": "fa57a442d56f2a1cb41bf0ea3494dcc9ca08edd0"
+    },
+    {
+      "sourcePath": "examples/nodes/score_normalize/contract.json",
+      "sourceBlob": "8715a97e9930ecd19aacce3d04d527f523a6c7da",
+      "path": "examples/nodes/score_normalize/contract.json",
+      "change": "copied",
+      "blob": "8715a97e9930ecd19aacce3d04d527f523a6c7da"
+    },
+    {
+      "sourcePath": "examples/nodes/score_normalize/README.md",
+      "sourceBlob": "491d0c0d2a358a738bc4fc2e9c287873dfdd0e78",
+      "path": "examples/nodes/score_normalize/README.md",
+      "change": "adapted",
+      "blob": "205b52f9db2a6e26fe6264160c7697e82fa9a60b"
+    },
+    {
+      "sourcePath": "examples/nodes/score_set/contract.json",
+      "sourceBlob": "3d1066f0dbc5a60cdf1c9339de71fa43ddfaacfa",
+      "path": "examples/nodes/score_set/contract.json",
+      "change": "copied",
+      "blob": "3d1066f0dbc5a60cdf1c9339de71fa43ddfaacfa"
+    },
+    {
+      "sourcePath": "examples/nodes/score_set/README.md",
+      "sourceBlob": "549a02ece77bd46bc8a551e651d40aae0b7e4c97",
+      "path": "examples/nodes/score_set/README.md",
+      "change": "adapted",
+      "blob": "3b2d3f029e1737924483e760b0183064b4a98e35"
+    },
+    {
+      "sourcePath": "examples/nodes/sentence_split/contract.json",
+      "sourceBlob": "8ff05536f4d64553e13d678c75218f07ca830aef",
+      "path": "examples/nodes/sentence_split/contract.json",
+      "change": "copied",
+      "blob": "8ff05536f4d64553e13d678c75218f07ca830aef"
+    },
+    {
+      "sourcePath": "examples/nodes/sentence_split/README.md",
+      "sourceBlob": "6f1a2054d77deadc707dea500de928f6c865c8ed",
+      "path": "examples/nodes/sentence_split/README.md",
+      "change": "adapted",
+      "blob": "3b2bde1ebf3dd4b8f8bb7a2aeb9d04cad0dee04e"
+    },
+    {
+      "sourcePath": "examples/nodes/sequence_build/contract.json",
+      "sourceBlob": "3d2fb275c8b93190bed700e9a918dc5ce38b0b5d",
+      "path": "examples/nodes/sequence_build/contract.json",
+      "change": "copied",
+      "blob": "3d2fb275c8b93190bed700e9a918dc5ce38b0b5d"
+    },
+    {
+      "sourcePath": "examples/nodes/sequence_build/README.md",
+      "sourceBlob": "9b0a3d638312119d3a0b59f0744ea29a3e5750de",
+      "path": "examples/nodes/sequence_build/README.md",
+      "change": "adapted",
+      "blob": "23642d38be0ec35be7aa279cf9794ae4274fbc2a"
+    },
+    {
+      "sourcePath": "examples/nodes/sequence_extract/contract.json",
+      "sourceBlob": "914baf8094df424d750dad5f731096e6415a3c78",
+      "path": "examples/nodes/sequence_extract/contract.json",
+      "change": "copied",
+      "blob": "914baf8094df424d750dad5f731096e6415a3c78"
+    },
+    {
+      "sourcePath": "examples/nodes/sequence_extract/README.md",
+      "sourceBlob": "36073d65b317d464d0b2bb5bd2f587b999335db3",
+      "path": "examples/nodes/sequence_extract/README.md",
+      "change": "adapted",
+      "blob": "4b71616a287d04a98892f34967d43f5874e885f1"
+    },
+    {
+      "sourcePath": "examples/nodes/stringify/README.md",
+      "sourceBlob": "c6c8bee8ed73bff9207585a67eff00d0b325e3ca",
+      "path": "examples/nodes/stringify/README.md",
+      "change": "copied",
+      "blob": "c6c8bee8ed73bff9207585a67eff00d0b325e3ca"
+    },
+    {
+      "sourcePath": "examples/nodes/text_case/contract.json",
+      "sourceBlob": "73b7344e2a4719e021f03c66b979cf94dfa7ed87",
+      "path": "examples/nodes/text_case/contract.json",
+      "change": "copied",
+      "blob": "73b7344e2a4719e021f03c66b979cf94dfa7ed87"
+    },
+    {
+      "sourcePath": "examples/nodes/text_case/README.md",
+      "sourceBlob": "e1795d1dcd3a5c3c99c3287400a9e856a335f15e",
+      "path": "examples/nodes/text_case/README.md",
+      "change": "adapted",
+      "blob": "b4dc6dd22b93e9eac2b45cd7b8e042c547cf8f6a"
+    },
+    {
+      "sourcePath": "examples/nodes/text_concat/contract.json",
+      "sourceBlob": "dccc43ca3774f8cc450212b3b4af838c51ed5f4a",
+      "path": "examples/nodes/text_concat/contract.json",
+      "change": "copied",
+      "blob": "dccc43ca3774f8cc450212b3b4af838c51ed5f4a"
+    },
+    {
+      "sourcePath": "examples/nodes/text_concat/README.md",
+      "sourceBlob": "09d1c3c8ae86e92a5f3c7e5aa294690fe19ed4be",
+      "path": "examples/nodes/text_concat/README.md",
+      "change": "adapted",
+      "blob": "a058f52c6394dace6f7a5ec3f144f1c934370dbe"
+    },
+    {
+      "sourcePath": "examples/nodes/text_extract/contract.json",
+      "sourceBlob": "c2772e7acf9a2decb3e7aa0fcd1fee1f2146262a",
+      "path": "examples/nodes/text_extract/contract.json",
+      "change": "copied",
+      "blob": "c2772e7acf9a2decb3e7aa0fcd1fee1f2146262a"
+    },
+    {
+      "sourcePath": "examples/nodes/text_extract/README.md",
+      "sourceBlob": "7608e54a874bb0b9eeb9710c5816219877773a5a",
+      "path": "examples/nodes/text_extract/README.md",
+      "change": "adapted",
+      "blob": "e7bdeec6b2e941fcdbadd99da64ee0d2cf866e65"
+    },
+    {
+      "sourcePath": "examples/nodes/text_prefix/contract.json",
+      "sourceBlob": "26e3d3d32085631e8db05748de0c1ef68d7c73a7",
+      "path": "examples/nodes/text_prefix/contract.json",
+      "change": "copied",
+      "blob": "26e3d3d32085631e8db05748de0c1ef68d7c73a7"
+    },
+    {
+      "sourcePath": "examples/nodes/text_prefix/README.md",
+      "sourceBlob": "bb8530292180cd56a2708b98b9da5819302c4d98",
+      "path": "examples/nodes/text_prefix/README.md",
+      "change": "adapted",
+      "blob": "0fbb0b10ab20d6a4a246b1f3c78282b283ae6a2b"
+    },
+    {
+      "sourcePath": "examples/nodes/text_replace/contract.json",
+      "sourceBlob": "af948706d0ec8851be33b9b91398e4a175be3c1c",
+      "path": "examples/nodes/text_replace/contract.json",
+      "change": "copied",
+      "blob": "af948706d0ec8851be33b9b91398e4a175be3c1c"
+    },
+    {
+      "sourcePath": "examples/nodes/text_replace/README.md",
+      "sourceBlob": "70fa0c25de684d64f028c54d474e23ce65f7df1c",
+      "path": "examples/nodes/text_replace/README.md",
+      "change": "adapted",
+      "blob": "cdebfcfc51e585279180b6c9aeee1ebfba18a70c"
+    },
+    {
+      "sourcePath": "examples/nodes/text_split/contract.json",
+      "sourceBlob": "ee938a426fd7ce0447ccbd6b5b85bc0821d886aa",
+      "path": "examples/nodes/text_split/contract.json",
+      "change": "copied",
+      "blob": "ee938a426fd7ce0447ccbd6b5b85bc0821d886aa"
+    },
+    {
+      "sourcePath": "examples/nodes/text_split/README.md",
+      "sourceBlob": "9fab2e6ea93875ec481cda4bf2bf9d738e605a71",
+      "path": "examples/nodes/text_split/README.md",
+      "change": "adapted",
+      "blob": "72e26d468622e6096a7f91277de82e9827e34100"
+    },
+    {
+      "sourcePath": "examples/nodes/text_suffix/contract.json",
+      "sourceBlob": "34887e0f3ee154efe84563ec0daa6af9167d9c75",
+      "path": "examples/nodes/text_suffix/contract.json",
+      "change": "copied",
+      "blob": "34887e0f3ee154efe84563ec0daa6af9167d9c75"
+    },
+    {
+      "sourcePath": "examples/nodes/text_suffix/README.md",
+      "sourceBlob": "8fe5eb0f75eef93effde24a7103d29fdaba01c11",
+      "path": "examples/nodes/text_suffix/README.md",
+      "change": "adapted",
+      "blob": "1de0930138e101aba2e377e4c6ff59120471192a"
+    },
+    {
+      "sourcePath": "examples/nodes/text_trim/contract.json",
+      "sourceBlob": "971a86575e1eaa821f83f475a0fe3f14d9babbdd",
+      "path": "examples/nodes/text_trim/contract.json",
+      "change": "copied",
+      "blob": "971a86575e1eaa821f83f475a0fe3f14d9babbdd"
+    },
+    {
+      "sourcePath": "examples/nodes/text_trim/README.md",
+      "sourceBlob": "eaf5bca117c05f2f0c930cd8019b5131e4c70813",
+      "path": "examples/nodes/text_trim/README.md",
+      "change": "adapted",
+      "blob": "37c7df16f0e8a96d8964e2510d560fdfebfe175b"
+    },
+    {
+      "sourcePath": "examples/nodes/whitespace_collapse/contract.json",
+      "sourceBlob": "97c6aefb798e4f4a517e3958db4de02267d95e90",
+      "path": "examples/nodes/whitespace_collapse/contract.json",
+      "change": "copied",
+      "blob": "97c6aefb798e4f4a517e3958db4de02267d95e90"
+    },
+    {
+      "sourcePath": "examples/nodes/whitespace_collapse/README.md",
+      "sourceBlob": "7301e4b78015ed4e359024daf73cdb6f42d5aad9",
+      "path": "examples/nodes/whitespace_collapse/README.md",
+      "change": "adapted",
+      "blob": "d77bfb25d1493304c2324a240d2c67ff0ce3e1d5"
+    },
+    {
+      "sourcePath": "examples/graphs/branch.json",
+      "sourceBlob": "0fa32a18ef511866829fe7fdf209dad232d0c5b7",
+      "path": "examples/graphs/branch.json",
+      "change": "copied",
+      "blob": "0fa32a18ef511866829fe7fdf209dad232d0c5b7"
+    },
+    {
+      "sourcePath": "examples/graphs/candidate-selection.json",
+      "sourceBlob": "3aceaa3757156cf1c482e5f39d7bac96d9d30a25",
+      "path": "examples/graphs/candidate-selection.json",
+      "change": "copied",
+      "blob": "3aceaa3757156cf1c482e5f39d7bac96d9d30a25"
+    },
+    {
+      "sourcePath": "examples/graphs/dictionary-exact.json",
+      "sourceBlob": "0a36d5540886648baf6a16bbdfc3314078480fab",
+      "path": "examples/graphs/dictionary-exact.json",
+      "change": "copied",
+      "blob": "0a36d5540886648baf6a16bbdfc3314078480fab"
+    },
+    {
+      "sourcePath": "examples/graphs/dictionary-fixed.json",
+      "sourceBlob": "aecb653066ca30883282e09cc757d0093ff26886",
+      "path": "examples/graphs/dictionary-fixed.json",
+      "change": "copied",
+      "blob": "aecb653066ca30883282e09cc757d0093ff26886"
+    },
+    {
+      "sourcePath": "examples/graphs/experimental-text.json",
+      "sourceBlob": "751f24f16574ea7c397f25a6044156e2a3730de8",
+      "path": "examples/graphs/experimental-text.json",
+      "change": "copied",
+      "blob": "751f24f16574ea7c397f25a6044156e2a3730de8"
+    },
+    {
+      "sourcePath": "examples/graphs/hello.json",
+      "sourceBlob": "7084cad12340f15132f0b41e293d3f0529082f51",
+      "path": "examples/graphs/hello.json",
+      "change": "copied",
+      "blob": "7084cad12340f15132f0b41e293d3f0529082f51"
+    },
+    {
+      "sourcePath": "examples/graphs/practical-pipeline.json",
+      "sourceBlob": "97377a98985beab5e1a72f1ee1b0e551533b81b8",
+      "path": "examples/graphs/practical-pipeline.json",
+      "change": "copied",
+      "blob": "97377a98985beab5e1a72f1ee1b0e551533b81b8"
+    },
+    {
+      "sourcePath": "examples/graphs/runtime-input.json",
+      "sourceBlob": "6ab2441e80806e9e74f09048a9b21654ad054003",
+      "path": "examples/graphs/runtime-input.json",
+      "change": "copied",
+      "blob": "6ab2441e80806e9e74f09048a9b21654ad054003"
+    },
+    {
+      "sourcePath": "examples/graphs/runtime-romaji.json",
+      "sourceBlob": "2768fe8dc2e19c14f960f86853c0dd40818d11e9",
+      "path": "examples/graphs/runtime-romaji.json",
+      "change": "copied",
+      "blob": "2768fe8dc2e19c14f960f86853c0dd40818d11e9"
+    },
+    {
+      "sourcePath": "examples/graphs/stringify.json",
+      "sourceBlob": "62f050991dfa2616399521ba0195b28054e8715d",
+      "path": "examples/graphs/stringify.json",
+      "change": "copied",
+      "blob": "62f050991dfa2616399521ba0195b28054e8715d"
+    },
+    {
+      "sourcePath": "examples/graphs/weather-negative.json",
+      "sourceBlob": "3ffe72601c43deffb7dc09b6f38bdb918e770a3b",
+      "path": "examples/graphs/weather-negative.json",
+      "change": "copied",
+      "blob": "3ffe72601c43deffb7dc09b6f38bdb918e770a3b"
+    },
+    {
+      "sourcePath": "examples/graphs/weather.json",
+      "sourceBlob": "eb5d06e80537f99a3be41f019987b2ad3b7a4fa9",
+      "path": "examples/graphs/weather.json",
+      "change": "copied",
+      "blob": "eb5d06e80537f99a3be41f019987b2ad3b7a4fa9"
+    },
+    {
+      "sourcePath": "examples/proposals/dictionary-exact/cases.json",
+      "sourceBlob": "414d36e073c5f781f03ecaca85b4ed7a901c0048",
+      "path": "examples/proposals/dictionary-exact/cases.json",
+      "change": "copied",
+      "blob": "414d36e073c5f781f03ecaca85b4ed7a901c0048"
+    },
+    {
+      "sourcePath": "examples/proposals/dictionary-exact/entries.tsv",
+      "sourceBlob": "9e3a50069c7910edb71a46de2f5662ad8931677b",
+      "path": "examples/proposals/dictionary-exact/entries.tsv",
+      "change": "copied",
+      "blob": "9e3a50069c7910edb71a46de2f5662ad8931677b"
+    },
+    {
+      "sourcePath": "examples/proposals/dictionary-exact/README.md",
+      "sourceBlob": "dd8bf058dc04f7ccde1738e9c4195c8db73b7907",
+      "path": "examples/proposals/dictionary-exact/README.md",
+      "change": "copied",
+      "blob": "dd8bf058dc04f7ccde1738e9c4195c8db73b7907"
+    },
+    {
+      "sourcePath": "src/bin/diy-ime2.rs",
+      "sourceBlob": "5c4de9e5bf2905067c10be54b7c635f25a5152a4",
+      "path": "tests/support/cli.rs",
+      "change": "adapted",
+      "blob": "460763304ea7ee50e913a07b9bb32b422fdc822c"
+    },
+    {
+      "sourcePath": "crates/runtime/Cargo.toml",
+      "sourceBlob": "48f68658f41776715821eb34edde5d6eaa6b0782",
+      "path": "sdk/runtime/Cargo.toml",
+      "change": "copied",
+      "blob": "48f68658f41776715821eb34edde5d6eaa6b0782"
+    },
+    {
+      "sourcePath": "crates/runtime/src/error_input.rs",
+      "sourceBlob": "0c1f6e6ab4cacdbf3d7c43d591ea55ee221f541b",
+      "path": "sdk/runtime/src/error_input.rs",
+      "change": "copied",
+      "blob": "0c1f6e6ab4cacdbf3d7c43d591ea55ee221f541b"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/broker.rs",
+      "sourceBlob": "0fda0f4ffa7d9c82c2e36cf0c04d4290cf15af7e",
+      "path": "sdk/runtime/src/execution_control/broker.rs",
+      "change": "copied",
+      "blob": "0fda0f4ffa7d9c82c2e36cf0c04d4290cf15af7e"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/clock.rs",
+      "sourceBlob": "17ed2eba16884cc84825db99c4d78c9f5b9e3fd1",
+      "path": "sdk/runtime/src/execution_control/clock.rs",
+      "change": "copied",
+      "blob": "17ed2eba16884cc84825db99c4d78c9f5b9e3fd1"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/dispatch.rs",
+      "sourceBlob": "6037ae1625cb73435a7ef570cae1260e7745e46c",
+      "path": "sdk/runtime/src/execution_control/dispatch.rs",
+      "change": "copied",
+      "blob": "6037ae1625cb73435a7ef570cae1260e7745e46c"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/epoch.rs",
+      "sourceBlob": "92f207feb12c895c8b6f41e9b83de8000b3f0f7c",
+      "path": "sdk/runtime/src/execution_control/epoch.rs",
+      "change": "copied",
+      "blob": "92f207feb12c895c8b6f41e9b83de8000b3f0f7c"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/graph_run.rs",
+      "sourceBlob": "1a83a8b450d18dc0a279a330c5a6127268c6c133",
+      "path": "sdk/runtime/src/execution_control/graph_run.rs",
+      "change": "copied",
+      "blob": "1a83a8b450d18dc0a279a330c5a6127268c6c133"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/ledger.rs",
+      "sourceBlob": "e6e7218e5a3997b57c9f8d52e30e60a9d6fa557f",
+      "path": "sdk/runtime/src/execution_control/ledger.rs",
+      "change": "copied",
+      "blob": "e6e7218e5a3997b57c9f8d52e30e60a9d6fa557f"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/mod.rs",
+      "sourceBlob": "51469d6c6dbe6f0e71bee722311e1a9c1866d2d2",
+      "path": "sdk/runtime/src/execution_control/mod.rs",
+      "change": "copied",
+      "blob": "51469d6c6dbe6f0e71bee722311e1a9c1866d2d2"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/nodes.rs",
+      "sourceBlob": "d3d2c116e188eee95c927c16ba343068838e174e",
+      "path": "sdk/runtime/src/execution_control/nodes.rs",
+      "change": "copied",
+      "blob": "d3d2c116e188eee95c927c16ba343068838e174e"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/observer.rs",
+      "sourceBlob": "cc6a83a6ad6456e53ce211965eff7c4eb8e025cc",
+      "path": "sdk/runtime/src/execution_control/observer.rs",
+      "change": "copied",
+      "blob": "cc6a83a6ad6456e53ce211965eff7c4eb8e025cc"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/protocol.rs",
+      "sourceBlob": "c6d7b86decd478266ce006bb7703e369df675f2a",
+      "path": "sdk/runtime/src/execution_control/protocol.rs",
+      "change": "copied",
+      "blob": "c6d7b86decd478266ce006bb7703e369df675f2a"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/pump.rs",
+      "sourceBlob": "c95f2064ebba0d8c2b96930a155637766d92ca95",
+      "path": "sdk/runtime/src/execution_control/pump.rs",
+      "change": "copied",
+      "blob": "c95f2064ebba0d8c2b96930a155637766d92ca95"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/queue_bytes.rs",
+      "sourceBlob": "64a6ee0cd038b6de8268a888fa904720f8dd37c0",
+      "path": "sdk/runtime/src/execution_control/queue_bytes.rs",
+      "change": "copied",
+      "blob": "64a6ee0cd038b6de8268a888fa904720f8dd37c0"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/report.rs",
+      "sourceBlob": "4f5cd749cd4a19681ffee05a46b7116acf948f60",
+      "path": "sdk/runtime/src/execution_control/report.rs",
+      "change": "copied",
+      "blob": "4f5cd749cd4a19681ffee05a46b7116acf948f60"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/resources.rs",
+      "sourceBlob": "0916c40547aae4d2c75834773ca7db056bc5d7d4",
+      "path": "sdk/runtime/src/execution_control/resources.rs",
+      "change": "copied",
+      "blob": "0916c40547aae4d2c75834773ca7db056bc5d7d4"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/results.rs",
+      "sourceBlob": "df22bc5fb2d3c390d21c5ec1698efe0ef6fca6b1",
+      "path": "sdk/runtime/src/execution_control/results.rs",
+      "change": "copied",
+      "blob": "df22bc5fb2d3c390d21c5ec1698efe0ef6fca6b1"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/service.rs",
+      "sourceBlob": "f6829b39edd1d567cd87af4dcb9a82995bf44445",
+      "path": "sdk/runtime/src/execution_control/service.rs",
+      "change": "copied",
+      "blob": "f6829b39edd1d567cd87af4dcb9a82995bf44445"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/session.rs",
+      "sourceBlob": "d6bf9173eaea9a0a441c720c06ef533b7c6674f4",
+      "path": "sdk/runtime/src/execution_control/session.rs",
+      "change": "copied",
+      "blob": "d6bf9173eaea9a0a441c720c06ef533b7c6674f4"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/stream.rs",
+      "sourceBlob": "c6e18f06945b38e48ba0b9ab457e749781340664",
+      "path": "sdk/runtime/src/execution_control/stream.rs",
+      "change": "copied",
+      "blob": "c6e18f06945b38e48ba0b9ab457e749781340664"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/types.rs",
+      "sourceBlob": "e757c5348ea095ecdba877efb3bfc666cca3fc25",
+      "path": "sdk/runtime/src/execution_control/types.rs",
+      "change": "copied",
+      "blob": "e757c5348ea095ecdba877efb3bfc666cca3fc25"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/wake.rs",
+      "sourceBlob": "8d54ff6495cc48717d3ab0e52fda3f3ca6740ba0",
+      "path": "sdk/runtime/src/execution_control/wake.rs",
+      "change": "copied",
+      "blob": "8d54ff6495cc48717d3ab0e52fda3f3ca6740ba0"
+    },
+    {
+      "sourcePath": "crates/runtime/src/execution_control/worker.rs",
+      "sourceBlob": "8898848235739f52cde0fdb1d3022743c78bb307",
+      "path": "sdk/runtime/src/execution_control/worker.rs",
+      "change": "copied",
+      "blob": "8898848235739f52cde0fdb1d3022743c78bb307"
+    },
+    {
+      "sourcePath": "crates/runtime/src/graph.rs",
+      "sourceBlob": "a058744a683e9000e76cfd8dc0b6ec20361bf528",
+      "path": "sdk/runtime/src/graph.rs",
+      "change": "copied",
+      "blob": "a058744a683e9000e76cfd8dc0b6ec20361bf528"
+    },
+    {
+      "sourcePath": "crates/runtime/src/json.rs",
+      "sourceBlob": "dbc49054e4eba5e89aa3787e9458be6609acb193",
+      "path": "sdk/runtime/src/json.rs",
+      "change": "copied",
+      "blob": "dbc49054e4eba5e89aa3787e9458be6609acb193"
+    },
+    {
+      "sourcePath": "crates/runtime/src/lib.rs",
+      "sourceBlob": "e0b03e5a4a2ee3b80214ace2ed0258123803ef89",
+      "path": "sdk/runtime/src/lib.rs",
+      "change": "copied",
+      "blob": "e0b03e5a4a2ee3b80214ace2ed0258123803ef89"
+    },
+    {
+      "sourcePath": "crates/runtime/src/node.rs",
+      "sourceBlob": "c84fd5f1bf1c41ff2c0ed0895deb70a3f44a2095",
+      "path": "sdk/runtime/src/node.rs",
+      "change": "copied",
+      "blob": "c84fd5f1bf1c41ff2c0ed0895deb70a3f44a2095"
+    },
+    {
+      "sourcePath": "crates/runtime/src/resources/mod.rs",
+      "sourceBlob": "d4c9fcf403d1fd16905e621300158a4defaf2b6c",
+      "path": "sdk/runtime/src/resources/mod.rs",
+      "change": "copied",
+      "blob": "d4c9fcf403d1fd16905e621300158a4defaf2b6c"
+    },
+    {
+      "sourcePath": "crates/runtime/src/resources/windows.rs",
+      "sourceBlob": "735232d6bc4f04f6280b018dd1551ade508d35b5",
+      "path": "sdk/runtime/src/resources/windows.rs",
+      "change": "copied",
+      "blob": "735232d6bc4f04f6280b018dd1551ade508d35b5"
+    },
+    {
+      "sourcePath": "crates/runtime/src/runtime.rs",
+      "sourceBlob": "f1c0fb8f25994eade9a775671fa92fadb73064d8",
+      "path": "sdk/runtime/src/runtime.rs",
+      "change": "copied",
+      "blob": "f1c0fb8f25994eade9a775671fa92fadb73064d8"
+    },
+    {
+      "sourcePath": "crates/runtime/src/session.rs",
+      "sourceBlob": "c683dfa262dc2cdfbbc2af30f87dd85ff87a17a1",
+      "path": "sdk/runtime/src/session.rs",
+      "change": "copied",
+      "blob": "c683dfa262dc2cdfbbc2af30f87dd85ff87a17a1"
+    },
+    {
+      "sourcePath": "crates/runtime/src/tree.rs",
+      "sourceBlob": "26255b550922268b29706f585cbbece4d984c430",
+      "path": "sdk/runtime/src/tree.rs",
+      "change": "copied",
+      "blob": "26255b550922268b29706f585cbbece4d984c430"
+    },
+    {
+      "sourcePath": "crates/runtime/src/validation.rs",
+      "sourceBlob": "7ae675cae63ba490eca2de63d5feb704e796c669",
+      "path": "sdk/runtime/src/validation.rs",
+      "change": "copied",
+      "blob": "7ae675cae63ba490eca2de63d5feb704e796c669"
+    },
+    {
+      "sourcePath": "crates/runtime/tests/support/demo.rs",
+      "sourceBlob": "a7639e35b1b9262a83ec44927bd7680ed6cdd8d8",
+      "path": "sdk/runtime/tests/support/demo.rs",
+      "change": "copied",
+      "blob": "a7639e35b1b9262a83ec44927bd7680ed6cdd8d8"
+    },
+    {
+      "sourcePath": "Cargo.lock",
+      "sourceBlob": "03873573c76a17e644fadf2ad443f49064d144aa",
+      "path": "Cargo.lock",
+      "change": "adapted",
+      "blob": "afbbde3f156808d58a7c973c9e45bc14cd9b57f8",
+      "reason": "Issue #7 adds Windows-only dev probe dependencies windows-sys 0.59.0/windows-targets 0.52.6; original source identity and all SDK/Node/fixture bytes are preserved."
+    },
+    {
+      "sourcePath": "docs/node-migration-inventory.json",
+      "sourceBlob": "835eb803292a3a7dde1d7a6007f35d08dde86a07",
+      "path": "docs/legacy-node-inventory.json",
+      "change": "copied",
+      "blob": "835eb803292a3a7dde1d7a6007f35d08dde86a07"
+    },
+    {
+      "sourcePath": "docs/node-classification.md",
+      "sourceBlob": "2b371dd975ad04df5122d0cd8d48f76f7cec8017",
+      "path": "docs/node-classification.md",
+      "change": "adapted",
+      "blob": "7239fbcc2e01f156138ecea808c6f4e259e607ae"
+    },
+    {
+      "sourcePath": "docs/design-philosophy.md",
+      "sourceBlob": "4d6a20a2f643c0b4ed57dd6c53582959eb593fd2",
+      "path": "docs/design-philosophy.md",
+      "change": "copied",
+      "blob": "4d6a20a2f643c0b4ed57dd6c53582959eb593fd2"
+    },
+    {
+      "sourcePath": "docs/node-contracts-v0.1.md",
+      "sourceBlob": "26416188204f07b43407bc51e2a00bc18d00f9ef",
+      "path": "docs/node-contracts-v0.1.md",
+      "change": "adapted",
+      "blob": "988e1fc5a2ec08ec9dc000c41f265c64b3d0d16e"
+    },
+    {
+      "sourcePath": "docs/runtime-input-v0.1.md",
+      "sourceBlob": "2babb0498f581049f1d51938f01c167495d2d2db",
+      "path": "docs/runtime-input-v0.1.md",
+      "change": "copied",
+      "blob": "2babb0498f581049f1d51938f01c167495d2d2db"
+    },
+    {
+      "sourcePath": "docs/dictionary-node-proposal-v0.1.md",
+      "sourceBlob": "abab1ad73b0ab7dd4e6272c4636319e3afbac6c7",
+      "path": "docs/dictionary-node-proposal-v0.1.md",
+      "change": "adapted",
+      "blob": "102fafa16176bce87c8e51179cbfba130fd33589"
+    },
+    {
+      "sourcePath": "tests/weather_pipeline.rs",
+      "sourceBlob": "57b9ce541823b2bdd86ab094ff4973c3f34d68a8",
+      "path": "tests/weather_pipeline.rs",
+      "change": "adapted",
+      "blob": "f00d79b0f4259827ec1bc8274e7e54194f6710f5"
+    },
+    {
+      "sourcePath": "tests/transforms.rs",
+      "sourceBlob": "834fad7cfac2cbb52f670029425d3e01df8180f3",
+      "path": "tests/transforms.rs",
+      "change": "adapted",
+      "blob": "47d223adbe39a2afb5822f986fba091abc70a85d"
+    },
+    {
+      "sourcePath": "tests/experimental_integration.rs",
+      "sourceBlob": "eb85160e4dddce33cdf483bfc5d126df8483ad14",
+      "path": "tests/experimental_integration.rs",
+      "change": "adapted",
+      "blob": "df85a53d82cf6e6a91c168f3e6615c1a7e528210"
+    },
+    {
+      "sourcePath": "examples/experimental-catalog.json",
+      "sourceBlob": "d973743917ee352138236fcd01504814b7216358",
+      "path": "examples/experimental-catalog.json",
+      "change": "copied",
+      "blob": "d973743917ee352138236fcd01504814b7216358"
+    }
+  ]
+}
