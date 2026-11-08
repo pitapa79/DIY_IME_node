@@ -1,0 +1,33 @@
+{
+  "formatVersion": 1,
+  "sourceRepository": "pitapa79/DIY_IME",
+  "sourceCommit": "1aa3a9400eed9d8b5ba9f806497d6f97acd87430",
+  "status": "reviewed-candidate-unmerged",
+  "sourcePullRequest": 69,
+  "files": [
+    {
+      "sourcePath": "crates/wasm-resource-sdk/Cargo.toml",
+      "sourceBlob": "46bbd682271477d5c1434b4be3aac6c5cbdaeb67",
+      "path": "sdk/wasm-resource-sdk/Cargo.toml",
+      "blob": "46bbd682271477d5c1434b4be3aac6c5cbdaeb67"
+    },
+    {
+      "sourcePath": "crates/wasm-resource-sdk/src/lib.rs",
+      "sourceBlob": "7dfff75e12d9ad8558122b97833ef2ed50bfcdf6",
+      "path": "sdk/wasm-resource-sdk/src/lib.rs",
+      "blob": "7dfff75e12d9ad8558122b97833ef2ed50bfcdf6"
+    },
+    {
+      "sourcePath": "crates/wasm-resource-sdk/src/message.rs",
+      "sourceBlob": "98ba667298c90f2a5bb83383cede43b03ac08e11",
+      "path": "sdk/wasm-resource-sdk/src/message.rs",
+      "blob": "98ba667298c90f2a5bb83383cede43b03ac08e11"
+    },
+    {
+      "sourcePath": "crates/wasm-resource-sdk/src/tests.rs",
+      "sourceBlob": "51e53e5a09d3120a3fc16389690a13e25cd2bd7d",
+      "path": "sdk/wasm-resource-sdk/src/tests.rs",
+      "blob": "51e53e5a09d3120a3fc16389690a13e25cd2bd7d"
+    }
+  ]
+}

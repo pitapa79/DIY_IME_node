@@ -332,3 +332,6 @@ impl crate::node::PreparedNode for PreparedDictionary {
         Ok([("out".into(), self.0.lookup_output(input)?)].into())
     }
 }
+
+#[cfg(feature = "dictionary-artifact")]
+pub mod artifact;

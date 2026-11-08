@@ -9,11 +9,14 @@ autoexamples = false
 [features]
 default = []
 custom-guest = []
+dictionary-artifact = ["dep:diy-ime2-wasm-resource-sdk"]
+dictionary-artifact-producer = ["dictionary-artifact", "diy-ime2-wasm-resource-sdk/artifact-output"]
 
 [dependencies]
 diy-ime2-runtime = { path = "sdk/runtime" }
 serde_json = "1"
 serde = { version = "1", features = ["derive"] }
+diy-ime2-wasm-resource-sdk = { path = "sdk/wasm-resource-sdk", optional = true }
 
 [[bin]]
 name = "diy-ime2"
@@ -23,7 +26,7 @@ bench = false
 
 [workspace]
 resolver = "3"
-members = ["sdk/runtime"]
+members = ["sdk/runtime", "sdk/wasm-resource-sdk", "wasm/dictionary-artifact"]
 default-members = ["."]
 
 [lib]
