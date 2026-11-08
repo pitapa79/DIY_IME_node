@@ -31,7 +31,7 @@ cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
 
 ## 残る検証と統合
 
-実Native brokerでの検査は `scripts/check-dictionary-artifact.ps1` から行う。認証不要の公開本体archiveを commit `9dbda8dfad8660226272b268a7f8956f6baf9b1c` / ZIP SHA256 `febf6613a706fbdbdc90a504ac10986bf6031049679487c18a2e20cdc1712145` に固定し、開発専用probeをビルドする。[本体PR #71](https://github.com/pitapa79/DIY_IME/pull/71) の当時の候補スナップショットであり、現在の製品 main の検証とは区別する。既存probeを明示指定するローカル実行も可能で、そのoverrideをreceiptに記録する。非公開Nodeソースを公開本体へ持ち込まない。
+実Native brokerでの検査は `scripts/check-dictionary-artifact.ps1` から行う。認証不要の公開本体archiveを commit `5046a6d90f5e9520314d4e27ee26a43cdbead136` / ZIP SHA256 `c63585bac0bd873384cc3f00cf16fb10d1d4ca50a939b051641e5b94576b4d14` に固定し、開発専用probeをビルドする。[本体PR #79](https://github.com/pitapa79/DIY_IME/pull/79) の清掃修正を含む検査済み候補スナップショットであり、現在の製品 main の検証とは区別する。既存probeを明示指定するローカル実行も可能で、そのoverrideをreceiptに記録する。非公開Nodeソースを公開本体へ持ち込まない。
 
 公開 Node 側の実検査では、正式例、開始前取消、読みの衝突、空辞書、不正原本の拒否、4096文字×64候補の全件取得と OS 実終了を確認する。巨大候補は検査用 fuel 5B を使用し、通常条件での性能判定は行わない。
 
