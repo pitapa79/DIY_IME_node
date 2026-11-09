@@ -14,13 +14,14 @@ const input=value=>({in:{state:'data',packet:text(value)}});
 const option=(value,score)=>({value:{type:'text',text:value},...(score===undefined?{}:{score})});
 const choice=options=>({out:{state:'data',packet:{version:1,root:{type:'choice',options}}}});
 const records=[];
-function invoke(name,source,cases){
+function invoke(name,source,cases,producerFuel){
   const sourcePath=path.join(stage,`${name}.tsv`);
   writeFileSync(sourcePath,source);
-  const spec={workspace:root,worker:path.resolve(worker),runtime:path.resolve(runtime),producer:path.resolve(producer),consumer:path.resolve(consumer),source:sourcePath,sourceReference:'dictionary.tsv',node:{kind:'text.dictionary-exact',version:1},config:{path:'dictionary.tsv'},cases};
+  const spec={workspace:root,worker:path.resolve(worker),runtime:path.resolve(runtime),producer:path.resolve(producer),consumer:path.resolve(consumer),source:sourcePath,sourceReference:'dictionary.tsv',node:{kind:'text.dictionary-exact',version:1},config:{path:'dictionary.tsv'},cases,producerFuel};
   const manifest=path.join(stage,`${name}.json`);writeFileSync(manifest,JSON.stringify(spec));
   const raw=execFileSync(probe,[manifest],{encoding:'utf8',maxBuffer:16*1024*1024,timeout:180000});
   const result=JSON.parse(raw);assert.equal(result.syntheticScope,true);
+  if(producerFuel!==undefined)assert.equal(result.producerFuel,producerFuel);
   assert.equal(result.preparation.actualExitConfirmed,true);
   assert.equal(result.preparation.exitCode,0);
   assert.equal(result.preparation.inputDelivered,true);
@@ -31,7 +32,7 @@ function invoke(name,source,cases){
     assert.equal(item.receipt.inputDelivered,true);
   }
   writeFileSync(path.join(stage,`${name}-receipt.json`),raw);
-  records.push({name,artifact:result.artifact,preparationError:result.preparationError,cases:result.cases.length,hashes:result.hashes});
+  records.push({name,producerFuel,artifact:result.artifact,preparationError:result.preparationError,cases:result.cases.length,hashes:result.hashes});
   return result;
 }
 const fixture=JSON.parse(readFileSync(path.join(root,'tests/contracts/dictionary_exact.json'),'utf8'));
@@ -63,5 +64,16 @@ for(const [name,source,code] of [
 const surfaces=Array.from({length:64},(_,i)=>'漢'.repeat(4093)+String(i).padStart(3,'0'));
 const large=invoke('large-functional','reading\tsurface\tweight\n'+surfaces.map((value,i)=>`a\t${value}\t${i}\n`).join(''),[{inputs:input('a')}]);
 assert.deepEqual(large.cases[0].data,choice(surfaces.map((value,i)=>option(value,i))));
+
+const seed='reading\tsurface\tweight\nこうすい\t降水\t90\nこうすい\t香水\t30\nこうすい\t洪水\t90\n';
+const shuffled=Array.from({length:9997},(_,i)=>{
+  const j=i*7919%9997+3;
+  const key=String(j).padStart(5,'0');
+  return `試験用${key}\t合成${key}\t${j%91-45}.125\n`;
+}).join('');
+const scale=invoke('shuffled-10000',seed+shuffled,[{inputs:input('こうすい')}],50_000_000);
+assert.equal(scale.preparationError,undefined);
+assert.equal(scale.artifact.sha256,'accc976cc4df5c27e59f19b6b7506d00a07dd9779c2e6eef8e8c3f7c265c7960');
+assert.deepEqual(scale.cases[0].data,choice([option('降水',90),option('香水',30),option('洪水',90)]));
 writeFileSync(path.join(stage,'summary.json'),JSON.stringify({syntheticScope:true,performanceMeasured:false,records},null,2));
 console.log('Actual dictionary Wasm: formal 13 cases, cancellation, collisions, empty source, three invalid sources and full multi-page candidates passed with true exits');

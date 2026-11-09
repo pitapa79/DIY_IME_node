@@ -119,6 +119,20 @@ fn collisions_are_resolved_by_full_reading_including_unknown() {
 }
 
 #[test]
+fn shuffled_readings_keep_the_full_hash_order() {
+    let readings: Vec<_> = (0..128)
+        .map(|index| format!("試験用{:05}", index * 73 % 128))
+        .collect();
+    let mut source = String::from("reading\tsurface\tweight\n");
+    for (index, reading) in readings.iter().enumerate() {
+        use std::fmt::Write as _;
+        writeln!(source, "{reading}\t表記{index}\t{index}.125").unwrap();
+    }
+    let queries: Vec<_> = readings.iter().map(String::as_str).collect();
+    compare(source.as_bytes(), &queries);
+}
+
+#[test]
 fn empty_dictionary_bom_endings_unicode_and_order_match_canonical() {
     compare(b"reading\tsurface\tweight", &["", "unknown"]);
     compare(
@@ -134,6 +148,8 @@ fn all_original_source_failures_are_checked_before_returning_an_artifact() {
         b"wrong\theader\tweight".to_vec(),
         b"reading\tsurface\tweight\na\tA\t1\nbad".to_vec(),
         b"reading\tsurface\tweight\na\tA\t1\na\tA\t2".to_vec(),
+        b"reading\tsurface\tweight\nz\tZ\t1\nz\tZ\t2\na\tA\t1\na\tA\t2\nbad".to_vec(),
+        b"reading\tsurface\tweight\na\tA\t1\nz\tZ\t1\na\tA\t2\nz\tZ\t2".to_vec(),
         b"reading\tsurface\tweight\na\tA\tNaN".to_vec(),
         b"reading\tsurface\tweight\na\tA\t01".to_vec(),
         b"reading\tsurface\tweight\na\tA\t1\n\xff".to_vec(),
@@ -175,7 +191,11 @@ fn all_original_source_failures_are_checked_before_returning_an_artifact() {
     );
     for source in sources {
         let expected = ExactDictionary::from_tsv_bytes(&source).unwrap_err();
-        assert_eq!(prepare(&config(), &source).unwrap_err().code, expected.code);
+        let actual = prepare(&config(), &source).unwrap_err();
+        assert_eq!(
+            (actual.code, actual.message),
+            (expected.code, expected.message)
+        );
     }
     for cfg in [
         json!({}),

@@ -46,71 +46,138 @@ fn u64_at(bytes: &[u8], offset: usize) -> Result<u64, CoreError> {
         .ok_or_else(invalid)
         .map(|b| u64::from_le_bytes(b.try_into().unwrap()))
 }
-fn append(output: &mut Vec<u8>, bytes: &[u8]) -> Result<(), CoreError> {
-    if output
-        .len()
-        .checked_add(bytes.len())
-        .is_none_or(|end| end > MAX_ARTIFACT_BYTES)
+
+struct Row<'a> {
+    hash: u64,
+    reading: &'a str,
+    surface: &'a str,
+    score: f64,
+    line: usize,
+}
+
+pub fn prepare(config: &serde_json::Value, original: &[u8]) -> Result<Vec<u8>, CoreError> {
+    let path = super::path_config(config)?;
+    let mut rows = Vec::with_capacity((original.len() / 16).min(MAX_ROWS));
+    let parsed = scan_tsv(original, |reading, surface, score, line| {
+        rows.push(Row {
+            hash: hash(reading),
+            reading,
+            surface,
+            score,
+            line,
+        });
+        Ok(())
+    });
+    let mut order: Vec<_> = rows.iter().collect();
+    if let Some(first) = order.first().copied()
+        && !order.is_sorted_by_key(|row| row.hash)
     {
+        // Stable byte passes move only row references. Skip invariant bytes.
+        let varying = order
+            .iter()
+            .fold(0, |bits, row| bits | (row.hash ^ first.hash));
+        let mut scratch = order.clone();
+        for shift in (0..64).step_by(8) {
+            if varying & (0xff << shift) == 0 {
+                continue;
+            }
+            let byte = |row: &Row<'_>| ((row.hash >> shift) & 0xff) as usize;
+            let mut slots = [0; 256];
+            for row in &order {
+                slots[byte(row)] += 1;
+            }
+            let mut next = 0;
+            for slot in &mut slots {
+                let count = *slot;
+                *slot = next;
+                next += count;
+            }
+            for row in &order {
+                let slot = &mut slots[byte(row)];
+                scratch[*slot] = row;
+                *slot += 1;
+            }
+            std::mem::swap(&mut order, &mut scratch);
+        }
+    }
+    for ties in order.chunk_by_mut(|a, b| a.hash == b.hash) {
+        ties.sort_unstable_by(|a, b| a.reading.cmp(b.reading).then_with(|| a.line.cmp(&b.line)));
+    }
+    let groups = || order.chunk_by(|a, b| a.hash == b.hash && a.reading == b.reading);
+    let mut count = 0;
+    let base = HEADER_BYTES + path.len();
+    let mut length = base;
+    let mut first_error: Option<(usize, CoreError)> = None;
+    for entries in groups() {
+        count += 1;
+        length += ENTRY_BYTES + entries[0].reading.len() + 4;
+        for (index, entry) in entries.iter().enumerate() {
+            let duplicate = entries[..index]
+                .iter()
+                .find(|other| other.surface == entry.surface);
+            if duplicate.is_some() || index == MAX_CANDIDATES {
+                if first_error
+                    .as_ref()
+                    .is_none_or(|(line, _)| entry.line < *line)
+                {
+                    let error = match duplicate {
+                        Some(first) => format_error(
+                            entry.line,
+                            "reading/surface",
+                            &format!("duplicate pair, first occurrence at line {}", first.line),
+                        ),
+                        None => limit_error(entry.line, "candidates per reading", MAX_CANDIDATES),
+                    };
+                    first_error = Some((entry.line, error));
+                }
+                break;
+            }
+            length += 12 + entry.surface.len();
+        }
+    }
+    // A structural parse error stops the scan before adding that row.
+    // A conflict in the scanned prefix therefore takes precedence.
+    if let Some((_, error)) = first_error {
+        return Err(error);
+    }
+    parsed?;
+    if length > MAX_ARTIFACT_BYTES {
         return Err(limit_error(
             0,
             "prepared artifact bytes",
             MAX_ARTIFACT_BYTES,
         ));
     }
-    output.extend_from_slice(bytes);
-    Ok(())
-}
-
-/// Existing parser and every original limit run before any artifact is returned.
-pub fn prepare(config: &serde_json::Value, original: &[u8]) -> Result<Vec<u8>, CoreError> {
-    let path = super::path_config(config)?;
-    let dictionary = ExactDictionary::from_tsv_bytes(original)?;
-    let mut groups = dictionary
-        .entries
-        .iter()
-        .map(|(reading, entries)| (hash(reading), reading, entries))
-        .collect::<Vec<_>>();
-    groups.sort_by(|a, b| a.0.cmp(&b.0).then_with(|| a.1.cmp(b.1)));
-    let rows = groups
-        .iter()
-        .map(|(_, _, entries)| entries.len())
-        .sum::<usize>();
-    let base = HEADER_BYTES.checked_add(path.len()).ok_or_else(invalid)?;
-    let data_start = base
-        .checked_add(groups.len().checked_mul(ENTRY_BYTES).ok_or_else(invalid)?)
-        .ok_or_else(invalid)?;
-    if data_start > MAX_ARTIFACT_BYTES {
-        return Err(invalid());
-    }
-    let mut output = vec![0; data_start];
+    let data_start = base + count * ENTRY_BYTES;
+    let mut output = Vec::with_capacity(length);
+    output.resize(data_start, 0);
     output[..8].copy_from_slice(MAGIC);
     output[8..12].copy_from_slice(&VERSION.to_le_bytes());
-    output[12..16].copy_from_slice(&(rows as u32).to_le_bytes());
-    output[16..20].copy_from_slice(&(groups.len() as u32).to_le_bytes());
+    output[12..16].copy_from_slice(&(rows.len() as u32).to_le_bytes());
+    output[16..20].copy_from_slice(&(count as u32).to_le_bytes());
     output[20..24].copy_from_slice(&(path.len() as u32).to_le_bytes());
+    output[24..32].copy_from_slice(&(length as u64).to_le_bytes());
     output[HEADER_BYTES..base].copy_from_slice(path.as_bytes());
-    for (index, (key, reading, entries)) in groups.into_iter().enumerate() {
+    for (index, entries) in groups().enumerate() {
+        let first = &entries[0];
         let reading_offset = output.len() as u64;
-        append(&mut output, reading.as_bytes())?;
+        output.extend_from_slice(first.reading.as_bytes());
         let candidates_offset = output.len() as u64;
-        append(&mut output, &(entries.len() as u32).to_le_bytes())?;
+        output.extend_from_slice(&(entries.len() as u32).to_le_bytes());
         for entry in entries {
-            append(&mut output, &(entry.surface.len() as u32).to_le_bytes())?;
-            append(&mut output, entry.surface.as_bytes())?;
-            append(&mut output, &entry.score.to_le_bytes())?;
+            output.extend_from_slice(&(entry.surface.len() as u32).to_le_bytes());
+            output.extend_from_slice(entry.surface.as_bytes());
+            output.extend_from_slice(&entry.score.to_le_bytes());
         }
-        let candidate_length =
-            u32::try_from(output.len() as u64 - candidates_offset).map_err(|_| invalid())?;
+        let candidate_length = (output.len() as u64 - candidates_offset) as u32;
         let slot = base + index * ENTRY_BYTES;
-        output[slot..slot + 8].copy_from_slice(&key.to_le_bytes());
+        output[slot..slot + 8].copy_from_slice(&first.hash.to_le_bytes());
         output[slot + 8..slot + 16].copy_from_slice(&reading_offset.to_le_bytes());
-        output[slot + 16..slot + 20].copy_from_slice(&(reading.len() as u32).to_le_bytes());
+        output[slot + 16..slot + 20].copy_from_slice(&(first.reading.len() as u32).to_le_bytes());
         output[slot + 20..slot + 28].copy_from_slice(&candidates_offset.to_le_bytes());
         output[slot + 28..slot + 32].copy_from_slice(&candidate_length.to_le_bytes());
     }
-    let length = output.len() as u64;
-    output[24..32].copy_from_slice(&length.to_le_bytes());
+    debug_assert_eq!(output.len(), length);
     Ok(output)
 }
 
