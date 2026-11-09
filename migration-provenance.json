@@ -91,8 +91,8 @@
       "sourcePath": "src/nodes/dictionary_exact/mod.rs",
       "sourceBlob": "1e88683fa5f9d33efa87c80c222caf5f9da57df5",
       "path": "src/nodes/dictionary_exact/mod.rs",
-      "change": "copied",
-      "blob": "1e88683fa5f9d33efa87c80c222caf5f9da57df5"
+      "change": "adapted",
+      "blob": "8e591c16e24159041103698ef4d16a570b335f5e"
     },
     {
       "sourcePath": "src/nodes/experimental.rs",
@@ -1646,8 +1646,8 @@
       "sourceBlob": "03873573c76a17e644fadf2ad443f49064d144aa",
       "path": "Cargo.lock",
       "change": "adapted",
-      "blob": "afbbde3f156808d58a7c973c9e45bc14cd9b57f8",
-      "reason": "Issue #7 adds Windows-only dev probe dependencies windows-sys 0.59.0/windows-targets 0.52.6; original source identity and all SDK/Node/fixture bytes are preserved."
+      "blob": "35110da6da7a759c0f4422afff1d80eb835de362",
+      "reason": "Issue #7 adds Windows-only dev probe dependencies windows-sys 0.59.0/windows-targets 0.52.6; original source identity and all SDK/Node/fixture bytes are preserved. Public Node #2 adds two path packages without changing third-party versions."
     },
     {
       "sourcePath": "docs/node-migration-inventory.json",

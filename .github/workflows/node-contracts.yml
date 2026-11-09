@@ -34,7 +34,9 @@ jobs:
           if (-not (Test-Path -LiteralPath $linker)) { throw 'Project GNU linker unavailable' }
           "CARGO_TARGET_X86_64_PC_WINDOWS_GNU_LINKER=$linker" >> $env:GITHUB_ENV
       - name: Verify imported source and SDK
-        run: ./scripts/check-migration.ps1
+        run: |
+          ./scripts/check-migration.ps1
+          ./scripts/check-resource-sdk.ps1
       - name: All Node and SDK contracts
         run: |
           cargo test --locked --workspace --all-targets
@@ -44,11 +46,19 @@ jobs:
           cargo fmt --all -- --check
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           cargo clippy --locked --workspace --all-targets -- -D warnings
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo test --locked --workspace --all-targets --all-features
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          cargo clippy --locked --workspace --all-targets --all-features -- -D warnings
           exit $LASTEXITCODE
       - name: Install Wasm target
         run: rustup target add wasm32-unknown-unknown --toolchain 1.90.0-x86_64-pc-windows-gnu
       - name: Real Wasm ABI and rejection probes
         run: ./scripts/check-wasm-runtime.ps1
+      - name: Build separate dictionary companion modules
+        run: ./scripts/build-dictionary-artifact.ps1
+      - name: Dictionary companions in the real public Native broker
+        run: ./scripts/check-dictionary-artifact.ps1
       - name: Real Wasm in AppContainer and Job
         run: ./scripts/check-wasm-runtime.ps1 -Isolated
       - name: Build and verify official Node packages
@@ -63,6 +73,18 @@ jobs:
           if-no-files-found: error
           retention-days: 30
           compression-level: 9
+      - name: Preserve verified dictionary companions for integration
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6, verified upstream tag
+        with:
+          name: dictionary-companions-${{ github.sha }}
+          path: |
+            target/dictionary-artifact/producer.wasm
+            target/dictionary-artifact/consumer.wasm
+            target/dictionary-artifact/build-receipt.json
+            target/dictionary-integration/probe-source.json
+            target/dictionary-integration/summary.json
+          if-no-files-found: error
+          retention-days: 30
       - name: Source provenance
         if: always()
         run: |

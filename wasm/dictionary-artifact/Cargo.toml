@@ -1,0 +1,14 @@
+[package]
+name = "diyime2-dictionary-artifact-guest"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[features]
+producer = ["diy-ime2-nodes/dictionary-artifact-producer"]
+
+[dependencies]
+diy-ime2-nodes = { path = "../..", features = ["custom-guest", "dictionary-artifact"] }

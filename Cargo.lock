@@ -7,6 +7,7 @@ name = "diy-ime2-nodes"
 version = "0.1.0"
 dependencies = [
  "diy-ime2-runtime",
+ "diy-ime2-wasm-resource-sdk",
  "serde",
  "serde_json",
  "windows-sys",
@@ -18,6 +19,21 @@ version = "0.1.0"
 dependencies = [
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "diy-ime2-wasm-resource-sdk"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "diyime2-dictionary-artifact-guest"
+version = "0.1.0"
+dependencies = [
+ "diy-ime2-nodes",
 ]
 
 [[package]]

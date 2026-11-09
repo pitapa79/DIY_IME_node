@@ -24,3 +24,6 @@ pub fn register_nodes(r: &mut Registry) -> Result<(), CoreError> {
 
 /// Experimental limited-data guest API, not the Core management API.
 pub mod guest;
+
+#[cfg(feature = "dictionary-artifact")]
+pub mod dictionary_artifact_guest;

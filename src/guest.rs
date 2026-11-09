@@ -383,3 +383,18 @@ mod abi {
         *RESPONSE.lock().unwrap() = None;
     }
 }
+
+#[cfg(feature = "dictionary-artifact")]
+pub(crate) fn artifact_inputs(
+    definition: &NodeDefinition,
+    values: BTreeMap<String, WireValue>,
+) -> Result<Inputs, CoreError> {
+    inputs(definition, values)
+}
+#[cfg(feature = "dictionary-artifact")]
+pub(crate) fn artifact_outputs(
+    definition: &NodeDefinition,
+    values: Outputs,
+) -> Result<Value, CoreError> {
+    outputs(definition, values)
+}
