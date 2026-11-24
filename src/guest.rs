@@ -161,6 +161,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-concat", 1) => Ok(Box::new(crate::nodes::text_concat::TextConcat)),
         ("experimental.text-extract", 1) => Ok(Box::new(crate::nodes::text_extract::TextExtract)),
         ("experimental.text-prefix", 1) => Ok(Box::new(crate::nodes::text_prefix::TextPrefix)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-regex-replace", 1) => Ok(Box::new(
+            crate::opt_in::text_regex_replace::TextRegexReplace,
+        )),
         ("experimental.text-replace", 1) => Ok(Box::new(crate::nodes::text_replace::TextReplace)),
         ("experimental.text-split", 1) => Ok(Box::new(crate::nodes::text_split::TextSplit)),
         ("experimental.text-suffix", 1) => Ok(Box::new(crate::nodes::text_suffix::TextSuffix)),
