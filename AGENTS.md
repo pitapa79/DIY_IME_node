@@ -1,5 +1,12 @@
 # Official Node development
 
+## Repository routing / リポジトリ選択
+
+- 現行の開発正本は本体 `pitapa79/DIY_IME`、処理Node `pitapa79/DIY_IME_node`。新規Issue・PR・コード変更は責務に応じてこの2件へ行う。
+- `DIY_IME2`、`DIY_IME2_node`、`DIY_IME-private-backup`、`DIY_IME_prototype` は通常の新規開発先ではない。明示指示がない限り書き込まない。
+- GitHubへの書き込み前に owner/name、対象の公開状態、README/移行記録、Issueの所属リポジトリを確認する。旧Issue番号を現行番号として流用しない。矛盾があれば書き込みを止めて確認する。
+- 歴史的な参照・成果物の来歴は維持する。公開先への転記は非公開情報を除外してから行う。
+
 ## Read first
 
 Before starting, read [the Node development and issue governance policy](docs/node-development-governance.md), [README.md](README.md), [Node classification](docs/node-classification.md), [Node contracts](docs/node-contracts-v0.1.md), and the assigned Issue (including comments and dependencies). The governance policy is authoritative for Node-repository Issue/branch/PR/approval/adoption workflow; Core API and security contracts remain authoritative in the Main repository.
