@@ -105,6 +105,7 @@ fn every_migrated_definition_and_registration_matches_the_original() {
         [
             "experimental.text-unicode-normalize",
             "experimental.text-compare",
+            "experimental.text-dictionary-prefix",
         ]
         .into_iter()
         .map(str::to_string)

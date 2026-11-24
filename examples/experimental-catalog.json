@@ -257,5 +257,12 @@
     "kind": "experimental.text-compare",
     "struct": "TextCompare",
     "issue": 11
+  },
+  {
+    "name": "前方一致辞書検索",
+    "module": "dictionary_prefix",
+    "kind": "experimental.text-dictionary-prefix",
+    "struct": "DictionaryPrefix",
+    "issue": 13
   }
 ]

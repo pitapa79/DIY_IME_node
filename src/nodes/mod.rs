@@ -6,6 +6,9 @@ pub mod stringify;
 /// 完全一致辞書Nodeと純粋API。形式はこのNode固有。
 pub mod dictionary_exact;
 
+/// 前方一致辞書Node（実験）。検証と収集はdictionary_exactと共有する。
+pub mod dictionary_prefix;
+
 pub mod character_filter;
 pub mod choice_deduplicate;
 pub mod choice_extract;
