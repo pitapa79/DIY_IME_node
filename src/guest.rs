@@ -154,6 +154,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-case", 1) => Ok(Box::new(crate::nodes::text_case::TextCase)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-dictionary-prefix", 1) => {
+            Ok(Box::new(crate::opt_in::dictionary_prefix::DictionaryPrefix))
+        }
         ("experimental.text-concat", 1) => Ok(Box::new(crate::nodes::text_concat::TextConcat)),
         ("experimental.text-extract", 1) => Ok(Box::new(crate::nodes::text_extract::TextExtract)),
         ("experimental.text-prefix", 1) => Ok(Box::new(crate::nodes::text_prefix::TextPrefix)),

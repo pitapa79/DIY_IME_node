@@ -29,9 +29,11 @@ $stage = Join-Path $PSScriptRoot ('../target/opt-in-probes/' + [guid]::NewGuid()
 
 $unicode = 'experimental.text-unicode-normalize'
 $compare = 'experimental.text-compare'
+$prefix = 'experimental.text-dictionary-prefix'
 $describe = @(
  (Request $unicode @{method='describe'})
  (Request $compare @{method='describe'})
+ (Request $prefix @{method='describe'})
 )
 $official = Invoke-Batch $OfficialWasm $describe 'official'
 foreach ($reply in $official) {
@@ -39,12 +41,19 @@ foreach ($reply in $official) {
 }
 
 $decomposed = 'か' + [char]0x3099
+$dictionary = [Text.Encoding]::UTF8.GetBytes("reading`tsurface`tweight`nかな`t仮名`t7`nかに`t蟹`t5`n")
+$resources = @{"dictionary.tsv"=@($dictionary)}
+$prefixConfig = @{path="dictionary.tsv"; limit=1}
 $probes = @(
  (Request $unicode @{method='describe'})
  (Request $unicode @{method='execute'; config=@{form='nfc'}; inputs=@{in=(TextPacket $decomposed)}})
  (Request $unicode @{method='execute'; config=@{form='nfd'}; inputs=@{in=(TextPacket ('が' * 4096))}})
  (Request $compare @{method='execute'; config=@{mode='prefix'}; inputs=@{a=(TextPacket '日本語'); b=(TextPacket '日本')}})
  (Request $compare @{method='execute'; config=@{mode='exact'}; inputs=@{a=(TextPacket 'が'); b=(TextPacket $decomposed)}})
+ (Request $prefix @{method='execute'; config=$prefixConfig; inputs=@{in=(TextPacket 'か')}; resources=$resources})
+ (Request $prefix @{method='execute'; config=$prefixConfig; inputs=@{in=(TextPacket 'か')}})
+ (Request $prefix @{method='execute'; config=$prefixConfig; inputs=@{in=(TextPacket 'わ')}; resources=$resources})
+ (Request $prefix @{method='prepare'; config=$prefixConfig; resources=@{'dictionary.tsv'=@(255)}})
 )
 $replies = Invoke-Batch $Wasm $probes 'opt-in'
 if (-not $replies[0].ok -or $replies[0].data.kind -ne $unicode) { throw 'Opt-in Wasm did not describe Unicode normalization' }
@@ -52,4 +61,9 @@ if (-not $replies[1].ok -or $replies[1].data.out.packet.root.text -cne 'が') { 
 if (-not $replies[2].ok -or $replies[2].data.out.packet.root.text -cne ($decomposed * 4096)) { throw 'Wasm NFD expansion failed at the runtime input limit' }
 if (-not $replies[3].ok -or $replies[3].data.matched.packet.root.text -cne '日本語' -or $replies[3].data.unmatched.state -ne 'noOutput') { throw 'Wasm compare matched routing failed' }
 if (-not $replies[4].ok -or $replies[4].data.unmatched.packet.root.text -cne 'が' -or $replies[4].data.matched.state -ne 'noOutput') { throw 'Wasm compare unmatched routing failed' }
-Write-Output 'Opt-in Wasm: normalization, text comparison and official-module exclusion passed'
+$options = $replies[5].data.out.packet.root.options
+if (-not $replies[5].ok -or $options.Count -ne 1 -or $options[0].value.text -cne '仮名') { throw 'Wasm dictionary prefix or candidate limit failed' }
+if ($replies[6].ok -or $replies[6].error.code -ne 'dictionary-path') { throw 'Wasm dictionary prefix accepted missing snapshot' }
+if (-not $replies[7].ok -or $replies[7].data.out.packet.root.type -ne 'choice' -or $replies[7].data.out.packet.root.options.Count -ne 0) { throw 'Wasm dictionary prefix missing match failed' }
+if ($replies[8].ok -or $replies[8].error.code -ne 'dictionary-encoding') { throw 'Wasm dictionary prefix accepted invalid snapshot' }
+Write-Output 'Opt-in Wasm: normalization, text comparison, dictionary prefix and official-module exclusion passed'

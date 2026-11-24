@@ -39,7 +39,7 @@ CLIのdiy-ime2 binaryはtests/support/cli.rsの検査用Hostです。アプリ�
 
 ## 追加の実験ノード
 
-[Unicode 正規化](examples/nodes/text_unicode_normalize/README.md) と[文字列比較](examples/nodes/text_compare/README.md)は開発用の Cargo 機能 opt-in-nodes で有効になります。Rust の開発用 Registry には opt_in::register で追加できます。Cargo の既定ビルドは既存の公式 48 パッケージ用です。
+[Unicode 正規化](examples/nodes/text_unicode_normalize/README.md) 、[文字列比較](examples/nodes/text_compare/README.md)、[辞書前方一致](examples/nodes/dictionary_prefix/README.md) は開発用の Cargo 機能 opt-in-nodes で有効になります。Rust の開発用 Registry には opt_in::register で追加できます。Cargo の既定ビルドは既存の公式 48 パッケージ用です。
 
 実験版 Wasm は次のコマンドで別の出力先に生成できます。
 

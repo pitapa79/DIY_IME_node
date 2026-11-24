@@ -18,10 +18,10 @@ pub const MAX_CODE_POINTS: usize = 4096;
 const HEADER: &str = "reading\tsurface\tweight";
 
 #[derive(Debug, Clone, PartialEq)]
-struct Entry {
-    surface: String,
-    score: f64,
-    line: usize,
+pub(crate) struct Entry {
+    pub(crate) surface: String,
+    pub(crate) score: f64,
+    pub(crate) line: usize,
 }
 
 /// 全行の検査に成功した場合だけ作成できる、不変のノード固有辞書。
@@ -179,35 +179,43 @@ fn scan_tsv<'a>(
     Ok(())
 }
 
+/// 全行の検査に成功した場合だけ、読み→候補（行順）の不変マップを作る。
+/// 完全一致と前方一致で検証と収集を共有し、呼出元のバイト列から独立した所有データにする。
+pub(crate) fn collect_entries(bytes: &[u8]) -> Result<BTreeMap<String, Vec<Entry>>, CoreError> {
+    let mut entries: BTreeMap<String, Vec<Entry>> = BTreeMap::new();
+    scan_tsv(bytes, |reading, surface, score, line_number| {
+        let candidates = entries.entry(reading.to_owned()).or_default();
+        if let Some(first) = candidates.iter().find(|entry| entry.surface == surface) {
+            return Err(format_error(
+                line_number,
+                "reading/surface",
+                &format!("duplicate pair, first occurrence at line {}", first.line),
+            ));
+        }
+        if candidates.len() == MAX_CANDIDATES {
+            return Err(limit_error(
+                line_number,
+                "candidates per reading",
+                MAX_CANDIDATES,
+            ));
+        }
+        candidates.push(Entry {
+            surface: surface.into(),
+            score,
+            line: line_number,
+        });
+        Ok(())
+    })?;
+    Ok(entries)
+}
+
 impl ExactDictionary {
     /// UTF-8/BOM、改行、全行、重複、上限を検査し、成功時だけ辞書を返す。
     /// 呼出元のバイト列を借用し続けず、入力から独立した所有データを作る。
     pub fn from_tsv_bytes(bytes: &[u8]) -> Result<Self, CoreError> {
-        let mut entries: BTreeMap<String, Vec<Entry>> = BTreeMap::new();
-        scan_tsv(bytes, |reading, surface, score, line_number| {
-            let candidates = entries.entry(reading.to_owned()).or_default();
-            if let Some(first) = candidates.iter().find(|entry| entry.surface == surface) {
-                return Err(format_error(
-                    line_number,
-                    "reading/surface",
-                    &format!("duplicate pair, first occurrence at line {}", first.line),
-                ));
-            }
-            if candidates.len() == MAX_CANDIDATES {
-                return Err(limit_error(
-                    line_number,
-                    "candidates per reading",
-                    MAX_CANDIDATES,
-                ));
-            }
-            candidates.push(Entry {
-                surface: surface.into(),
-                score,
-                line: line_number,
-            });
-            Ok(())
-        })?;
-        Ok(Self { entries })
+        Ok(Self {
+            entries: collect_entries(bytes)?,
+        })
     }
 
     /// Textの全文を完全一致で検索する。候補は行順、未知語・空入力はscoreなしの原文1候補。
