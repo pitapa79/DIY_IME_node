@@ -1,0 +1,108 @@
+{
+  "kind": "experimental.text-dictionary-reverse",
+  "version": 1,
+  "dictionary": "dictionary.tsv",
+  "defaultConfig": {
+    "path": "dictionary.tsv",
+    "limit": 64
+  },
+  "cases": [
+    {
+      "id": "single-reading",
+      "input": "漢字",
+      "expected": [
+        {
+          "text": "かんじ",
+          "score": 80
+        }
+      ]
+    },
+    {
+      "id": "same-reading-other-surface",
+      "input": "感じ",
+      "expected": [
+        {
+          "text": "かんじ",
+          "score": 60
+        }
+      ]
+    },
+    {
+      "id": "multiple-readings-keep-row-order-not-score-order",
+      "input": "今日",
+      "expected": [
+        {
+          "text": "きょう",
+          "score": 90
+        },
+        {
+          "text": "こんにち",
+          "score": 95
+        }
+      ]
+    },
+    {
+      "id": "reading-shared-by-surfaces",
+      "input": "香水",
+      "expected": [
+        {
+          "text": "こうすい",
+          "score": 30
+        }
+      ]
+    },
+    {
+      "id": "empty-input-is-empty-choice",
+      "input": "",
+      "expected": []
+    },
+    {
+      "id": "no-match-is-empty-choice",
+      "input": "存在",
+      "expected": []
+    },
+    {
+      "id": "limit-truncates-in-row-order",
+      "input": "今日",
+      "config": {
+        "path": "dictionary.tsv",
+        "limit": 1
+      },
+      "expected": [
+        {
+          "text": "きょう",
+          "score": 90
+        }
+      ]
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "path": "dictionary.tsv"
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 0
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 1025
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": "64"
+    },
+    {
+      "limit": 64
+    },
+    {
+      "path": "",
+      "limit": 64
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 64,
+      "unknown": 1
+    }
+  ]
+}
