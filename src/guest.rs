@@ -152,6 +152,7 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::nodes::sequence_extract::SequenceExtract))
         }
         ("experimental.text-case", 1) => Ok(Box::new(crate::nodes::text_case::TextCase)),
+        ("experimental.text-compare", 1) => Ok(Box::new(crate::nodes::text_compare::TextCompare)),
         ("experimental.text-concat", 1) => Ok(Box::new(crate::nodes::text_concat::TextConcat)),
         ("experimental.text-extract", 1) => Ok(Box::new(crate::nodes::text_extract::TextExtract)),
         ("experimental.text-prefix", 1) => Ok(Box::new(crate::nodes::text_prefix::TextPrefix)),

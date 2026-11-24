@@ -29,6 +29,7 @@ pub mod score_normalize;
 pub mod score_set;
 pub mod sequence_extract;
 pub mod text_case;
+pub mod text_compare;
 pub mod text_extract;
 pub mod text_prefix;
 pub mod text_replace;

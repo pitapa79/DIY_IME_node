@@ -102,10 +102,13 @@ fn every_migrated_definition_and_registration_matches_the_original() {
     assert_eq!(migrated_registered, expected_registered);
     assert_eq!(
         post_migration_registered,
-        ["experimental.text-unicode-normalize"]
-            .into_iter()
-            .map(str::to_string)
-            .collect()
+        [
+            "experimental.text-unicode-normalize",
+            "experimental.text-compare",
+        ]
+        .into_iter()
+        .map(str::to_string)
+        .collect()
     );
     for n in baseline["nodes"]
         .as_array()
