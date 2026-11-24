@@ -67,3 +67,30 @@ if ($replies[6].ok -or $replies[6].error.code -ne 'dictionary-path') { throw 'Wa
 if (-not $replies[7].ok -or $replies[7].data.out.packet.root.type -ne 'choice' -or $replies[7].data.out.packet.root.options.Count -ne 0) { throw 'Wasm dictionary prefix missing match failed' }
 if ($replies[8].ok -or $replies[8].error.code -ne 'dictionary-encoding') { throw 'Wasm dictionary prefix accepted invalid snapshot' }
 Write-Output 'Opt-in Wasm: normalization, text comparison, dictionary prefix and official-module exclusion passed'
+
+$replace = 'experimental.text-regex-replace'
+$officialReplace = Invoke-Batch $OfficialWasm @((Request $replace @{method='describe'})) 'official-regex-replace'
+if ($officialReplace[0].ok -or $officialReplace[0].error.code -ne 'unknown-kind') { throw 'Regex replacement leaked into official Wasm' }
+$replaceProbes = @(
+ (Request $replace @{method='execute'; config=@{pattern='([0-9]+)月'; replacement='[${1}]'; mode='all'}; inputs=@{in=(TextPacket '1月と12月')}})
+ (Request $replace @{method='validate'; config=@{pattern='('; replacement=''; mode='all'}})
+)
+$replaceReplies = Invoke-Batch $Wasm $replaceProbes 'regex-replace'
+if (-not $replaceReplies[0].ok -or $replaceReplies[0].data.out.packet.root.text -cne '[1]と[12]') { throw 'Wasm regex capture replacement failed' }
+if ($replaceReplies[1].ok -or $replaceReplies[1].error.code -ne 'invalid-pattern') { throw 'Wasm regex accepted an invalid pattern' }
+Write-Output 'Opt-in Wasm: regex replacement and official-module exclusion passed'
+
+$search = 'experimental.text-regex-search'
+$officialCheck = Invoke-Batch $OfficialWasm @((Request $search @{method='describe'})) 'official-text-regex-search'
+if ($officialCheck[0].ok -or $officialCheck[0].error.code -ne 'unknown-kind') { throw 'regex search leaked into official Wasm' }
+$searchConfig = @{pattern='[0-9]'; limit=1}
+$searchProbes = @(
+ (Request $search @{method='execute'; config=$searchConfig; inputs=@{in=(TextPacket '😀1あ2')}})
+ (Request $search @{method='execute'; config=$searchConfig; inputs=@{in=(TextPacket '数字なし')}})
+)
+$searchReplies = Invoke-Batch $Wasm $searchProbes 'regex-search'
+$searchRoot = $searchReplies[0].data.out.packet.root
+$searchItem = $searchRoot.items[0]
+if (-not $searchReplies[0].ok -or $searchRoot.type -ne 'sequence' -or $searchRoot.items.Count -ne 1 -or $searchItem.text -cne '1' -or ($searchItem.meta.sourceSpan -join ',') -ne '1,2') { throw 'Wasm regex search did not return the expected Unicode span and limit' }
+if (-not $searchReplies[1].ok -or $searchReplies[1].data.out.packet.root.type -ne 'sequence' -or $searchReplies[1].data.out.packet.root.items.Count -ne 0) { throw 'Wasm regex search did not return an empty sequence' }
+Write-Output 'Opt-in Wasm: regex search and official-module exclusion passed'
