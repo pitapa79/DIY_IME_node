@@ -9,6 +9,7 @@ autoexamples = false
 [features]
 default = []
 custom-guest = []
+opt-in-nodes = ["dep:unicode-normalization"]
 dictionary-artifact = ["dep:diy-ime2-wasm-resource-sdk"]
 dictionary-artifact-producer = ["dictionary-artifact", "diy-ime2-wasm-resource-sdk/artifact-output"]
 
@@ -17,6 +18,7 @@ diy-ime2-runtime = { path = "sdk/runtime" }
 serde_json = "1"
 serde = { version = "1", features = ["derive"] }
 diy-ime2-wasm-resource-sdk = { path = "sdk/wasm-resource-sdk", optional = true }
+unicode-normalization = { version = "0.1.26", optional = true }
 
 [[bin]]
 name = "diy-ime2"
