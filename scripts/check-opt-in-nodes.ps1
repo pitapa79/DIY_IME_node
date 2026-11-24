@@ -67,3 +67,15 @@ if ($replies[6].ok -or $replies[6].error.code -ne 'dictionary-path') { throw 'Wa
 if (-not $replies[7].ok -or $replies[7].data.out.packet.root.type -ne 'choice' -or $replies[7].data.out.packet.root.options.Count -ne 0) { throw 'Wasm dictionary prefix missing match failed' }
 if ($replies[8].ok -or $replies[8].error.code -ne 'dictionary-encoding') { throw 'Wasm dictionary prefix accepted invalid snapshot' }
 Write-Output 'Opt-in Wasm: normalization, text comparison, dictionary prefix and official-module exclusion passed'
+
+$replace = 'experimental.text-regex-replace'
+$officialReplace = Invoke-Batch $OfficialWasm @((Request $replace @{method='describe'})) 'official-regex-replace'
+if ($officialReplace[0].ok -or $officialReplace[0].error.code -ne 'unknown-kind') { throw 'Regex replacement leaked into official Wasm' }
+$replaceProbes = @(
+ (Request $replace @{method='execute'; config=@{pattern='([0-9]+)月'; replacement='[${1}]'; mode='all'}; inputs=@{in=(TextPacket '1月と12月')}})
+ (Request $replace @{method='validate'; config=@{pattern='('; replacement=''; mode='all'}})
+)
+$replaceReplies = Invoke-Batch $Wasm $replaceProbes 'regex-replace'
+if (-not $replaceReplies[0].ok -or $replaceReplies[0].data.out.packet.root.text -cne '[1]と[12]') { throw 'Wasm regex capture replacement failed' }
+if ($replaceReplies[1].ok -or $replaceReplies[1].error.code -ne 'invalid-pattern') { throw 'Wasm regex accepted an invalid pattern' }
+Write-Output 'Opt-in Wasm: regex replacement and official-module exclusion passed'
