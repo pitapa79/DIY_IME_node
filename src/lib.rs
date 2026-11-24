@@ -2,6 +2,9 @@
 pub use diy_ime2_runtime::*;
 pub mod compat;
 pub mod nodes;
+
+#[cfg(feature = "opt-in-nodes")]
+pub mod opt_in;
 use node::{CoreError, Registry};
 /// Register only the 48 previously registered non-system implementations.
 /// The two prototypes remain opt-in.

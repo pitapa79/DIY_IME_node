@@ -37,6 +37,16 @@ CLIのdiy-ime2 binaryはtests/support/cli.rsの検査用Hostです。アプリ�
 
 公式48パッケージの生成・検証・source receiptは[配布データ生成](docs/official-node-packages.md)を参照してください。本体への同梱・既定切替は完了済みです。
 
+## 追加の実験ノード
+
+[Unicode 正規化](examples/nodes/text_unicode_normalize/README.md) 、[文字列比較](examples/nodes/text_compare/README.md)、[辞書前方一致](examples/nodes/dictionary_prefix/README.md) は開発用の Cargo 機能 opt-in-nodes で有効になります。Rust の開発用 Registry には opt_in::register で追加できます。Cargo の既定ビルドは既存の公式 48 パッケージ用です。
+
+実験版 Wasm は次のコマンドで別の出力先に生成できます。
+
+~~~text
+cargo build --locked --release --lib --target wasm32-unknown-unknown --features opt-in-nodes --target-dir target/opt-in-nodes
+~~~
+
 ## 利用条件
 
 プロジェクト全体の利用許諾は未決定です。公開設定と利用・改変・再配布の許諾は別に扱います。依存コンポーネントにはそれぞれの利用条件が適用されます。

@@ -6,9 +6,6 @@ pub mod stringify;
 /// 完全一致辞書Nodeと純粋API。形式はこのNode固有。
 pub mod dictionary_exact;
 
-/// 前方一致辞書Node（実験）。検証と収集はdictionary_exactと共有する。
-pub mod dictionary_prefix;
-
 pub mod character_filter;
 pub mod choice_deduplicate;
 pub mod choice_extract;
@@ -32,14 +29,12 @@ pub mod score_normalize;
 pub mod score_set;
 pub mod sequence_extract;
 pub mod text_case;
-pub mod text_compare;
 pub mod text_extract;
 pub mod text_prefix;
 pub mod text_replace;
 pub mod text_split;
 pub mod text_suffix;
 pub mod text_trim;
-pub mod text_unicode_normalize;
 pub mod whitespace_collapse;
 
 pub mod ascii_width;

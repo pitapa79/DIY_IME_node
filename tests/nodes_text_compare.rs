@@ -1,13 +1,14 @@
+#![cfg(feature = "opt-in-nodes")]
+
 #[path = "support/mod.rs"]
 mod test_host;
 pub use crate::test_host::{Candidate, Packet, node};
-#[path = "../src/nodes/text_compare/mod.rs"]
-mod subject;
 use crate::test_host::{
     TextMeta,
     graph::{Edge, Endpoint, ExecutionPlan, Graph, NodeInstance},
     runtime::Engine,
 };
+use diy_ime2_nodes::opt_in::text_compare as subject;
 use node::{
     CoreError, Inputs, Node, NodeDefinition, OutputValue, Outputs, Port, Registry, RootConstraint,
     RunContext,
@@ -217,7 +218,7 @@ impl Node for Source {
 fn registry_and_engine_route_the_subject_packet() {
     let mut registry = Registry::new();
     registry.register(Source("日本語".into())).unwrap();
-    registry.register(TextCompare).unwrap();
+    diy_ime2_nodes::opt_in::register(&mut registry).unwrap();
     let graph = Graph {
         version: 1,
         nodes: vec![

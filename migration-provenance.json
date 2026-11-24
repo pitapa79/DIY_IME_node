@@ -92,7 +92,7 @@
       "sourceBlob": "1e88683fa5f9d33efa87c80c222caf5f9da57df5",
       "path": "src/nodes/dictionary_exact/mod.rs",
       "change": "adapted",
-      "blob": "c1625006f8fafeabf3387c5c942616fbe753333d"
+      "blob": "f68cd8b7a52cbb691703764c78da04fc5ad8dab0"
     },
     {
       "sourcePath": "src/nodes/experimental.rs",
@@ -1646,7 +1646,7 @@
       "sourceBlob": "03873573c76a17e644fadf2ad443f49064d144aa",
       "path": "Cargo.lock",
       "change": "adapted",
-      "blob": "35110da6da7a759c0f4422afff1d80eb835de362",
+      "blob": "4f3c3f8498415233cd2fd8ee18f1348953d79c5b",
       "reason": "Issue #7 adds Windows-only dev probe dependencies windows-sys 0.59.0/windows-targets 0.52.6; original source identity and all SDK/Node/fixture bytes are preserved. Public Node #2 adds two path packages without changing third-party versions."
     },
     {

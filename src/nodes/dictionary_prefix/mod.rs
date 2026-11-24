@@ -14,7 +14,7 @@ use crate::{
     },
 };
 
-use super::dictionary_exact::{Entry, MAX_CODE_POINTS, MAX_FILE_BYTES, collect_entries};
+use crate::nodes::dictionary_exact::{Entry, MAX_CODE_POINTS, MAX_FILE_BYTES, collect_entries};
 
 pub const KIND: &str = "experimental.text-dictionary-prefix";
 pub const MAX_LIMIT: usize = 1024;
@@ -36,6 +36,12 @@ impl PrefixDictionary {
     /// 入力を接頭辞として読みを検索する。順序は読みの昇順→同一読み内は元の行順。
     /// 完全一致する読みも含み、総候補数がlimitに達したらその順序のまま打ち切る。
     pub fn lookup_packet(&self, input: &Packet, limit: usize) -> Result<Packet, CoreError> {
+        if !(1..=MAX_LIMIT).contains(&limit) {
+            return Err(CoreError::new(
+                "invalid-config",
+                "limit must be an integer between 1 and 1024",
+            ));
+        }
         input
             .validate()
             .map_err(|error| CoreError::new("invalid-packet", error.to_string()))?;

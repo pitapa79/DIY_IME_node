@@ -1,3 +1,5 @@
+#![cfg(feature = "opt-in-nodes")]
+
 #[path = "support/mod.rs"]
 mod test_host;
 use std::sync::Arc;
@@ -5,7 +7,7 @@ use std::sync::Arc;
 use crate::test_host::{
     Candidate, ChoiceOption, Packet,
     node::{CoreError, Inputs, Node, OutputValue, PrepareResources, RootConstraint, RunContext},
-    nodes::dictionary_prefix::{DictionaryPrefix, KIND, PrefixDictionary},
+    opt_in::dictionary_prefix::{DictionaryPrefix, KIND, MAX_LIMIT, PrefixDictionary},
 };
 use serde_json::{Value, json};
 
@@ -216,6 +218,20 @@ fn prepare_failures_keep_dictionary_exact_error_codes() {
         "dictionary-format"
     );
 }
+#[test]
+fn pure_lookup_rejects_limits_outside_node_contract() {
+    let dictionary = PrefixDictionary::from_tsv_bytes(SAMPLE).unwrap();
+    for limit in [0, MAX_LIMIT + 1] {
+        assert_eq!(
+            dictionary
+                .lookup_packet(&text("か"), limit)
+                .unwrap_err()
+                .code,
+            "invalid-config"
+        );
+    }
+}
+
 #[test]
 fn pure_api_agrees_with_the_prepared_node() {
     let dictionary = PrefixDictionary::from_tsv_bytes(SAMPLE).unwrap();

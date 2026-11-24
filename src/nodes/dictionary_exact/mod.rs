@@ -110,7 +110,7 @@ fn weight(value: &str, line: usize) -> Result<f64, CoreError> {
     Ok(score)
 }
 
-pub(crate) fn scan_tsv<'a>(
+fn scan_tsv<'a>(
     bytes: &'a [u8],
     mut row: impl FnMut(&'a str, &'a str, f64, usize) -> Result<(), CoreError>,
 ) -> Result<(), CoreError> {

@@ -1,13 +1,14 @@
+#![cfg(feature = "opt-in-nodes")]
+
 #[path = "support/mod.rs"]
 mod test_host;
 pub use crate::test_host::{Candidate, Packet, node};
-#[path = "../src/nodes/text_unicode_normalize/mod.rs"]
-mod subject;
 use crate::test_host::{
     TextMeta,
     graph::{Edge, Endpoint, ExecutionPlan, Graph, NodeInstance},
     runtime::Engine,
 };
+use diy_ime2_nodes::opt_in::text_unicode_normalize as subject;
 use node::{
     CoreError, Inputs, Node, NodeDefinition, OutputValue, Outputs, Port, Registry, RootConstraint,
     RunContext,
@@ -93,6 +94,22 @@ fn normalization_is_idempotent_for_every_form() {
         assert_eq!(again, data(expected), "case={case}");
     }
 }
+#[test]
+fn decomposition_can_expand_text_at_the_runtime_input_limit() {
+    let count = node::MAX_INPUT_CODE_POINTS;
+    let output = run(data(&"が".repeat(count)), &json!({"form":"nfd"})).unwrap();
+    let OutputValue::Data(packet) = output else {
+        panic!("normalization must return text");
+    };
+    assert_eq!(
+        packet.root,
+        Candidate::Text {
+            text: "が".repeat(count),
+            meta: None,
+        }
+    );
+}
+
 #[test]
 fn failures_remain_distinct() {
     let config = TextUnicodeNormalize.definition().default_config;
@@ -200,7 +217,7 @@ fn registry_and_engine_use_the_actual_node() {
     registry
         .register(Source(case["input"].as_str().unwrap().into()))
         .unwrap();
-    registry.register(TextUnicodeNormalize).unwrap();
+    diy_ime2_nodes::opt_in::register(&mut registry).unwrap();
     let graph = Graph {
         version: 1,
         nodes: vec![
