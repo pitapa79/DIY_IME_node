@@ -1,0 +1,149 @@
+{
+  "kind": "experimental.text-compare",
+  "version": 1,
+  "inputs": {
+    "a": "required ja Text",
+    "b": "required ja Text"
+  },
+  "outputs": {
+    "matched": "ja Text",
+    "unmatched": "ja Text"
+  },
+  "defaultConfig": {
+    "mode": "exact"
+  },
+  "cases": [
+    {
+      "id": "exact-match",
+      "a": "日本語",
+      "b": "日本語",
+      "expected": "matched"
+    },
+    {
+      "id": "exact-mismatch",
+      "a": "日本語",
+      "b": "日本",
+      "expected": "unmatched"
+    },
+    {
+      "id": "exact-both-empty",
+      "a": "",
+      "b": "",
+      "expected": "matched"
+    },
+    {
+      "id": "exact-case-sensitive",
+      "a": "ABC",
+      "b": "abc",
+      "expected": "unmatched"
+    },
+    {
+      "id": "exact-no-implicit-normalization",
+      "a": "が",
+      "b": "が",
+      "expected": "unmatched"
+    },
+    {
+      "id": "contains-match",
+      "a": "日本語入力",
+      "b": "語入",
+      "config": {
+        "mode": "contains"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "contains-mismatch",
+      "a": "日本語",
+      "b": "英語",
+      "config": {
+        "mode": "contains"
+      },
+      "expected": "unmatched"
+    },
+    {
+      "id": "contains-empty-pattern",
+      "a": "あ",
+      "b": "",
+      "config": {
+        "mode": "contains"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "contains-empty-subject",
+      "a": "",
+      "b": "あ",
+      "config": {
+        "mode": "contains"
+      },
+      "expected": "unmatched"
+    },
+    {
+      "id": "prefix-match",
+      "a": "日本語",
+      "b": "日本",
+      "config": {
+        "mode": "prefix"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "prefix-mismatch",
+      "a": "日本語",
+      "b": "本語",
+      "config": {
+        "mode": "prefix"
+      },
+      "expected": "unmatched"
+    },
+    {
+      "id": "prefix-empty-pattern",
+      "a": "あ",
+      "b": "",
+      "config": {
+        "mode": "prefix"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "suffix-match",
+      "a": "日本語",
+      "b": "本語",
+      "config": {
+        "mode": "suffix"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "suffix-mismatch",
+      "a": "日本語",
+      "b": "日本",
+      "config": {
+        "mode": "suffix"
+      },
+      "expected": "unmatched"
+    },
+    {
+      "id": "suffix-empty-pattern",
+      "a": "あ",
+      "b": "",
+      "config": {
+        "mode": "suffix"
+      },
+      "expected": "matched"
+    }
+  ],
+  "errorCases": [],
+  "invalidConfigs": [
+    {
+      "mode": "equals"
+    },
+    {
+      "mode": "EXACT"
+    },
+    {
+      "mode": 1
+    }
+  ]
+}

@@ -28,18 +28,28 @@ $stage = Join-Path $PSScriptRoot ('../target/opt-in-probes/' + [guid]::NewGuid()
 [IO.Directory]::CreateDirectory($stage) | Out-Null
 
 $unicode = 'experimental.text-unicode-normalize'
-$describe = @((Request $unicode @{method='describe'}))
+$compare = 'experimental.text-compare'
+$describe = @(
+ (Request $unicode @{method='describe'})
+ (Request $compare @{method='describe'})
+)
 $official = Invoke-Batch $OfficialWasm $describe 'official'
-if ($official[0].ok -or $official[0].error.code -ne 'unknown-kind') { throw 'Unicode normalization leaked into official Wasm' }
+foreach ($reply in $official) {
+ if ($reply.ok -or $reply.error.code -ne 'unknown-kind') { throw 'An opt-in node leaked into official Wasm' }
+}
 
 $decomposed = 'か' + [char]0x3099
 $probes = @(
  (Request $unicode @{method='describe'})
  (Request $unicode @{method='execute'; config=@{form='nfc'}; inputs=@{in=(TextPacket $decomposed)}})
  (Request $unicode @{method='execute'; config=@{form='nfd'}; inputs=@{in=(TextPacket ('が' * 4096))}})
+ (Request $compare @{method='execute'; config=@{mode='prefix'}; inputs=@{a=(TextPacket '日本語'); b=(TextPacket '日本')}})
+ (Request $compare @{method='execute'; config=@{mode='exact'}; inputs=@{a=(TextPacket 'が'); b=(TextPacket $decomposed)}})
 )
 $replies = Invoke-Batch $Wasm $probes 'opt-in'
 if (-not $replies[0].ok -or $replies[0].data.kind -ne $unicode) { throw 'Opt-in Wasm did not describe Unicode normalization' }
 if (-not $replies[1].ok -or $replies[1].data.out.packet.root.text -cne 'が') { throw 'Wasm NFC failed' }
 if (-not $replies[2].ok -or $replies[2].data.out.packet.root.text -cne ($decomposed * 4096)) { throw 'Wasm NFD expansion failed at the runtime input limit' }
-Write-Output 'Opt-in Wasm: Unicode normalization and official-module exclusion passed'
+if (-not $replies[3].ok -or $replies[3].data.matched.packet.root.text -cne '日本語' -or $replies[3].data.unmatched.state -ne 'noOutput') { throw 'Wasm compare matched routing failed' }
+if (-not $replies[4].ok -or $replies[4].data.unmatched.packet.root.text -cne 'が' -or $replies[4].data.matched.state -ne 'noOutput') { throw 'Wasm compare unmatched routing failed' }
+Write-Output 'Opt-in Wasm: normalization, text comparison and official-module exclusion passed'
