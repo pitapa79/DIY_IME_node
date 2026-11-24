@@ -243,19 +243,5 @@
     "kind": "experimental.sequence-build",
     "struct": "SequenceBuild",
     "issue": 115
-  },
-  {
-    "name": "Unicode正規化",
-    "module": "text_unicode_normalize",
-    "kind": "experimental.text-unicode-normalize",
-    "struct": "TextUnicodeNormalize",
-    "issue": 9
-  },
-  {
-    "name": "文字列比較",
-    "module": "text_compare",
-    "kind": "experimental.text-compare",
-    "struct": "TextCompare",
-    "issue": 11
   }
 ]

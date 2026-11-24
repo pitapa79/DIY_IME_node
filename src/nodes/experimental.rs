@@ -1,11 +1,9 @@
 //! 実験ノードの明示的な登録。既存kindの意味は変更しない。
 use crate::node::{CoreError, Registry};
-pub const NODE_COUNT: usize = 37;
+pub const NODE_COUNT: usize = 35;
 pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(super::text_case::TextCase)?;
     registry.register(super::text_trim::TextTrim)?;
-    registry.register(super::text_unicode_normalize::TextUnicodeNormalize)?;
-    registry.register(super::text_compare::TextCompare)?;
     registry.register(super::whitespace_collapse::WhitespaceCollapse)?;
     registry.register(super::line_endings::LineEndings)?;
     registry.register(super::text_extract::TextExtract)?;
