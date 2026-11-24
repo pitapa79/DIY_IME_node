@@ -119,3 +119,19 @@ $kanaReplies = Invoke-Batch $Wasm $kanaProbes 'kana-width'
 if (-not $kanaReplies[0].ok -or $kanaReplies[0].data.out.packet.root.text -cne 'ガパ・Aひ') { throw 'Wasm kana conversion to fullwidth failed' }
 if (-not $kanaReplies[1].ok -or $kanaReplies[1].data.out.packet.root.text -cne 'ｶﾞﾊﾟ･Aひ') { throw 'Wasm kana conversion to halfwidth failed' }
 Write-Output 'Opt-in Wasm: kana width and official-module exclusion passed'
+
+$reverse = 'experimental.text-dictionary-reverse'
+$officialCheck = Invoke-Batch $OfficialWasm @((Request $reverse @{method='describe'})) 'official-text-dictionary-reverse'
+if ($officialCheck[0].ok -or $officialCheck[0].error.code -ne 'unknown-kind') { throw 'dictionary reverse leaked into official Wasm' }
+$reverseDictionary = [Text.Encoding]::UTF8.GetBytes("reading`tsurface`tweight`nよみ`t表記`t2`nかな`t表記`t9`n")
+$reverseResources = @{'dictionary.tsv'=@($reverseDictionary)}
+$reverseConfig = @{path='dictionary.tsv'; limit=1}
+$reverseProbes = @(
+ (Request $reverse @{method='execute'; config=$reverseConfig; inputs=@{in=(TextPacket '表記')}; resources=$reverseResources})
+ (Request $reverse @{method='execute'; config=$reverseConfig; inputs=@{in=(TextPacket '表記')}})
+)
+$reverseReplies = Invoke-Batch $Wasm $reverseProbes 'dictionary-reverse'
+$reverseRoot = $reverseReplies[0].data.out.packet.root
+if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRoot.options.Count -ne 1 -or $reverseRoot.options[0].value.text -cne 'よみ' -or $reverseRoot.options[0].score -ne 2) { throw 'Wasm dictionary reverse did not honor dictionary order and candidate limit' }
+if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
+Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'

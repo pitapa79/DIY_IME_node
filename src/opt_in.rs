@@ -3,6 +3,8 @@ use crate::node::{CoreError, Registry};
 
 #[path = "nodes/dictionary_prefix/mod.rs"]
 pub mod dictionary_prefix;
+#[path = "nodes/dictionary_reverse/mod.rs"]
+pub mod dictionary_reverse;
 #[path = "nodes/text_compare/mod.rs"]
 pub mod text_compare;
 #[path = "nodes/text_kana_width/mod.rs"]
@@ -24,5 +26,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_regex_replace::TextRegexReplace)?;
     registry.register(text_regex_search::TextRegexSearch)?;
     registry.register(text_mapping::TextMapping)?;
-    registry.register(text_kana_width::TextKanaWidth)
+    registry.register(text_kana_width::TextKanaWidth)?;
+    registry.register(dictionary_reverse::DictionaryReverse)
 }
