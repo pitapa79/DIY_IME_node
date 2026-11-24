@@ -7,6 +7,8 @@ pub mod dictionary_prefix;
 pub mod text_compare;
 #[path = "nodes/text_regex_replace/mod.rs"]
 pub mod text_regex_replace;
+#[path = "nodes/text_regex_search/mod.rs"]
+pub mod text_regex_search;
 #[path = "nodes/text_unicode_normalize/mod.rs"]
 pub mod text_unicode_normalize;
 
@@ -15,5 +17,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_unicode_normalize::TextUnicodeNormalize)?;
     registry.register(text_compare::TextCompare)?;
     registry.register(dictionary_prefix::DictionaryPrefix)?;
-    registry.register(text_regex_replace::TextRegexReplace)
+    registry.register(text_regex_replace::TextRegexReplace)?;
+    registry.register(text_regex_search::TextRegexSearch)
 }

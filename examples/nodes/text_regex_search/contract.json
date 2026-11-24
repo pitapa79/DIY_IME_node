@@ -1,0 +1,213 @@
+{
+  "kind": "experimental.text-regex-search",
+  "version": 1,
+  "defaultConfig": {
+    "pattern": "",
+    "limit": 64
+  },
+  "cases": [
+    {
+      "id": "multiple-matches-with-spans",
+      "input": "あ1い2う",
+      "config": {
+        "pattern": "[0-9]",
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "1",
+          "span": [
+            1,
+            2
+          ]
+        },
+        {
+          "text": "2",
+          "span": [
+            3,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "id": "word-matches",
+      "input": "the cat sat",
+      "config": {
+        "pattern": "[a-z]+",
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "the",
+          "span": [
+            0,
+            3
+          ]
+        },
+        {
+          "text": "cat",
+          "span": [
+            4,
+            7
+          ]
+        },
+        {
+          "text": "sat",
+          "span": [
+            8,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "id": "no-match-is-empty-sequence",
+      "input": "abc",
+      "config": {
+        "pattern": "z",
+        "limit": 64
+      },
+      "expected": []
+    },
+    {
+      "id": "empty-input-no-match",
+      "input": "",
+      "config": {
+        "pattern": "a",
+        "limit": 64
+      },
+      "expected": []
+    },
+    {
+      "id": "empty-input-empty-pattern-matches-once",
+      "input": "",
+      "config": {
+        "pattern": "",
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "",
+          "span": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "zero-width-matches-are-included",
+      "input": "abx",
+      "config": {
+        "pattern": "x*",
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "",
+          "span": [
+            0,
+            0
+          ]
+        },
+        {
+          "text": "",
+          "span": [
+            1,
+            1
+          ]
+        },
+        {
+          "text": "x",
+          "span": [
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "unicode-span-counts-code-points",
+      "input": "漢字かな",
+      "config": {
+        "pattern": "\\p{Hiragana}+",
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "かな",
+          "span": [
+            2,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "id": "limit-truncates-in-match-order",
+      "input": "a a a a",
+      "config": {
+        "pattern": "a",
+        "limit": 2
+      },
+      "expected": [
+        {
+          "text": "a",
+          "span": [
+            0,
+            1
+          ]
+        },
+        {
+          "text": "a",
+          "span": [
+            2,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "id": "japanese-phrase",
+      "input": "1月と12月",
+      "config": {
+        "pattern": "[0-9]+月",
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "1月",
+          "span": [
+            0,
+            2
+          ]
+        },
+        {
+          "text": "12月",
+          "span": [
+            3,
+            6
+          ]
+        }
+      ]
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "pattern": "a"
+    },
+    {
+      "pattern": "a",
+      "limit": 0
+    },
+    {
+      "pattern": "a",
+      "limit": 1025
+    },
+    {
+      "pattern": "a",
+      "limit": "64"
+    }
+  ]
+}
