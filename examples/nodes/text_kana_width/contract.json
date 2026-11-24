@@ -1,0 +1,123 @@
+{
+  "kind": "experimental.text-kana-width",
+  "version": 1,
+  "defaultConfig": {
+    "mode": "fullwidth"
+  },
+  "cases": [
+    {
+      "input": "ｶﾞﾝﾊﾞﾙ",
+      "config": {
+        "mode": "fullwidth"
+      },
+      "expected": "ガンバル"
+    },
+    {
+      "input": "ﾊﾟﾋﾟﾌﾟ",
+      "config": {
+        "mode": "fullwidth"
+      },
+      "expected": "パピプ"
+    },
+    {
+      "input": "ｳﾞｧｲｵﾘﾝ",
+      "config": {
+        "mode": "fullwidth"
+      },
+      "expected": "ヴァイオリン"
+    },
+    {
+      "input": "｡｢ｱｲ｣､･ｰ",
+      "config": {
+        "mode": "fullwidth"
+      },
+      "expected": "。「アイ」、・ー"
+    },
+    {
+      "input": "ひらがな漢字ABC",
+      "config": {
+        "mode": "fullwidth"
+      },
+      "expected": "ひらがな漢字ABC"
+    },
+    {
+      "input": "カタカナとｶﾀｶﾅ",
+      "config": {
+        "mode": "fullwidth"
+      },
+      "expected": "カタカナとカタカナ"
+    },
+    {
+      "input": "ｱﾞ",
+      "config": {
+        "mode": "fullwidth"
+      },
+      "expected": "ア゙"
+    },
+    {
+      "input": "",
+      "config": {
+        "mode": "fullwidth"
+      },
+      "expected": ""
+    },
+    {
+      "input": "ガンバル",
+      "config": {
+        "mode": "halfwidth"
+      },
+      "expected": "ｶﾞﾝﾊﾞﾙ"
+    },
+    {
+      "input": "パピプペポ",
+      "config": {
+        "mode": "halfwidth"
+      },
+      "expected": "ﾊﾟﾋﾟﾌﾟﾍﾟﾎﾟ"
+    },
+    {
+      "input": "ヴァイオリン",
+      "config": {
+        "mode": "halfwidth"
+      },
+      "expected": "ｳﾞｧｲｵﾘﾝ"
+    },
+    {
+      "input": "ヰヱヵヶ",
+      "config": {
+        "mode": "halfwidth"
+      },
+      "expected": "ヰヱヵヶ"
+    },
+    {
+      "input": "。「アイ」、・ー",
+      "config": {
+        "mode": "halfwidth"
+      },
+      "expected": "｡｢ｱｲ｣､･ｰ"
+    },
+    {
+      "input": "ァィゥェォッャュョ",
+      "config": {
+        "mode": "halfwidth"
+      },
+      "expected": "ｧｨｩｪｫｯｬｭｮ"
+    }
+  ],
+  "errorCases": [],
+  "invalidConfigs": [
+    {
+      "mode": "wide"
+    },
+    {
+      "mode": "FULLWIDTH"
+    },
+    {
+      "mode": 1
+    },
+    {
+      "mode": "fullwidth",
+      "unknown": 1
+    }
+  ]
+}

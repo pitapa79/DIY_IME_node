@@ -107,3 +107,15 @@ $mappingReplies = Invoke-Batch $Wasm $mappingProbes 'mapping'
 if (-not $mappingReplies[0].ok -or $mappingReplies[0].data.out.packet.root.text -cne '仮名!') { throw 'Wasm mapping did not use the longest nonrecursive replacement' }
 if ($mappingReplies[1].ok -or $mappingReplies[1].error.code -ne 'unmapped-input') { throw 'Wasm mapping did not reject unmapped input' }
 Write-Output 'Opt-in Wasm: text mapping and official-module exclusion passed'
+
+$kana = 'experimental.text-kana-width'
+$officialCheck = Invoke-Batch $OfficialWasm @((Request $kana @{method='describe'})) 'official-text-kana-width'
+if ($officialCheck[0].ok -or $officialCheck[0].error.code -ne 'unknown-kind') { throw 'kana width leaked into official Wasm' }
+$kanaProbes = @(
+ (Request $kana @{method='execute'; config=@{mode='fullwidth'}; inputs=@{in=(TextPacket 'ｶﾞﾊﾟ･Aひ')}})
+ (Request $kana @{method='execute'; config=@{mode='halfwidth'}; inputs=@{in=(TextPacket 'ガパ・Aひ')}})
+)
+$kanaReplies = Invoke-Batch $Wasm $kanaProbes 'kana-width'
+if (-not $kanaReplies[0].ok -or $kanaReplies[0].data.out.packet.root.text -cne 'ガパ・Aひ') { throw 'Wasm kana conversion to fullwidth failed' }
+if (-not $kanaReplies[1].ok -or $kanaReplies[1].data.out.packet.root.text -cne 'ｶﾞﾊﾟ･Aひ') { throw 'Wasm kana conversion to halfwidth failed' }
+Write-Output 'Opt-in Wasm: kana width and official-module exclusion passed'
