@@ -86,27 +86,8 @@ fn every_migrated_definition_and_registration_matches_the_original() {
         .filter(|(_, n)| n["registered"] == true)
         .map(|(k, _)| k.clone())
         .collect();
-    // 移行後に追加されたNodeは移行記録には含まれない。移行分の登録が原本と
-    // 一致することと、移行後の追加分が明示した集合と一致することを分けて確認する。
-    let migrated_registered: std::collections::BTreeSet<_> = registered
-        .iter()
-        .filter(|kind| expected.contains_key(kind.as_str()))
-        .cloned()
-        .collect();
-    let post_migration_registered: std::collections::BTreeSet<_> = registered
-        .iter()
-        .filter(|kind| !expected.contains_key(kind.as_str()))
-        .cloned()
-        .collect();
-    assert_eq!(migrated_registered.len(), 48);
-    assert_eq!(migrated_registered, expected_registered);
-    assert_eq!(
-        post_migration_registered,
-        ["experimental.text-unicode-normalize"]
-            .into_iter()
-            .map(str::to_string)
-            .collect()
-    );
+    assert_eq!(registered.len(), 48);
+    assert_eq!(registered, expected_registered);
     for n in baseline["nodes"]
         .as_array()
         .unwrap()

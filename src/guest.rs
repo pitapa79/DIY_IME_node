@@ -159,8 +159,9 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-split", 1) => Ok(Box::new(crate::nodes::text_split::TextSplit)),
         ("experimental.text-suffix", 1) => Ok(Box::new(crate::nodes::text_suffix::TextSuffix)),
         ("experimental.text-trim", 1) => Ok(Box::new(crate::nodes::text_trim::TextTrim)),
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-unicode-normalize", 1) => Ok(Box::new(
-            crate::nodes::text_unicode_normalize::TextUnicodeNormalize,
+            crate::opt_in::text_unicode_normalize::TextUnicodeNormalize,
         )),
         ("experimental.whitespace-collapse", 1) => Ok(Box::new(
             crate::nodes::whitespace_collapse::WhitespaceCollapse,

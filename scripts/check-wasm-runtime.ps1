@@ -52,6 +52,11 @@ try{
    & ./scripts/check-no-output.ps1 -RuntimeDll $RuntimeDll -Wasm $Wasm -Probe (Join-Path $root 'scripts/invoke-isolated-probe.ps1')
    & ./scripts/check-prepare.ps1 -RuntimeDll $RuntimeDll -Wasm $Wasm -Probe (Join-Path $root 'scripts/invoke-isolated-probe.ps1')
    & ./scripts/check-service-guest.ps1 -RuntimeDll $RuntimeDll -Wasm $ServiceWasm -Probe (Join-Path $root 'scripts/invoke-isolated-probe.ps1')
+   $optInTarget=Join-Path $metadata.target_directory 'opt-in-nodes'
+   & $Cargo build --locked --release --lib --target wasm32-unknown-unknown --features opt-in-nodes --target-dir $optInTarget
+   if($LASTEXITCODE -ne 0){throw 'Opt-in Wasm build failed'}
+   $optInWasm=Join-Path $optInTarget 'wasm32-unknown-unknown/release/diy_ime2_nodes.wasm'
+   & ./scripts/check-opt-in-nodes.ps1 -RuntimeDll $RuntimeDll -OfficialWasm $Wasm -Wasm $optInWasm -Probe (Join-Path $root 'scripts/invoke-isolated-probe.ps1')
   }finally{
    $env:DIYIME2_ISOLATION_PROBE=$oldWorker
    $env:DIYIME2_WASM_PROBE=$oldWasm

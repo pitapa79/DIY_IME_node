@@ -35,7 +35,6 @@ pub mod text_replace;
 pub mod text_split;
 pub mod text_suffix;
 pub mod text_trim;
-pub mod text_unicode_normalize;
 pub mod whitespace_collapse;
 
 pub mod ascii_width;
