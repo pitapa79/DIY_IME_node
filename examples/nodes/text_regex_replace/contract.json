@@ -1,0 +1,118 @@
+{
+  "kind": "experimental.text-regex-replace",
+  "version": 1,
+  "defaultConfig": {
+    "pattern": "",
+    "replacement": "",
+    "mode": "all"
+  },
+  "cases": [
+    {
+      "input": "あいうあい",
+      "config": {
+        "pattern": "あい",
+        "replacement": "X",
+        "mode": "all"
+      },
+      "expected": "XうX"
+    },
+    {
+      "input": "あいうあい",
+      "config": {
+        "pattern": "あい",
+        "replacement": "X",
+        "mode": "first"
+      },
+      "expected": "Xうあい"
+    },
+    {
+      "input": "2026年11月",
+      "config": {
+        "pattern": "([0-9]+)年([0-9]+)月",
+        "replacement": "$2/$1",
+        "mode": "all"
+      },
+      "expected": "11/2026"
+    },
+    {
+      "input": "abc123",
+      "config": {
+        "pattern": "(?P<letters>[a-z]+)(?P<digits>[0-9]+)",
+        "replacement": "${digits}-${letters}",
+        "mode": "all"
+      },
+      "expected": "123-abc"
+    },
+    {
+      "input": "価格は100円",
+      "config": {
+        "pattern": "100",
+        "replacement": "$$100",
+        "mode": "all"
+      },
+      "expected": "価格は$100円"
+    },
+    {
+      "input": "そのまま",
+      "config": {
+        "pattern": "犬",
+        "replacement": "猫",
+        "mode": "all"
+      },
+      "expected": "そのまま"
+    },
+    {
+      "input": "",
+      "config": {
+        "pattern": "a",
+        "replacement": "b",
+        "mode": "all"
+      },
+      "expected": ""
+    },
+    {
+      "input": "abx",
+      "config": {
+        "pattern": "x*",
+        "replacement": "-",
+        "mode": "all"
+      },
+      "expected": "-a-b-"
+    },
+    {
+      "input": "漢字かなカナ",
+      "config": {
+        "pattern": "\\p{Hiragana}+",
+        "replacement": "［ひらがな］",
+        "mode": "all"
+      },
+      "expected": "漢字［ひらがな］カナ"
+    },
+    {
+      "input": "aaa",
+      "config": {
+        "pattern": "a",
+        "replacement": "$0$0",
+        "mode": "first"
+      },
+      "expected": "aaaa"
+    }
+  ],
+  "errorCases": [],
+  "invalidConfigs": [
+    {
+      "pattern": "a",
+      "replacement": "b"
+    },
+    {
+      "pattern": "a",
+      "replacement": "b",
+      "mode": "every"
+    },
+    {
+      "pattern": 1,
+      "replacement": "b",
+      "mode": "all"
+    }
+  ]
+}
