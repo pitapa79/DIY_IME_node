@@ -94,3 +94,16 @@ $searchItem = $searchRoot.items[0]
 if (-not $searchReplies[0].ok -or $searchRoot.type -ne 'sequence' -or $searchRoot.items.Count -ne 1 -or $searchItem.text -cne '1' -or ($searchItem.meta.sourceSpan -join ',') -ne '1,2') { throw 'Wasm regex search did not return the expected Unicode span and limit' }
 if (-not $searchReplies[1].ok -or $searchReplies[1].data.out.packet.root.type -ne 'sequence' -or $searchReplies[1].data.out.packet.root.items.Count -ne 0) { throw 'Wasm regex search did not return an empty sequence' }
 Write-Output 'Opt-in Wasm: regex search and official-module exclusion passed'
+
+$mapping = 'experimental.text-mapping'
+$officialCheck = Invoke-Batch $OfficialWasm @((Request $mapping @{method='describe'})) 'official-text-mapping'
+if ($officialCheck[0].ok -or $officialCheck[0].error.code -ne 'unknown-kind') { throw 'text mapping leaked into official Wasm' }
+$mappingEntries = @(@{from='か';to='短'}, @{from='かな';to='仮名'}, @{from='仮名';to='再置換'})
+$mappingProbes = @(
+ (Request $mapping @{method='execute'; config=@{entries=$mappingEntries; unknown='preserve'}; inputs=@{in=(TextPacket 'かな!')}})
+ (Request $mapping @{method='execute'; config=@{entries=$mappingEntries; unknown='error'}; inputs=@{in=(TextPacket 'かな!')}})
+)
+$mappingReplies = Invoke-Batch $Wasm $mappingProbes 'mapping'
+if (-not $mappingReplies[0].ok -or $mappingReplies[0].data.out.packet.root.text -cne '仮名!') { throw 'Wasm mapping did not use the longest nonrecursive replacement' }
+if ($mappingReplies[1].ok -or $mappingReplies[1].error.code -ne 'unmapped-input') { throw 'Wasm mapping did not reject unmapped input' }
+Write-Output 'Opt-in Wasm: text mapping and official-module exclusion passed'
