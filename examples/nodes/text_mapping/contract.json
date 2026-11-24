@@ -1,0 +1,190 @@
+{
+  "kind": "experimental.text-mapping",
+  "version": 1,
+  "defaultConfig": {
+    "entries": [],
+    "unknown": "preserve"
+  },
+  "cases": [
+    {
+      "input": "banana",
+      "config": {
+        "entries": [
+          {
+            "from": "a",
+            "to": "A"
+          }
+        ],
+        "unknown": "preserve"
+      },
+      "expected": "bAnAnA"
+    },
+    {
+      "input": "ab",
+      "config": {
+        "entries": [
+          {
+            "from": "ab",
+            "to": "X"
+          },
+          {
+            "from": "a",
+            "to": "Y"
+          }
+        ],
+        "unknown": "preserve"
+      },
+      "expected": "X"
+    },
+    {
+      "input": "かんじ",
+      "config": {
+        "entries": [
+          {
+            "from": "かん",
+            "to": "感"
+          },
+          {
+            "from": "か",
+            "to": "蚊"
+          }
+        ],
+        "unknown": "preserve"
+      },
+      "expected": "感じ"
+    },
+    {
+      "input": "a",
+      "config": {
+        "entries": [
+          {
+            "from": "a",
+            "to": "b"
+          },
+          {
+            "from": "b",
+            "to": "c"
+          }
+        ],
+        "unknown": "preserve"
+      },
+      "expected": "b"
+    },
+    {
+      "input": "あ、い",
+      "config": {
+        "entries": [
+          {
+            "from": "、",
+            "to": ""
+          }
+        ],
+        "unknown": "preserve"
+      },
+      "expected": "あい"
+    },
+    {
+      "input": "(c) 2026",
+      "config": {
+        "entries": [
+          {
+            "from": "(c)",
+            "to": "©"
+          }
+        ],
+        "unknown": "preserve"
+      },
+      "expected": "© 2026"
+    },
+    {
+      "input": "",
+      "config": {
+        "entries": [
+          {
+            "from": "a",
+            "to": "A"
+          }
+        ],
+        "unknown": "error"
+      },
+      "expected": ""
+    },
+    {
+      "input": "そのまま",
+      "config": {
+        "entries": [],
+        "unknown": "preserve"
+      },
+      "expected": "そのまま"
+    }
+  ],
+  "errorCases": [
+    {
+      "input": "x",
+      "config": {
+        "entries": [],
+        "unknown": "error"
+      },
+      "error": "unmapped-input"
+    },
+    {
+      "input": "ab",
+      "config": {
+        "entries": [
+          {
+            "from": "a",
+            "to": "A"
+          }
+        ],
+        "unknown": "error"
+      },
+      "error": "unmapped-input"
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "entries": [
+        {
+          "from": "a",
+          "to": "b"
+        },
+        {
+          "from": "a",
+          "to": "c"
+        }
+      ],
+      "unknown": "preserve"
+    },
+    {
+      "entries": [
+        {
+          "from": "",
+          "to": "b"
+        }
+      ],
+      "unknown": "preserve"
+    },
+    {
+      "entries": [],
+      "unknown": "keep"
+    },
+    {
+      "entries": [
+        {
+          "from": "a"
+        }
+      ],
+      "unknown": "preserve"
+    },
+    {
+      "entries": [
+        {
+          "from": "a",
+          "to": "b",
+          "extra": 1
+        }
+      ],
+      "unknown": "preserve"
+    }
+  ]
+}

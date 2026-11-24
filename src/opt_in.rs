@@ -5,6 +5,8 @@ use crate::node::{CoreError, Registry};
 pub mod dictionary_prefix;
 #[path = "nodes/text_compare/mod.rs"]
 pub mod text_compare;
+#[path = "nodes/text_mapping/mod.rs"]
+pub mod text_mapping;
 #[path = "nodes/text_regex_replace/mod.rs"]
 pub mod text_regex_replace;
 #[path = "nodes/text_regex_search/mod.rs"]
@@ -18,5 +20,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_compare::TextCompare)?;
     registry.register(dictionary_prefix::DictionaryPrefix)?;
     registry.register(text_regex_replace::TextRegexReplace)?;
-    registry.register(text_regex_search::TextRegexSearch)
+    registry.register(text_regex_search::TextRegexSearch)?;
+    registry.register(text_mapping::TextMapping)
 }
