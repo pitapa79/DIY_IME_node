@@ -243,5 +243,12 @@
     "kind": "experimental.sequence-build",
     "struct": "SequenceBuild",
     "issue": 115
+  },
+  {
+    "name": "Unicode正規化",
+    "module": "text_unicode_normalize",
+    "kind": "experimental.text-unicode-normalize",
+    "struct": "TextUnicodeNormalize",
+    "issue": 9
   }
 ]

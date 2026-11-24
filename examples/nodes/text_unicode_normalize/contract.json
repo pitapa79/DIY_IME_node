@@ -1,0 +1,112 @@
+{
+  "kind": "experimental.text-unicode-normalize",
+  "version": 1,
+  "defaultConfig": {
+    "form": "nfc"
+  },
+  "cases": [
+    {
+      "input": "が",
+      "config": {
+        "form": "nfc"
+      },
+      "expected": "が"
+    },
+    {
+      "input": "が",
+      "config": {
+        "form": "nfd"
+      },
+      "expected": "が"
+    },
+    {
+      "input": "が",
+      "config": {
+        "form": "nfc"
+      },
+      "expected": "が"
+    },
+    {
+      "input": "é",
+      "config": {
+        "form": "nfc"
+      },
+      "expected": "é"
+    },
+    {
+      "input": "é",
+      "config": {
+        "form": "nfd"
+      },
+      "expected": "é"
+    },
+    {
+      "input": "ｶﾞ",
+      "config": {
+        "form": "nfkc"
+      },
+      "expected": "ガ"
+    },
+    {
+      "input": "ｶ",
+      "config": {
+        "form": "nfc"
+      },
+      "expected": "ｶ"
+    },
+    {
+      "input": "ＡｂＣ",
+      "config": {
+        "form": "nfkc"
+      },
+      "expected": "AbC"
+    },
+    {
+      "input": "Ａ",
+      "config": {
+        "form": "nfd"
+      },
+      "expected": "Ａ"
+    },
+    {
+      "input": "①",
+      "config": {
+        "form": "nfkc"
+      },
+      "expected": "1"
+    },
+    {
+      "input": "ﬁ",
+      "config": {
+        "form": "nfkc"
+      },
+      "expected": "fi"
+    },
+    {
+      "input": "ＡｂＣ",
+      "config": {
+        "form": "nfkd"
+      },
+      "expected": "AbC"
+    },
+    {
+      "input": "",
+      "config": {
+        "form": "nfc"
+      },
+      "expected": ""
+    }
+  ],
+  "errorCases": [],
+  "invalidConfigs": [
+    {
+      "form": "nfcc"
+    },
+    {
+      "form": "NFC"
+    },
+    {
+      "form": 1
+    }
+  ]
+}

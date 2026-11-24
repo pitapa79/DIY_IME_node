@@ -17,6 +17,7 @@ diy-ime2-runtime = { path = "sdk/runtime" }
 serde_json = "1"
 serde = { version = "1", features = ["derive"] }
 diy-ime2-wasm-resource-sdk = { path = "sdk/wasm-resource-sdk", optional = true }
+unicode-normalization = "0.1.26"
 
 [[bin]]
 name = "diy-ime2"
