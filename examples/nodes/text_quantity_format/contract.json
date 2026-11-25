@@ -1,0 +1,118 @@
+{
+  "kind": "experimental.text-quantity-format",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "input": "3本",
+      "expected": "さんぼん"
+    },
+    {
+      "input": "1本",
+      "expected": "いっぽん"
+    },
+    {
+      "input": "6本",
+      "expected": "ろっぽん"
+    },
+    {
+      "input": "10本",
+      "expected": "じゅっぽん"
+    },
+    {
+      "input": "100本",
+      "expected": "ひゃっぽん"
+    },
+    {
+      "input": "1000本",
+      "expected": "せんぼん"
+    },
+    {
+      "input": "23本",
+      "expected": "にじゅうさんぼん"
+    },
+    {
+      "input": "1個",
+      "expected": "いっこ"
+    },
+    {
+      "input": "5個",
+      "expected": "ごこ"
+    },
+    {
+      "input": "8個",
+      "expected": "はっこ"
+    },
+    {
+      "input": "1人",
+      "expected": "ひとり"
+    },
+    {
+      "input": "2人",
+      "expected": "ふたり"
+    },
+    {
+      "input": "3人",
+      "expected": "さんにん"
+    },
+    {
+      "input": "4人",
+      "expected": "よにん"
+    },
+    {
+      "input": "11人",
+      "expected": "じゅういちにん"
+    },
+    {
+      "input": "2枚",
+      "expected": "にまい"
+    },
+    {
+      "input": "1冊",
+      "expected": "いっさつ"
+    },
+    {
+      "input": "7冊",
+      "expected": "ななさつ"
+    },
+    {
+      "input": "3匹",
+      "expected": "さんびき"
+    },
+    {
+      "input": "1匹",
+      "expected": "いっぴき"
+    },
+    {
+      "input": "2台",
+      "expected": "にだい"
+    },
+    {
+      "input": "1回",
+      "expected": "いっかい"
+    },
+    {
+      "input": "0本",
+      "expected": "ぜろほん"
+    },
+    {
+      "input": "三本",
+      "error": "invalid-quantity"
+    },
+    {
+      "input": "10000本",
+      "error": "invalid-quantity"
+    },
+    {
+      "input": "3箱",
+      "error": "unsupported-counter"
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "x": 1
+    },
+    [],
+    "x"
+  ]
+}

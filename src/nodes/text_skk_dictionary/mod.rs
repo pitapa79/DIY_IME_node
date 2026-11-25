@@ -24,6 +24,12 @@ impl SkkDictionary {
     /// SKK形式（UTF-8）を全件検証して不変の辞書にする。
     /// 見出し語は完全一致のみ。候補はファイル順で、注釈（;以降）は取り除く。
     pub fn from_skk_bytes(bytes: &[u8]) -> Result<Self, CoreError> {
+        if bytes.len() > MAX_FILE_BYTES {
+            return Err(CoreError::new(
+                "dictionary-limit",
+                "SKK dictionary exceeds the file byte limit",
+            ));
+        }
         let text = std::str::from_utf8(bytes).map_err(|error| {
             CoreError::new(
                 "dictionary-read",

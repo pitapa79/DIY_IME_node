@@ -170,3 +170,15 @@ fn prepare_failures_keep_their_error_codes() {
         "dictionary-read"
     );
 }
+
+#[test]
+fn parser_rejects_oversized_dictionaries() {
+    use crate::test_host::{
+        nodes::dictionary_exact::MAX_FILE_BYTES, opt_in::text_skk_dictionary::SkkDictionary,
+    };
+    let bytes = vec![b';'; MAX_FILE_BYTES + 1];
+    assert_eq!(
+        SkkDictionary::from_skk_bytes(&bytes).unwrap_err().code,
+        "dictionary-limit"
+    );
+}
