@@ -15,6 +15,8 @@ pub mod text_mapping;
 pub mod text_regex_replace;
 #[path = "nodes/text_regex_search/mod.rs"]
 pub mod text_regex_search;
+#[path = "nodes/text_symbol_notation/mod.rs"]
+pub mod text_symbol_notation;
 #[path = "nodes/text_unicode_normalize/mod.rs"]
 pub mod text_unicode_normalize;
 
@@ -27,5 +29,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_regex_search::TextRegexSearch)?;
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
-    registry.register(dictionary_reverse::DictionaryReverse)
+    registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_symbol_notation::TextSymbolNotation)
 }

@@ -1,0 +1,55 @@
+{
+  "kind": "experimental.text-symbol-notation",
+  "version": 1,
+  "defaultConfig": {
+    "preset": "japanese"
+  },
+  "cases": [
+    {
+      "input": "彼は(テスト)と言った",
+      "expected": "彼は（テスト）と言った"
+    },
+    {
+      "input": "\"引用\"と'二重'",
+      "expected": "「引用」と『二重』"
+    },
+    {
+      "input": "\"a\"と\"b\"",
+      "expected": "「a」と「b」"
+    },
+    {
+      "input": "[注] {補足}",
+      "expected": "［注］ ｛補足｝"
+    },
+    {
+      "input": "彼は（テスト）と「引用」",
+      "config": {
+        "preset": "ascii"
+      },
+      "expected": "彼は(テスト)と\"引用\""
+    },
+    {
+      "input": "『二重』",
+      "config": {
+        "preset": "ascii"
+      },
+      "expected": "'二重'"
+    },
+    {
+      "input": "記号なし",
+      "expected": "記号なし"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "preset": "wide"
+    },
+    {
+      "preset": "japanese",
+      "extra": 1
+    },
+    [],
+    "x"
+  ]
+}
