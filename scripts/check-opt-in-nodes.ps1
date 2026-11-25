@@ -136,6 +136,17 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$jisKana = 'experimental.text-jis-kana'
+$officialJisKana = Invoke-Batch $OfficialWasm @((Request $jisKana @{method='describe'})) 'official-jis-kana'
+if ($officialJisKana[0].ok -or $officialJisKana[0].error.code -ne 'unknown-kind') { throw 'JIS kana leaked into official Wasm' }
+$jisRequests = @(
+ (Request $jisKana @{method='execute'; config=@{}; inputs=@{in=(TextPacket 't@f[E')}})
+ (Request $jisKana @{method='execute'; config=@{}; inputs=@{in=(TextPacket '゜')}})
+)
+$jisReplies = Invoke-Batch $Wasm $jisRequests 'jis-kana'
+if (-not $jisReplies[0].ok -or $jisReplies[0].data.out.packet.root.text -cne 'がぱぃ') { throw 'Wasm JIS kana composition failed' }
+if ($jisReplies[1].ok -or $jisReplies[1].error.code -ne 'invalid-input') { throw 'Wasm JIS kana accepted a standalone mark' }
+
 $symbolNotation = 'experimental.text-symbol-notation'
 $officialSymbolNotation = Invoke-Batch $OfficialWasm @((Request $symbolNotation @{method='describe'})) 'official-symbol-notation'
 if ($officialSymbolNotation[0].ok -or $officialSymbolNotation[0].error.code -ne 'unknown-kind') { throw 'symbol notation leaked into official Wasm' }

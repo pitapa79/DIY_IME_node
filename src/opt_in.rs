@@ -22,6 +22,8 @@ pub mod text_compare;
 pub mod text_date_format;
 #[path = "nodes/text_hiragana_to_romaji/mod.rs"]
 pub mod text_hiragana_to_romaji;
+#[path = "nodes/text_jis_kana/mod.rs"]
+pub mod text_jis_kana;
 #[path = "nodes/text_kana_width/mod.rs"]
 pub mod text_kana_width;
 #[path = "nodes/text_kanji_form/mod.rs"]
@@ -67,6 +69,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_jis_kana::TextJisKana)?;
     registry.register(text_symbol_notation::TextSymbolNotation)?;
     registry.register(text_kanji_variants::TextKanjiVariants)?;
     registry.register(text_kanji_form::TextKanjiForm)?;
