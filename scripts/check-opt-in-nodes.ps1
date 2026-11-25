@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format')
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation')
 $additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
 $additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
 $additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
@@ -154,6 +154,13 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
 
+$unitRequests = @(
+ (Request 'experimental.text-unit-notation' @{method='execute'; config=@{}; inputs=@{in=(TextPacket '10 kmと3mg')}})
+ (Request 'experimental.text-unit-notation' @{method='execute'; config=@{}; inputs=@{in=(TextPacket '5Kg')}})
+)
+$unitReplies = Invoke-Batch $Wasm $unitRequests 'unit-notation'
+if (-not $unitReplies[0].ok -or $unitReplies[0].data.out.packet.root.text -cne '10キロメートルと3ミリグラム') { throw 'Wasm unit notation conversion failed' }
+if (-not $unitReplies[1].ok -or $unitReplies[1].data.out.packet.root.text -cne '5Kg') { throw 'Wasm unit notation accepted wrong case' }
 $timeRequests = @(
  (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='japanese'}; inputs=@{in=(TextPacket '00:05:07')}})
  (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='h12'}; inputs=@{in=(TextPacket '24:00')}})

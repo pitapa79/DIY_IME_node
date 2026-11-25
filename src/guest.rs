@@ -203,6 +203,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-unicode-normalize", 1) => Ok(Box::new(
             crate::opt_in::text_unicode_normalize::TextUnicodeNormalize,
         )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-unit-notation", 1) => Ok(Box::new(
+            crate::opt_in::text_unit_notation::TextUnitNotation,
+        )),
         ("experimental.whitespace-collapse", 1) => Ok(Box::new(
             crate::nodes::whitespace_collapse::WhitespaceCollapse,
         )),
