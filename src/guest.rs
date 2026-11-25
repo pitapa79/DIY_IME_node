@@ -114,6 +114,8 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::nodes::choice_threshold::ChoiceThreshold))
         }
         ("experimental.choice-top-n", 1) => Ok(Box::new(crate::nodes::choice_top_n::ChoiceTopN)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.flow-branch", 1) => Ok(Box::new(crate::opt_in::flow_branch::FlowBranch)),
         ("experimental.hiragana-katakana", 1) => {
             Ok(Box::new(crate::nodes::hiragana_katakana::HiraganaKatakana))
         }
