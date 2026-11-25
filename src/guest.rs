@@ -106,6 +106,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         }
         ("experimental.choice-limit", 1) => Ok(Box::new(crate::nodes::choice_limit::ChoiceLimit)),
         ("experimental.choice-merge", 1) => Ok(Box::new(crate::nodes::choice_merge::ChoiceMerge)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.choice-random-select", 1) => Ok(Box::new(
+            crate::opt_in::choice_random_select::ChoiceRandomSelect,
+        )),
         ("experimental.choice-remove", 1) => {
             Ok(Box::new(crate::nodes::choice_remove::ChoiceRemove))
         }

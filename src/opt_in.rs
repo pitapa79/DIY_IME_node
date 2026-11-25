@@ -1,6 +1,8 @@
 //! Unadopted processing nodes available in opt-in builds.
 use crate::node::{CoreError, Registry};
 
+#[path = "nodes/choice_random_select/mod.rs"]
+pub mod choice_random_select;
 #[path = "nodes/dictionary_prefix/mod.rs"]
 pub mod dictionary_prefix;
 #[path = "nodes/dictionary_reverse/mod.rs"]
@@ -54,6 +56,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(choice_random_select::ChoiceRandomSelect)?;
     registry.register(packet_validate_constraints::PacketValidateConstraints)?;
     registry.register(score_format::ScoreFormat)?;
     registry.register(flow_branch::FlowBranch)?;
