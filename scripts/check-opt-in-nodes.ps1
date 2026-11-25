@@ -154,6 +154,11 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
 
+$extractRequests = @((Request 'experimental.text-number-unit-extract' @{method='execute'; config=@{limit=64}; inputs=@{in=(TextPacket '😀-2.5 kg')}}))
+$extractReplies = Invoke-Batch $Wasm $extractRequests 'number-unit-extract'
+$extractRoot = $extractReplies[0].data.out.packet.root
+if (-not $extractReplies[0].ok -or $extractRoot.type -ne 'sequence' -or $extractRoot.items.Count -ne 1 -or $extractRoot.items[0].text -cne '-2.5 kg' -or ($extractRoot.items[0].meta.sourceSpan -join ',') -ne '1,8') { throw 'Wasm number-unit extraction or Unicode span failed' }
+
 $splitRequests = @((Request 'experimental.text-script-split' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'カ・ナ')}}))
 $splitReplies = Invoke-Batch $Wasm $splitRequests 'script-split'
 $splitRoot = $splitReplies[0].data.out.packet.root
