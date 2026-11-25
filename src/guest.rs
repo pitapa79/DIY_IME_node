@@ -198,6 +198,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-script-classify", 1) => Ok(Box::new(
             crate::opt_in::text_script_classify::TextScriptClassify,
         )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-script-split", 1) => {
+            Ok(Box::new(crate::opt_in::text_script_split::TextScriptSplit))
+        }
         ("experimental.text-split", 1) => Ok(Box::new(crate::nodes::text_split::TextSplit)),
         ("experimental.text-suffix", 1) => Ok(Box::new(crate::nodes::text_suffix::TextSuffix)),
         #[cfg(feature = "opt-in-nodes")]

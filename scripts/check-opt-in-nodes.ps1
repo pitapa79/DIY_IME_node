@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify')
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split')
 $additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
 $additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
 $additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
@@ -153,6 +153,11 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$splitRequests = @((Request 'experimental.text-script-split' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'カ・ナ')}}))
+$splitReplies = Invoke-Batch $Wasm $splitRequests 'script-split'
+$splitRoot = $splitReplies[0].data.out.packet.root
+if (-not $splitReplies[0].ok -or $splitRoot.type -ne 'sequence' -or $splitRoot.items.Count -ne 3 -or $splitRoot.items[1].text -cne '・') { throw 'Wasm script split did not separate punctuation' }
 
 $classifyRequests = @(
  (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'a・')}})
