@@ -218,6 +218,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-dictionary-reverse", 1) => Ok(Box::new(
             crate::opt_in::dictionary_reverse::DictionaryReverse,
         )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-dictionary-segment", 1) => Ok(Box::new(
+            crate::opt_in::dictionary_segment::DictionarySegment,
+        )),
         ("experimental.text-concat", 1) => Ok(Box::new(crate::nodes::text_concat::TextConcat)),
         ("experimental.text-extract", 1) => Ok(Box::new(crate::nodes::text_extract::TextExtract)),
         #[cfg(feature = "opt-in-nodes")]

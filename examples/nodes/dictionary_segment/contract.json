@@ -1,0 +1,168 @@
+{
+  "kind": "experimental.text-dictionary-segment",
+  "version": 1,
+  "dictionary": "dictionary.tsv",
+  "defaultConfig": {
+    "path": "dictionary.tsv",
+    "limit": 64
+  },
+  "cases": [
+    {
+      "id": "longest-known-first",
+      "input": "かんじ",
+      "expected": [
+        [
+          "かんじ"
+        ],
+        [
+          "かん",
+          "じ"
+        ]
+      ]
+    },
+    {
+      "id": "ranking-by-count-then-lexicographic",
+      "input": "あいうえ",
+      "expected": [
+        [
+          "あい",
+          "うえ"
+        ],
+        [
+          "あ",
+          "い",
+          "うえ"
+        ],
+        [
+          "あい",
+          "う",
+          "え"
+        ],
+        [
+          "あ",
+          "い",
+          "う",
+          "え"
+        ],
+        [
+          "あ",
+          "いう",
+          "え"
+        ],
+        [
+          "あ",
+          "いうえ"
+        ],
+        [
+          "あいう",
+          "え"
+        ],
+        [
+          "あいうえ"
+        ]
+      ]
+    },
+    {
+      "id": "no-match-whole-input-is-one-unknown",
+      "input": "そら",
+      "expected": [
+        [
+          "そら"
+        ]
+      ]
+    },
+    {
+      "id": "empty-input",
+      "input": "",
+      "expected": []
+    },
+    {
+      "id": "partial-coverage-ranks-unknown-last",
+      "input": "とうきょう",
+      "expected": [
+        [
+          "とうきょう"
+        ],
+        [
+          "とう",
+          "きょう"
+        ],
+        [
+          "と",
+          "う",
+          "きょう"
+        ],
+        [
+          "とう",
+          "きょ",
+          "う"
+        ],
+        [
+          "と",
+          "う",
+          "きょ",
+          "う"
+        ],
+        [
+          "と",
+          "うきょ",
+          "う"
+        ],
+        [
+          "と",
+          "うきょう"
+        ],
+        [
+          "とうきょ",
+          "う"
+        ]
+      ]
+    },
+    {
+      "id": "limit-truncates-in-rank-order",
+      "input": "あいうえ",
+      "expected": [
+        [
+          "あい",
+          "うえ"
+        ],
+        [
+          "あ",
+          "い",
+          "うえ"
+        ]
+      ],
+      "config": {
+        "path": "dictionary.tsv",
+        "limit": 2
+      }
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "path": "dictionary.tsv"
+    },
+    {
+      "limit": 64
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 0
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 1025
+    },
+    {
+      "path": "",
+      "limit": 64
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 64,
+      "extra": 1
+    },
+    []
+  ]
+}

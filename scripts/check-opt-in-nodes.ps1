@@ -275,7 +275,7 @@ if (-not $testDataReplies[0].ok -or $testDataReplies[0].data.out.packet.root.tex
 $testChoice = $testDataReplies[1].data.out.packet.root
 if (-not $testDataReplies[1].ok -or $testChoice.type -ne 'choice' -or $testChoice.options.Count -ne 2 -or $testChoice.options[0].value.text -cne 'つけあ' -or $testChoice.options[0].score -ne 0.444) { throw 'Wasm packet test data choice generation failed' }
 if (-not $testDataReplies[2].ok -or $testDataReplies[2].data.out.state -ne 'noOutput') { throw 'Wasm packet test data did not propagate NoOutput' }
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract')
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment')
 $additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
 $additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
 $additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
@@ -292,6 +292,14 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$segmentBytes = [Text.Encoding]::UTF8.GetBytes("reading`tsurface`tweight`nあい`t愛`t1`nあ`t亜`t1`nい`t井`t1`n")
+$segmentRequests = @(
+ (Request 'experimental.text-dictionary-segment' @{method='execute'; config=@{path='dictionary.tsv'; limit=2}; inputs=@{in=(TextPacket 'あい')}; resources=@{'dictionary.tsv'=@($segmentBytes)}})
+)
+$segmentReplies = Invoke-Batch $Wasm $segmentRequests 'dictionary-segment'
+$segmentOptions = $segmentReplies[0].data.out.packet.root.options
+if (-not $segmentReplies[0].ok -or $segmentOptions.Count -ne 2 -or ($segmentOptions[0].value.items.text -join ',') -cne 'あい' -or ($segmentOptions[1].value.items.text -join ',') -cne 'あ,い') { throw 'Wasm dictionary segmentation ranking failed' }
 
 $extractRequests = @((Request 'experimental.text-number-unit-extract' @{method='execute'; config=@{limit=64}; inputs=@{in=(TextPacket '😀-2.5 kg')}}))
 $extractReplies = Invoke-Batch $Wasm $extractRequests 'number-unit-extract'
