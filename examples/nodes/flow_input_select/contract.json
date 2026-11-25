@@ -1,0 +1,77 @@
+{
+  "kind": "experimental.flow-input-select",
+  "version": 1,
+  "defaultConfig": {
+    "priority": "a-first"
+  },
+  "cases": [
+    {
+      "id": "a-first-picks-a",
+      "a": "A",
+      "b": "B",
+      "config": {
+        "priority": "a-first"
+      },
+      "expected": "A"
+    },
+    {
+      "id": "b-first-picks-b",
+      "a": "A",
+      "b": "B",
+      "config": {
+        "priority": "b-first"
+      },
+      "expected": "B"
+    },
+    {
+      "id": "a-absent-falls-back-to-b",
+      "a": null,
+      "b": "B",
+      "config": {
+        "priority": "a-first"
+      },
+      "expected": "B"
+    },
+    {
+      "id": "b-absent-falls-back-to-a",
+      "a": "A",
+      "b": null,
+      "config": {
+        "priority": "b-first"
+      },
+      "expected": "A"
+    },
+    {
+      "id": "both-absent-is-no-output",
+      "a": null,
+      "b": null,
+      "config": {
+        "priority": "a-first"
+      },
+      "expected": null
+    },
+    {
+      "id": "empty-text-is-still-data",
+      "a": "",
+      "b": "B",
+      "config": {
+        "priority": "a-first"
+      },
+      "expected": ""
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "priority": "a"
+    },
+    {
+      "priority": "a-first",
+      "extra": 1
+    },
+    {
+      "priority": 1
+    },
+    []
+  ]
+}

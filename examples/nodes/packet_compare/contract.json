@@ -1,0 +1,227 @@
+{
+  "kind": "experimental.packet-compare",
+  "version": 1,
+  "defaultConfig": {
+    "mode": "exact"
+  },
+  "cases": [
+    {
+      "id": "exact-same",
+      "a": {
+        "text": "x"
+      },
+      "b": {
+        "text": "x"
+      },
+      "config": {
+        "mode": "exact"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "exact-meta-differs",
+      "a": {
+        "text": "x",
+        "reading": "えっくす"
+      },
+      "b": {
+        "text": "x"
+      },
+      "config": {
+        "mode": "exact"
+      },
+      "expected": "unmatched"
+    },
+    {
+      "id": "content-ignores-meta",
+      "a": {
+        "text": "x",
+        "reading": "えっくす"
+      },
+      "b": {
+        "text": "x"
+      },
+      "config": {
+        "mode": "content"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "content-sequence-meta",
+      "a": {
+        "sequence": [
+          {
+            "text": "a",
+            "reading": "えー"
+          },
+          {
+            "text": "b"
+          }
+        ]
+      },
+      "b": {
+        "sequence": [
+          {
+            "text": "a"
+          },
+          {
+            "text": "b"
+          }
+        ]
+      },
+      "config": {
+        "mode": "content"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "structure-text-shape",
+      "a": {
+        "text": "abc"
+      },
+      "b": {
+        "text": "xy"
+      },
+      "config": {
+        "mode": "structure"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "structure-length-differs",
+      "a": {
+        "sequence": [
+          {
+            "text": "a"
+          },
+          {
+            "text": "b"
+          }
+        ]
+      },
+      "b": {
+        "sequence": [
+          {
+            "text": "a"
+          }
+        ]
+      },
+      "config": {
+        "mode": "structure"
+      },
+      "expected": "unmatched"
+    },
+    {
+      "id": "structure-choice-count",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "a"
+            },
+            "score": 1.0
+          }
+        ]
+      },
+      "b": {
+        "choice": [
+          {
+            "value": {
+              "text": "zzz"
+            },
+            "score": 9.0
+          }
+        ]
+      },
+      "config": {
+        "mode": "structure"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "content-score-differs",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "a"
+            },
+            "score": 1.0
+          }
+        ]
+      },
+      "b": {
+        "choice": [
+          {
+            "value": {
+              "text": "a"
+            },
+            "score": 2.0
+          }
+        ]
+      },
+      "config": {
+        "mode": "content"
+      },
+      "expected": "unmatched"
+    },
+    {
+      "id": "exact-choice-same",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "a"
+            },
+            "score": 1.0
+          }
+        ]
+      },
+      "b": {
+        "choice": [
+          {
+            "value": {
+              "text": "a"
+            },
+            "score": 1.0
+          }
+        ]
+      },
+      "config": {
+        "mode": "exact"
+      },
+      "expected": "matched"
+    },
+    {
+      "id": "content-root-kind-differs",
+      "a": {
+        "text": "a"
+      },
+      "b": {
+        "sequence": [
+          {
+            "text": "a"
+          }
+        ]
+      },
+      "config": {
+        "mode": "content"
+      },
+      "expected": "unmatched"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "mode": "fuzzy"
+    },
+    {
+      "mode": "exact",
+      "extra": 1
+    },
+    {
+      "mode": 1
+    },
+    []
+  ]
+}

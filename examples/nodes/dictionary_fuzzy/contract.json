@@ -1,0 +1,149 @@
+{
+  "kind": "experimental.text-dictionary-fuzzy",
+  "version": 1,
+  "dictionary": "dictionary.tsv",
+  "defaultConfig": {
+    "path": "dictionary.tsv",
+    "limit": 64,
+    "maxDistance": 1
+  },
+  "cases": [
+    {
+      "id": "distance-zero-is-exact",
+      "input": "ほんき",
+      "expected": [
+        {
+          "text": "本気",
+          "score": 50
+        },
+        {
+          "text": "本木",
+          "score": 5
+        },
+        {
+          "text": "本",
+          "score": 10
+        }
+      ],
+      "config": {
+        "path": "dictionary.tsv",
+        "limit": 64,
+        "maxDistance": 1
+      }
+    },
+    {
+      "id": "substitution-typo",
+      "input": "こうずい",
+      "expected": [
+        {
+          "text": "降水",
+          "score": 90
+        },
+        {
+          "text": "香水",
+          "score": 30
+        },
+        {
+          "text": "洪水",
+          "score": 90
+        }
+      ]
+    },
+    {
+      "id": "exact-only-at-zero",
+      "input": "ほんき",
+      "expected": [
+        {
+          "text": "本気",
+          "score": 50
+        },
+        {
+          "text": "本木",
+          "score": 5
+        }
+      ],
+      "config": {
+        "path": "dictionary.tsv",
+        "limit": 64,
+        "maxDistance": 0
+      }
+    },
+    {
+      "id": "distance-orders-before-reading",
+      "input": "ほんじつ",
+      "expected": [
+        {
+          "text": "本日",
+          "score": 100
+        },
+        {
+          "text": "本実",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "id": "no-match",
+      "input": "あああああ",
+      "expected": []
+    },
+    {
+      "id": "empty-input",
+      "input": "",
+      "expected": []
+    },
+    {
+      "id": "limit-truncates-after-sort",
+      "input": "こうすい",
+      "expected": [
+        {
+          "text": "降水",
+          "score": 90
+        },
+        {
+          "text": "香水",
+          "score": 30
+        }
+      ],
+      "config": {
+        "path": "dictionary.tsv",
+        "limit": 2,
+        "maxDistance": 1
+      }
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "path": "dictionary.tsv",
+      "limit": 64
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 64,
+      "maxDistance": 4
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 64,
+      "maxDistance": -1
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 0,
+      "maxDistance": 1
+    },
+    {
+      "path": "",
+      "limit": 64,
+      "maxDistance": 1
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 64,
+      "maxDistance": 1,
+      "extra": 1
+    },
+    []
+  ]
+}
