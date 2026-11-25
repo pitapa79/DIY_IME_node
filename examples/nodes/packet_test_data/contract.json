@@ -1,0 +1,92 @@
+{
+  "kind": "experimental.packet-test-data",
+  "version": 1,
+  "defaultConfig": {
+    "shape": "text",
+    "size": 16,
+    "seed": 0
+  },
+  "cases": [
+    {
+      "config": {
+        "shape": "text",
+        "size": 5,
+        "seed": 0
+      },
+      "expected": {
+        "text": "つけあとう"
+      }
+    },
+    {
+      "config": {
+        "shape": "sequence",
+        "size": 2,
+        "seed": 0
+      },
+      "expected": {
+        "sequence": [
+          "つけあ",
+          "とうき"
+        ]
+      }
+    },
+    {
+      "config": {
+        "shape": "choice",
+        "size": 2,
+        "seed": 0
+      },
+      "expected": {
+        "choice": [
+          {
+            "text": "つけあ",
+            "score": 0.444
+          },
+          {
+            "text": "うきえ",
+            "score": 0.94
+          }
+        ]
+      }
+    },
+    {
+      "config": {
+        "shape": "text",
+        "size": 0,
+        "seed": 0
+      },
+      "expected": {
+        "text": ""
+      }
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "shape": "text",
+      "size": 16
+    },
+    {
+      "shape": "blob",
+      "size": 16,
+      "seed": 0
+    },
+    {
+      "shape": "text",
+      "size": 1025,
+      "seed": 0
+    },
+    {
+      "shape": "text",
+      "size": 16,
+      "seed": -1
+    },
+    {
+      "shape": "text",
+      "size": 16,
+      "seed": 0,
+      "extra": 1
+    },
+    [],
+    "x"
+  ]
+}
