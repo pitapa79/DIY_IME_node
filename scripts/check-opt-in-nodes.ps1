@@ -136,6 +136,17 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$symbolNotation = 'experimental.text-symbol-notation'
+$officialSymbolNotation = Invoke-Batch $OfficialWasm @((Request $symbolNotation @{method='describe'})) 'official-symbol-notation'
+if ($officialSymbolNotation[0].ok -or $officialSymbolNotation[0].error.code -ne 'unknown-kind') { throw 'symbol notation leaked into official Wasm' }
+$symbolRequests = @(
+ (Request $symbolNotation @{method='execute'; config=@{preset='japanese'}; inputs=@{in=(TextPacket '("日本語")')}})
+ (Request $symbolNotation @{method='execute'; config=@{preset='ascii'}; inputs=@{in=(TextPacket '（「日本語」）')}})
+)
+$symbolReplies = Invoke-Batch $Wasm $symbolRequests 'symbol-notation'
+if (-not $symbolReplies[0].ok -or $symbolReplies[0].data.out.packet.root.text -cne '（「日本語」）') { throw 'Wasm Japanese symbol notation failed' }
+if (-not $symbolReplies[1].ok -or $symbolReplies[1].data.out.packet.root.text -cne '("日本語")') { throw 'Wasm ASCII symbol notation failed' }
+
 $kanjiVariants = 'experimental.text-kanji-variants'
 $officialKanjiVariants = Invoke-Batch $OfficialWasm @((Request $kanjiVariants @{method='describe'})) 'official-kanji-variants'
 if ($officialKanjiVariants[0].ok -or $officialKanjiVariants[0].error.code -ne 'unknown-kind') { throw 'kanji variants leaked into official Wasm' }
