@@ -1,0 +1,118 @@
+{
+  "kind": "experimental.text-dictionary-suffix",
+  "version": 1,
+  "dictionary": "dictionary.tsv",
+  "defaultConfig": {
+    "path": "dictionary.tsv",
+    "limit": 64
+  },
+  "cases": [
+    {
+      "id": "exact-match-included",
+      "input": "ほん",
+      "expected": [
+        {
+          "text": "本",
+          "score": 10
+        }
+      ]
+    },
+    {
+      "id": "suffix-matches-longer-readings",
+      "input": "すい",
+      "expected": [
+        {
+          "text": "降水",
+          "score": 90
+        },
+        {
+          "text": "香水",
+          "score": 30
+        },
+        {
+          "text": "洪水",
+          "score": 90
+        }
+      ]
+    },
+    {
+      "id": "reading-order-then-row-order",
+      "input": "じつ",
+      "expected": [
+        {
+          "text": "本日",
+          "score": 100
+        },
+        {
+          "text": "本実",
+          "score": 20
+        }
+      ]
+    },
+    {
+      "id": "single-char-suffix",
+      "input": "き",
+      "expected": [
+        {
+          "text": "本気",
+          "score": 50
+        },
+        {
+          "text": "本木",
+          "score": 5
+        }
+      ]
+    },
+    {
+      "id": "no-match",
+      "input": "zzz",
+      "expected": []
+    },
+    {
+      "id": "empty-input",
+      "input": "",
+      "expected": []
+    },
+    {
+      "id": "limit-truncates",
+      "input": "すい",
+      "expected": [
+        {
+          "text": "降水",
+          "score": 90
+        }
+      ],
+      "config": {
+        "path": "dictionary.tsv",
+        "limit": 1
+      }
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "path": "dictionary.tsv"
+    },
+    {
+      "limit": 64
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 0
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 1025
+    },
+    {
+      "path": "",
+      "limit": 64
+    },
+    {
+      "path": "dictionary.tsv",
+      "limit": 64,
+      "extra": 1
+    },
+    []
+  ]
+}
