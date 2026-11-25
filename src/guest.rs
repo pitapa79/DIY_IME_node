@@ -171,6 +171,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-concat", 1) => Ok(Box::new(crate::nodes::text_concat::TextConcat)),
         ("experimental.text-extract", 1) => Ok(Box::new(crate::nodes::text_extract::TextExtract)),
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-hiragana-to-romaji", 1) => Ok(Box::new(
+            crate::opt_in::text_hiragana_to_romaji::TextHiraganaToRomaji,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-mapping", 1) => Ok(Box::new(crate::opt_in::text_mapping::TextMapping)),
         ("experimental.text-prefix", 1) => Ok(Box::new(crate::nodes::text_prefix::TextPrefix)),
         #[cfg(feature = "opt-in-nodes")]
