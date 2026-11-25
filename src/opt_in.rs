@@ -7,10 +7,14 @@ pub mod dictionary_prefix;
 pub mod dictionary_reverse;
 #[path = "nodes/text_compare/mod.rs"]
 pub mod text_compare;
+#[path = "nodes/text_hiragana_to_romaji/mod.rs"]
+pub mod text_hiragana_to_romaji;
 #[path = "nodes/text_kana_width/mod.rs"]
 pub mod text_kana_width;
 #[path = "nodes/text_mapping/mod.rs"]
 pub mod text_mapping;
+#[path = "nodes/text_number_notation/mod.rs"]
+pub mod text_number_notation;
 #[path = "nodes/text_regex_replace/mod.rs"]
 pub mod text_regex_replace;
 #[path = "nodes/text_regex_search/mod.rs"]
@@ -27,5 +31,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_regex_search::TextRegexSearch)?;
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
-    registry.register(dictionary_reverse::DictionaryReverse)
+    registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_hiragana_to_romaji::TextHiraganaToRomaji)?;
+    registry.register(text_number_notation::TextNumberNotation)
 }
