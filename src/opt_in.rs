@@ -64,6 +64,8 @@ pub mod text_regex_search;
 pub mod text_script_classify;
 #[path = "nodes/text_script_split/mod.rs"]
 pub mod text_script_split;
+#[path = "nodes/text_similarity/mod.rs"]
+pub mod text_similarity;
 #[path = "nodes/text_skk_dictionary/mod.rs"]
 pub mod text_skk_dictionary;
 #[path = "nodes/text_snippet_expand/mod.rs"]
@@ -87,6 +89,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_similarity::TextSimilarity)?;
     registry.register(text_prompt_build::TextPromptBuild)?;
     registry.register(text_snippet_expand::TextSnippetExpand)?;
     registry.register(score_combine::ScoreCombine)?;

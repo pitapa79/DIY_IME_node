@@ -197,6 +197,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::opt_in::text_prompt_build::TextPromptBuild))
         }
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-similarity", 1) => {
+            Ok(Box::new(crate::opt_in::text_similarity::TextSimilarity))
+        }
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-skk-dictionary", 1) => Ok(Box::new(
