@@ -13,6 +13,8 @@ pub mod text_date_format;
 pub mod text_hiragana_to_romaji;
 #[path = "nodes/text_kana_width/mod.rs"]
 pub mod text_kana_width;
+#[path = "nodes/text_length/mod.rs"]
+pub mod text_length;
 #[path = "nodes/text_mapping/mod.rs"]
 pub mod text_mapping;
 #[path = "nodes/text_number_notation/mod.rs"]
@@ -42,5 +44,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_number_notation::TextNumberNotation)?;
     registry.register(text_date_format::TextDateFormat)?;
     registry.register(text_time_format::TextTimeFormat)?;
-    registry.register(text_unit_notation::TextUnitNotation)
+    registry.register(text_unit_notation::TextUnitNotation)?;
+    registry.register(text_length::TextLength)
 }

@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation')
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length')
 $additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
 $additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
 $additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
@@ -154,6 +154,14 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
 
+$lengthInput = 'か' + [char]0x3099
+$lengthRequests = @(
+ (Request 'experimental.text-length' @{method='execute'; config=@{unit='grapheme'}; inputs=@{in=(TextPacket $lengthInput)}})
+ (Request 'experimental.text-length' @{method='execute'; config=@{unit='scalar'}; inputs=@{in=(TextPacket $lengthInput)}})
+)
+$lengthReplies = Invoke-Batch $Wasm $lengthRequests 'text-length'
+if (-not $lengthReplies[0].ok -or $lengthReplies[0].data.out.packet.root.text -cne '1') { throw 'Wasm grapheme count failed' }
+if (-not $lengthReplies[1].ok -or $lengthReplies[1].data.out.packet.root.text -cne '2') { throw 'Wasm scalar count failed' }
 $unitRequests = @(
  (Request 'experimental.text-unit-notation' @{method='execute'; config=@{}; inputs=@{in=(TextPacket '10 kmと3mg')}})
  (Request 'experimental.text-unit-notation' @{method='execute'; config=@{}; inputs=@{in=(TextPacket '5Kg')}})

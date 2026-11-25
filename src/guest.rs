@@ -177,6 +177,8 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             crate::opt_in::text_hiragana_to_romaji::TextHiraganaToRomaji,
         )),
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-length", 1) => Ok(Box::new(crate::opt_in::text_length::TextLength)),
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-mapping", 1) => Ok(Box::new(crate::opt_in::text_mapping::TextMapping)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-number-notation", 1) => Ok(Box::new(
