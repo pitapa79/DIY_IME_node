@@ -1,0 +1,146 @@
+{
+  "kind": "experimental.text-script-split",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "input": "ひらがなカタカナ",
+      "config": {},
+      "expected": [
+        {
+          "text": "ひらがな",
+          "span": [
+            0,
+            4
+          ]
+        },
+        {
+          "text": "カタカナ",
+          "span": [
+            4,
+            8
+          ]
+        }
+      ]
+    },
+    {
+      "input": "abc123",
+      "config": {},
+      "expected": [
+        {
+          "text": "abc",
+          "span": [
+            0,
+            3
+          ]
+        },
+        {
+          "text": "123",
+          "span": [
+            3,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "input": "東京2024年",
+      "config": {},
+      "expected": [
+        {
+          "text": "東京",
+          "span": [
+            0,
+            2
+          ]
+        },
+        {
+          "text": "2024",
+          "span": [
+            2,
+            6
+          ]
+        },
+        {
+          "text": "年",
+          "span": [
+            6,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "input": "hello、world",
+      "config": {},
+      "expected": [
+        {
+          "text": "hello",
+          "span": [
+            0,
+            5
+          ]
+        },
+        {
+          "text": "、",
+          "span": [
+            5,
+            6
+          ]
+        },
+        {
+          "text": "world",
+          "span": [
+            6,
+            11
+          ]
+        }
+      ]
+    },
+    {
+      "input": "がく",
+      "config": {},
+      "expected": [
+        {
+          "text": "がく",
+          "span": [
+            0,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "input": "😀abc",
+      "config": {},
+      "expected": [
+        {
+          "text": "😀",
+          "span": [
+            0,
+            1
+          ]
+        },
+        {
+          "text": "abc",
+          "span": [
+            1,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "input": "",
+      "config": {},
+      "expected": []
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "x": 1
+    },
+    [],
+    "x"
+  ]
+}
