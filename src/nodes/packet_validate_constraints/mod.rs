@@ -21,15 +21,12 @@ fn optional_limit(
 ) -> Result<Option<u64>, CoreError> {
     match &object[key] {
         Value::Null => Ok(None),
-        value => value
-            .as_u64()
-            .map(Some)
-            .ok_or_else(|| {
-                CoreError::new(
-                    "invalid-config",
-                    format!("{key} must be null or a non-negative integer"),
-                )
-            }),
+        value => value.as_u64().map(Some).ok_or_else(|| {
+            CoreError::new(
+                "invalid-config",
+                format!("{key} must be null or a non-negative integer"),
+            )
+        }),
     }
 }
 fn settings(config: &Value) -> Result<Settings, CoreError> {

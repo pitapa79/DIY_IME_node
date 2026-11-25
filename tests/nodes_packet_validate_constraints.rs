@@ -104,7 +104,8 @@ fn failures_remain_distinct() {
 }
 #[test]
 fn large_limits_do_not_wrap_on_wasm() {
-    let config = json!({"maxCandidates":4294967296u64,"maxTextLength":4294967296u64,"allowedRoots":[]});
+    let config =
+        json!({"maxCandidates":4294967296u64,"maxTextLength":4294967296u64,"allowedRoots":[]});
     for input in [
         json!({"root":"text","text":"a"}),
         json!({"root":"choice","count":1}),
