@@ -153,3 +153,11 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$unitRequests = @(
+ (Request 'experimental.text-unit-notation' @{method='execute'; config=@{}; inputs=@{in=(TextPacket '10 kmと3mg')}})
+ (Request 'experimental.text-unit-notation' @{method='execute'; config=@{}; inputs=@{in=(TextPacket '5Kg')}})
+)
+$unitReplies = Invoke-Batch $Wasm $unitRequests 'unit-notation'
+if (-not $unitReplies[0].ok -or $unitReplies[0].data.out.packet.root.text -cne '10キロメートルと3ミリグラム') { throw 'Wasm unit notation conversion failed' }
+if (-not $unitReplies[1].ok -or $unitReplies[1].data.out.packet.root.text -cne '5Kg') { throw 'Wasm unit notation accepted wrong case' }
