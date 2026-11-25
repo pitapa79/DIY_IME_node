@@ -9,6 +9,7 @@
 - 結合文字とバリエーションセレクタは直前の文字のクラスを引き継ぐ（か+結合濁点は hiragana）。
 - 非中立クラスがちょうど1種ならそのラベル、2種以上なら mixed、中立のみなら neutral、空入力なら empty。文字体系の判定であり、自然言語の推定はしない。
 - 文字クラスの定義は text-script-split と揃えている。
+- カタカナ領域の句読点 U+30A0・U+30FB は中立として扱う。
 - Packet検証後に処理する。NoOutputはNoOutput。入力欠落はmissing-input、Text以外はinvalid-root。入力を変更しない。
 
 検査: `cargo test --locked --all-features --test nodes_text_script_classify`。正式fixtureを弱めず、このディレクトリーの契約例を実装に照合する。実Wasm検証とWindows CIの結果はPR側で確認する。
