@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment', 'experimental.text-dictionary-suffix', 'experimental.text-dictionary-fuzzy', 'experimental.flow-input-select' , 'experimental.packet-compare' , 'experimental.score-combine' )
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment', 'experimental.text-dictionary-suffix', 'experimental.text-dictionary-fuzzy', 'experimental.flow-input-select' , 'experimental.packet-compare' , 'experimental.score-combine' , 'experimental.text-snippet-expand' )
 $skk = 'experimental.text-skk-dictionary'
 $officialSkk = Invoke-Batch $OfficialWasm @((Request $skk @{method='describe'})) 'official-skk-dictionary'
 if ($officialSkk[0].ok -or $officialSkk[0].error.code -ne 'unknown-kind') { throw 'SKK dictionary leaked into official Wasm' }
@@ -385,3 +385,6 @@ $a80 = @{state='data'; packet=@{version=1; root=@{type='choice'; options=@(@{val
 $b80 = @{state='data'; packet=@{version=1; root=@{type='choice'; options=@(@{value=@{type='text';text='a'};score=3})}}}
 $r80 = Invoke-Batch $Wasm @((Request 'experimental.score-combine' @{method='execute'; config=@{weightA=2;weightB=1;missing='zero'}; inputs=@{a=$a80;b=$b80}})) 'score-combine'
 if (-not $r80[0].ok -or $r80[0].data.out.packet.root.options[0].score -ne 7) { throw 'Wasm weighted score combine failed' }
+
+$r81 = Invoke-Batch $Wasm @((Request 'experimental.text-snippet-expand' @{method='execute'; config=@{template='{{{a}}}'}; inputs=@{a=(TextPacket '本文')}})) 'snippet-expand'
+if (-not $r81[0].ok -or $r81[0].data.out.packet.root.text -cne '{本文}') { throw 'Wasm snippet expansion failed' }

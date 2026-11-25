@@ -64,6 +64,8 @@ pub mod text_script_classify;
 pub mod text_script_split;
 #[path = "nodes/text_skk_dictionary/mod.rs"]
 pub mod text_skk_dictionary;
+#[path = "nodes/text_snippet_expand/mod.rs"]
+pub mod text_snippet_expand;
 #[path = "nodes/text_symbol_notation/mod.rs"]
 pub mod text_symbol_notation;
 #[path = "nodes/text_time_format/mod.rs"]
@@ -83,6 +85,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_snippet_expand::TextSnippetExpand)?;
     registry.register(score_combine::ScoreCombine)?;
     registry.register(packet_compare::PacketCompare)?;
     registry.register(flow_input_select::FlowInputSelect)?;
