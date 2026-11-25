@@ -1,0 +1,55 @@
+{
+  "kind": "experimental.text-skk-dictionary",
+  "version": 1,
+  "defaultConfig": {
+    "path": "dictionary.skk",
+    "limit": 64
+  },
+  "cases": [
+    {
+      "input": "かんじ",
+      "expected": [
+        "漢字",
+        "感じ",
+        "幹事"
+      ]
+    },
+    {
+      "input": "てすと",
+      "expected": [
+        "テスト",
+        "試験"
+      ]
+    },
+    {
+      "input": "ひらがな",
+      "expected": [
+        "平仮名"
+      ]
+    },
+    {
+      "input": "なし",
+      "expected": []
+    },
+    {
+      "input": "",
+      "expected": []
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "path": "dictionary.skk"
+    },
+    {
+      "path": "dictionary.skk",
+      "limit": 0
+    },
+    {
+      "path": "dictionary.skk",
+      "limit": 64,
+      "extra": 1
+    },
+    [],
+    "x"
+  ]
+}

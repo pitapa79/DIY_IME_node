@@ -89,6 +89,11 @@ fn classification_rules() {
     assert_eq!(label("\u{3099}"), "neutral");
 }
 #[test]
+fn katakana_block_punctuation_is_neutral() {
+    assert_eq!(run(data("・"), &json!({})).unwrap(), data("neutral"));
+    assert_eq!(run(data("a・"), &json!({})).unwrap(), data("latin"));
+}
+#[test]
 fn failures_remain_distinct() {
     let config = TextScriptClassify.definition().default_config;
     assert_eq!(config, json!({}));

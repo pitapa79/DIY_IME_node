@@ -1,0 +1,70 @@
+{
+  "kind": "experimental.text-jis-kana",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "input": "byiaf",
+      "expected": "こんにちは"
+    },
+    {
+      "input": "f@",
+      "expected": "ば"
+    },
+    {
+      "input": "f[",
+      "expected": "ぱ"
+    },
+    {
+      "input": "f゛",
+      "expected": "ば"
+    },
+    {
+      "input": "4@",
+      "expected": "ゔ"
+    },
+    {
+      "input": "Z",
+      "expected": "っ"
+    },
+    {
+      "input": "eE",
+      "expected": "いぃ"
+    },
+    {
+      "input": "0",
+      "expected": "わ"
+    },
+    {
+      "input": "を",
+      "expected": "を"
+    },
+    {
+      "input": "¥",
+      "expected": "ー"
+    },
+    {
+      "input": "<>",
+      "expected": "、。"
+    },
+    {
+      "input": "A",
+      "error": "unknown-key"
+    },
+    {
+      "input": "@",
+      "error": "invalid-input"
+    },
+    {
+      "input": "f@@",
+      "error": "invalid-input"
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "x": 1
+    },
+    [],
+    "x"
+  ]
+}
