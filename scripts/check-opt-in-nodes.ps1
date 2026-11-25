@@ -136,6 +136,17 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$kanjiForm = 'experimental.text-kanji-form'
+$officialKanjiForm = Invoke-Batch $OfficialWasm @((Request $kanjiForm @{method='describe'})) 'official-kanji-form'
+if ($officialKanjiForm[0].ok -or $officialKanjiForm[0].error.code -ne 'unknown-kind') { throw 'kanji form leaked into official Wasm' }
+$kanjiFormRequests = @(
+ (Request $kanjiForm @{method='execute'; config=@{direction='to-shinjitai'}; inputs=@{in=(TextPacket '國學')}})
+ (Request $kanjiForm @{method='execute'; config=@{direction='to-kyujitai'}; inputs=@{in=(TextPacket '国学')}})
+)
+$kanjiFormReplies = Invoke-Batch $Wasm $kanjiFormRequests 'kanji-form'
+if (-not $kanjiFormReplies[0].ok -or $kanjiFormReplies[0].data.out.packet.root.text -cne '国学') { throw 'Wasm shinjitai conversion failed' }
+if (-not $kanjiFormReplies[1].ok -or $kanjiFormReplies[1].data.out.packet.root.text -cne '國學') { throw 'Wasm kyujitai conversion failed' }
+
 $paragraph = 'experimental.paragraph-split'
 $officialParagraph = Invoke-Batch $OfficialWasm @((Request $paragraph @{method='describe'})) 'official-paragraph-split'
 if ($officialParagraph[0].ok -or $officialParagraph[0].error.code -ne 'unknown-kind') { throw 'paragraph split leaked into official Wasm' }
