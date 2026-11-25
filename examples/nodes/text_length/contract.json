@@ -1,0 +1,191 @@
+{
+  "kind": "experimental.text-length",
+  "version": 1,
+  "defaultConfig": {
+    "unit": "scalar"
+  },
+  "cases": [
+    {
+      "input": "",
+      "config": {
+        "unit": "scalar"
+      },
+      "expected": "0"
+    },
+    {
+      "input": "",
+      "config": {
+        "unit": "byte"
+      },
+      "expected": "0"
+    },
+    {
+      "input": "",
+      "config": {
+        "unit": "grapheme"
+      },
+      "expected": "0"
+    },
+    {
+      "input": "あいうえお",
+      "config": {
+        "unit": "scalar"
+      },
+      "expected": "5"
+    },
+    {
+      "input": "あいうえお",
+      "config": {
+        "unit": "byte"
+      },
+      "expected": "15"
+    },
+    {
+      "input": "あいうえお",
+      "config": {
+        "unit": "grapheme"
+      },
+      "expected": "5"
+    },
+    {
+      "input": "abc",
+      "config": {
+        "unit": "scalar"
+      },
+      "expected": "3"
+    },
+    {
+      "input": "abc",
+      "config": {
+        "unit": "byte"
+      },
+      "expected": "3"
+    },
+    {
+      "input": "abc",
+      "config": {
+        "unit": "grapheme"
+      },
+      "expected": "3"
+    },
+    {
+      "input": "ＡＢ",
+      "config": {
+        "unit": "scalar"
+      },
+      "expected": "2"
+    },
+    {
+      "input": "ＡＢ",
+      "config": {
+        "unit": "byte"
+      },
+      "expected": "6"
+    },
+    {
+      "input": "ＡＢ",
+      "config": {
+        "unit": "grapheme"
+      },
+      "expected": "2"
+    },
+    {
+      "input": "が",
+      "config": {
+        "unit": "scalar"
+      },
+      "expected": "2"
+    },
+    {
+      "input": "が",
+      "config": {
+        "unit": "byte"
+      },
+      "expected": "6"
+    },
+    {
+      "input": "が",
+      "config": {
+        "unit": "grapheme"
+      },
+      "expected": "1"
+    },
+    {
+      "input": "👨‍👩‍👧",
+      "config": {
+        "unit": "scalar"
+      },
+      "expected": "5"
+    },
+    {
+      "input": "👨‍👩‍👧",
+      "config": {
+        "unit": "byte"
+      },
+      "expected": "18"
+    },
+    {
+      "input": "👨‍👩‍👧",
+      "config": {
+        "unit": "grapheme"
+      },
+      "expected": "1"
+    },
+    {
+      "input": "🇯🇵",
+      "config": {
+        "unit": "scalar"
+      },
+      "expected": "2"
+    },
+    {
+      "input": "🇯🇵",
+      "config": {
+        "unit": "byte"
+      },
+      "expected": "8"
+    },
+    {
+      "input": "🇯🇵",
+      "config": {
+        "unit": "grapheme"
+      },
+      "expected": "1"
+    },
+    {
+      "input": "1️⃣",
+      "config": {
+        "unit": "scalar"
+      },
+      "expected": "3"
+    },
+    {
+      "input": "1️⃣",
+      "config": {
+        "unit": "byte"
+      },
+      "expected": "7"
+    },
+    {
+      "input": "1️⃣",
+      "config": {
+        "unit": "grapheme"
+      },
+      "expected": "1"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "unit": "char"
+    },
+    {
+      "unit": "scalar",
+      "extra": 1
+    },
+    {
+      "unit": 1
+    },
+    []
+  ]
+}

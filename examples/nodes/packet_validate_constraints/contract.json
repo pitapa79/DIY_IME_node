@@ -1,0 +1,145 @@
+{
+  "kind": "experimental.packet-validate-constraints",
+  "version": 1,
+  "defaultConfig": {
+    "maxCandidates": null,
+    "maxTextLength": null,
+    "allowedRoots": []
+  },
+  "cases": [
+    {
+      "input": {
+        "root": "text",
+        "text": "abc"
+      },
+      "expected": "valid"
+    },
+    {
+      "config": {
+        "maxCandidates": null,
+        "maxTextLength": 3,
+        "allowedRoots": []
+      },
+      "input": {
+        "root": "text",
+        "text": "abcd"
+      },
+      "expected": "invalid"
+    },
+    {
+      "config": {
+        "maxCandidates": null,
+        "maxTextLength": 3,
+        "allowedRoots": []
+      },
+      "input": {
+        "root": "text",
+        "text": "abc"
+      },
+      "expected": "valid"
+    },
+    {
+      "config": {
+        "maxCandidates": 2,
+        "maxTextLength": null,
+        "allowedRoots": []
+      },
+      "input": {
+        "root": "choice",
+        "count": 3
+      },
+      "expected": "invalid"
+    },
+    {
+      "config": {
+        "maxCandidates": 2,
+        "maxTextLength": null,
+        "allowedRoots": []
+      },
+      "input": {
+        "root": "choice",
+        "count": 2
+      },
+      "expected": "valid"
+    },
+    {
+      "config": {
+        "maxCandidates": null,
+        "maxTextLength": null,
+        "allowedRoots": [
+          "text"
+        ]
+      },
+      "input": {
+        "root": "sequence",
+        "count": 2
+      },
+      "expected": "invalid"
+    },
+    {
+      "config": {
+        "maxCandidates": null,
+        "maxTextLength": null,
+        "allowedRoots": [
+          "text"
+        ]
+      },
+      "input": {
+        "root": "text",
+        "text": "x"
+      },
+      "expected": "valid"
+    },
+    {
+      "config": {
+        "maxCandidates": 1,
+        "maxTextLength": null,
+        "allowedRoots": []
+      },
+      "input": {
+        "root": "text",
+        "text": "対象外の根は素通り"
+      },
+      "expected": "valid"
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "maxCandidates": null,
+      "maxTextLength": null
+    },
+    {
+      "maxCandidates": -1,
+      "maxTextLength": null,
+      "allowedRoots": []
+    },
+    {
+      "maxCandidates": null,
+      "maxTextLength": null,
+      "allowedRoots": [
+        "bogus"
+      ]
+    },
+    {
+      "maxCandidates": null,
+      "maxTextLength": null,
+      "allowedRoots": "text"
+    },
+    {
+      "maxCandidates": null,
+      "maxTextLength": null,
+      "allowedRoots": [
+        "text",
+        "text"
+      ]
+    },
+    {
+      "maxCandidates": null,
+      "maxTextLength": null,
+      "allowedRoots": [],
+      "extra": 1
+    },
+    [],
+    "x"
+  ]
+}
