@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment', 'experimental.text-dictionary-suffix', 'experimental.text-dictionary-fuzzy', 'experimental.flow-input-select' , 'experimental.packet-compare' , 'experimental.score-combine' , 'experimental.text-snippet-expand' )
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment', 'experimental.text-dictionary-suffix', 'experimental.text-dictionary-fuzzy', 'experimental.flow-input-select' , 'experimental.packet-compare' , 'experimental.score-combine' , 'experimental.text-snippet-expand' , 'experimental.text-prompt-build' )
 $skk = 'experimental.text-skk-dictionary'
 $officialSkk = Invoke-Batch $OfficialWasm @((Request $skk @{method='describe'})) 'official-skk-dictionary'
 if ($officialSkk[0].ok -or $officialSkk[0].error.code -ne 'unknown-kind') { throw 'SKK dictionary leaked into official Wasm' }
@@ -388,3 +388,6 @@ if (-not $r80[0].ok -or $r80[0].data.out.packet.root.options[0].score -ne 7) { t
 
 $r81 = Invoke-Batch $Wasm @((Request 'experimental.text-snippet-expand' @{method='execute'; config=@{template='{{{a}}}'}; inputs=@{a=(TextPacket '本文')}})) 'snippet-expand'
 if (-not $r81[0].ok -or $r81[0].data.out.packet.root.text -cne '{本文}') { throw 'Wasm snippet expansion failed' }
+
+$r82 = Invoke-Batch $Wasm @((Request 'experimental.text-prompt-build' @{method='execute'; config=@{instruction='指示';before='[';after=']'}; inputs=@{in=(TextPacket '{a}')}})) 'prompt-build'
+if (-not $r82[0].ok -or $r82[0].data.out.packet.root.text -cne '指示[{a}]') { throw 'Wasm prompt assembly failed' }

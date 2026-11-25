@@ -193,6 +193,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             crate::opt_in::text_snippet_expand::TextSnippetExpand,
         )),
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-prompt-build", 1) => {
+            Ok(Box::new(crate::opt_in::text_prompt_build::TextPromptBuild))
+        }
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-skk-dictionary", 1) => Ok(Box::new(
