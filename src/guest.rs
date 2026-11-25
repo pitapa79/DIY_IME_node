@@ -114,6 +114,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::nodes::choice_threshold::ChoiceThreshold))
         }
         ("experimental.choice-top-n", 1) => Ok(Box::new(crate::nodes::choice_top_n::ChoiceTopN)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.flow-input-select", 1) => {
+            Ok(Box::new(crate::opt_in::flow_input_select::FlowInputSelect))
+        }
         ("experimental.hiragana-katakana", 1) => {
             Ok(Box::new(crate::nodes::hiragana_katakana::HiraganaKatakana))
         }
@@ -151,6 +155,14 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.sequence-extract", 1) => {
             Ok(Box::new(crate::nodes::sequence_extract::SequenceExtract))
         }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.packet-compare", 1) => {
+            Ok(Box::new(crate::opt_in::packet_compare::PacketCompare))
+        }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.score-combine", 1) => {
+            Ok(Box::new(crate::opt_in::score_combine::ScoreCombine))
+        }
         ("experimental.text-case", 1) => Ok(Box::new(crate::nodes::text_case::TextCase)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-kana-width", 1) => {
@@ -159,6 +171,14 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-date-format", 1) => {
+            Ok(Box::new(crate::opt_in::text_date_format::TextDateFormat))
+        }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-dictionary-fuzzy", 1) => {
+            Ok(Box::new(crate::opt_in::dictionary_fuzzy::DictionaryFuzzy))
+        }
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-dictionary-prefix", 1) => {
             Ok(Box::new(crate::opt_in::dictionary_prefix::DictionaryPrefix))
         }
@@ -166,11 +186,37 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-dictionary-reverse", 1) => Ok(Box::new(
             crate::opt_in::dictionary_reverse::DictionaryReverse,
         )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-dictionary-segment", 1) => Ok(Box::new(
+            crate::opt_in::dictionary_segment::DictionarySegment,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-dictionary-suffix", 1) => {
+            Ok(Box::new(crate::opt_in::dictionary_suffix::DictionarySuffix))
+        }
         ("experimental.text-concat", 1) => Ok(Box::new(crate::nodes::text_concat::TextConcat)),
         ("experimental.text-extract", 1) => Ok(Box::new(crate::nodes::text_extract::TextExtract)),
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-hiragana-to-romaji", 1) => Ok(Box::new(
+            crate::opt_in::text_hiragana_to_romaji::TextHiraganaToRomaji,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-length", 1) => Ok(Box::new(crate::opt_in::text_length::TextLength)),
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-mapping", 1) => Ok(Box::new(crate::opt_in::text_mapping::TextMapping)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-number-notation", 1) => Ok(Box::new(
+            crate::opt_in::text_number_notation::TextNumberNotation,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-number-unit-extract", 1) => Ok(Box::new(
+            crate::opt_in::text_number_unit_extract::TextNumberUnitExtract,
+        )),
         ("experimental.text-prefix", 1) => Ok(Box::new(crate::nodes::text_prefix::TextPrefix)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-prompt-build", 1) => {
+            Ok(Box::new(crate::opt_in::text_prompt_build::TextPromptBuild))
+        }
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-regex-replace", 1) => Ok(Box::new(
             crate::opt_in::text_regex_replace::TextRegexReplace,
@@ -180,12 +226,36 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::opt_in::text_regex_search::TextRegexSearch))
         }
         ("experimental.text-replace", 1) => Ok(Box::new(crate::nodes::text_replace::TextReplace)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-script-classify", 1) => Ok(Box::new(
+            crate::opt_in::text_script_classify::TextScriptClassify,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-script-split", 1) => {
+            Ok(Box::new(crate::opt_in::text_script_split::TextScriptSplit))
+        }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-similarity", 1) => {
+            Ok(Box::new(crate::opt_in::text_similarity::TextSimilarity))
+        }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-snippet-expand", 1) => Ok(Box::new(
+            crate::opt_in::text_snippet_expand::TextSnippetExpand,
+        )),
         ("experimental.text-split", 1) => Ok(Box::new(crate::nodes::text_split::TextSplit)),
         ("experimental.text-suffix", 1) => Ok(Box::new(crate::nodes::text_suffix::TextSuffix)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-time-format", 1) => {
+            Ok(Box::new(crate::opt_in::text_time_format::TextTimeFormat))
+        }
         ("experimental.text-trim", 1) => Ok(Box::new(crate::nodes::text_trim::TextTrim)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-unicode-normalize", 1) => Ok(Box::new(
             crate::opt_in::text_unicode_normalize::TextUnicodeNormalize,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-unit-notation", 1) => Ok(Box::new(
+            crate::opt_in::text_unit_notation::TextUnitNotation,
         )),
         ("experimental.whitespace-collapse", 1) => Ok(Box::new(
             crate::nodes::whitespace_collapse::WhitespaceCollapse,

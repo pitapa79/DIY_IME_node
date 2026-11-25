@@ -1,0 +1,54 @@
+{
+  "kind": "experimental.text-similarity",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "a": "",
+      "b": "",
+      "expected": "1"
+    },
+    {
+      "a": "abc",
+      "b": "",
+      "expected": "0"
+    },
+    {
+      "a": "abc",
+      "b": "abc",
+      "expected": "1"
+    },
+    {
+      "a": "abc",
+      "b": "abd",
+      "expected": "0.666667"
+    },
+    {
+      "a": "kitten",
+      "b": "sitting",
+      "expected": "0.571429"
+    },
+    {
+      "a": "あいう",
+      "b": "あいえ",
+      "expected": "0.666667"
+    },
+    {
+      "a": "ab",
+      "b": "ba",
+      "expected": "0"
+    },
+    {
+      "a": "aaaa",
+      "b": "aa",
+      "expected": "0.5"
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "x": 1
+    },
+    [],
+    "x"
+  ]
+}

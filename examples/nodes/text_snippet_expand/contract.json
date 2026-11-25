@@ -1,0 +1,108 @@
+{
+  "kind": "experimental.text-snippet-expand",
+  "version": 1,
+  "defaultConfig": {
+    "template": "{a}"
+  },
+  "cases": [
+    {
+      "id": "single-placeholder",
+      "inputs": {
+        "a": "田中"
+      },
+      "config": {
+        "template": "こんにちは{a}さん"
+      },
+      "expected": "こんにちは田中さん"
+    },
+    {
+      "id": "two-placeholders",
+      "inputs": {
+        "a": "A",
+        "b": "B"
+      },
+      "config": {
+        "template": "{a}と{b}"
+      },
+      "expected": "AとB"
+    },
+    {
+      "id": "escaped-braces",
+      "inputs": {},
+      "config": {
+        "template": "{{a}}"
+      },
+      "expected": "{a}"
+    },
+    {
+      "id": "repeated-placeholder",
+      "inputs": {
+        "a": "x"
+      },
+      "config": {
+        "template": "{a}{a}"
+      },
+      "expected": "xx"
+    },
+    {
+      "id": "no-placeholder",
+      "inputs": {},
+      "config": {
+        "template": "固定文"
+      },
+      "expected": "固定文"
+    },
+    {
+      "id": "used-port-unconnected",
+      "inputs": {},
+      "config": {
+        "template": "{c}"
+      },
+      "error": "missing-input"
+    },
+    {
+      "id": "values-are-not-rescanned",
+      "inputs": {
+        "a": "{b}",
+        "b": "B"
+      },
+      "config": {
+        "template": "{a}"
+      },
+      "expected": "{b}"
+    },
+    {
+      "id": "unused-port-may-stay-unconnected",
+      "inputs": {
+        "a": "A"
+      },
+      "config": {
+        "template": "{a}"
+      },
+      "expected": "A"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "template": "{x}"
+    },
+    {
+      "template": "{a"
+    },
+    {
+      "template": "}"
+    },
+    {
+      "template": "{ab}"
+    },
+    {
+      "template": 1
+    },
+    {
+      "template": "{a}",
+      "extra": 1
+    },
+    []
+  ]
+}

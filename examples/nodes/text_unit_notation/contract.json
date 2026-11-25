@@ -1,0 +1,84 @@
+{
+  "kind": "experimental.text-unit-notation",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "input": "10 kg",
+      "config": {},
+      "expected": "10キログラム"
+    },
+    {
+      "input": "10kg",
+      "config": {},
+      "expected": "10キログラム"
+    },
+    {
+      "input": "重さは3.5 kg、長さは2 mです",
+      "config": {},
+      "expected": "重さは3.5キログラム、長さは2メートルです"
+    },
+    {
+      "input": "100 mLと1 L",
+      "config": {},
+      "expected": "100ミリリットルと1リットル"
+    },
+    {
+      "input": "5 Kg",
+      "config": {},
+      "expected": "5 Kg"
+    },
+    {
+      "input": "10 kgの荷物と20 kgの荷物",
+      "config": {},
+      "expected": "10キログラムの荷物と20キログラムの荷物"
+    },
+    {
+      "input": "時速60 km/h",
+      "config": {},
+      "expected": "時速60キロメートル毎時"
+    },
+    {
+      "input": "面積は5 m²",
+      "config": {},
+      "expected": "面積は5平方メートル"
+    },
+    {
+      "input": "気温25℃",
+      "config": {},
+      "expected": "気温25度"
+    },
+    {
+      "input": "50%",
+      "config": {},
+      "expected": "50パーセント"
+    },
+    {
+      "input": "1,000 kg",
+      "config": {},
+      "expected": "1,000キログラム"
+    },
+    {
+      "input": "単位なし123と未知の10 xyz",
+      "config": {},
+      "expected": "単位なし123と未知の10 xyz"
+    },
+    {
+      "input": "3 mmと3 m",
+      "config": {},
+      "expected": "3ミリメートルと3メートル"
+    },
+    {
+      "input": "",
+      "config": {},
+      "expected": ""
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "table": "default"
+    },
+    [],
+    "x"
+  ]
+}
