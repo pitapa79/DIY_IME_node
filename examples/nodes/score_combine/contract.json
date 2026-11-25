@@ -1,0 +1,345 @@
+{
+  "kind": "experimental.score-combine",
+  "version": 1,
+  "defaultConfig": {
+    "weightA": 1.0,
+    "weightB": 1.0,
+    "missing": "zero"
+  },
+  "cases": [
+    {
+      "id": "sum-shared-and-keep-order",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 1.0
+          },
+          {
+            "value": {
+              "text": "Y"
+            },
+            "score": 2.0
+          }
+        ]
+      },
+      "b": {
+        "choice": [
+          {
+            "value": {
+              "text": "Y"
+            },
+            "score": 3.0
+          },
+          {
+            "value": {
+              "text": "Z"
+            },
+            "score": 4.0
+          }
+        ]
+      },
+      "config": {
+        "weightA": 1.0,
+        "weightB": 1.0,
+        "missing": "zero"
+      },
+      "expected": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 1.0
+          },
+          {
+            "value": {
+              "text": "Y"
+            },
+            "score": 5.0
+          },
+          {
+            "value": {
+              "text": "Z"
+            },
+            "score": 4.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "duplicates-within-one-input-sum-first",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 1.0
+          },
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 2.0
+          }
+        ]
+      },
+      "b": {
+        "choice": []
+      },
+      "config": {
+        "weightA": 1.0,
+        "weightB": 1.0,
+        "missing": "zero"
+      },
+      "expected": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 3.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "weights-apply",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 3.0
+          }
+        ]
+      },
+      "b": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 4.0
+          }
+        ]
+      },
+      "config": {
+        "weightA": 2.0,
+        "weightB": 0.5,
+        "missing": "zero"
+      },
+      "expected": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 8.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "intersect-drops-one-sided",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 1.0
+          },
+          {
+            "value": {
+              "text": "Y"
+            },
+            "score": 2.0
+          }
+        ]
+      },
+      "b": {
+        "choice": [
+          {
+            "value": {
+              "text": "Y"
+            },
+            "score": 3.0
+          },
+          {
+            "value": {
+              "text": "Z"
+            },
+            "score": 4.0
+          }
+        ]
+      },
+      "config": {
+        "weightA": 1.0,
+        "weightB": 1.0,
+        "missing": "intersect"
+      },
+      "expected": {
+        "choice": [
+          {
+            "value": {
+              "text": "Y"
+            },
+            "score": 5.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "none-score-counts-as-zero",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": null
+          }
+        ]
+      },
+      "b": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 2.0
+          }
+        ]
+      },
+      "config": {
+        "weightA": 1.0,
+        "weightB": 1.0,
+        "missing": "zero"
+      },
+      "expected": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 2.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "meta-distinguishes-identity",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "X",
+              "reading": "えっくす"
+            },
+            "score": 1.0
+          }
+        ]
+      },
+      "b": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 1.0
+          }
+        ]
+      },
+      "config": {
+        "weightA": 1.0,
+        "weightB": 1.0,
+        "missing": "zero"
+      },
+      "expected": {
+        "choice": [
+          {
+            "value": {
+              "text": "X",
+              "reading": "えっくす"
+            },
+            "score": 1.0
+          },
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "id": "both-empty",
+      "a": {
+        "choice": []
+      },
+      "b": {
+        "choice": []
+      },
+      "config": {
+        "weightA": 1.0,
+        "weightB": 1.0,
+        "missing": "zero"
+      },
+      "expected": {
+        "choice": []
+      }
+    },
+    {
+      "id": "overflow-is-an-error",
+      "a": {
+        "choice": [
+          {
+            "value": {
+              "text": "X"
+            },
+            "score": 1e+308
+          }
+        ]
+      },
+      "b": {
+        "choice": []
+      },
+      "config": {
+        "weightA": 10.0,
+        "weightB": 1.0,
+        "missing": "zero"
+      },
+      "error": "non-finite-score"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "weightA": 1.0,
+      "weightB": 1.0
+    },
+    {
+      "weightA": 1.0,
+      "weightB": 1.0,
+      "missing": "drop"
+    },
+    {
+      "weightA": "1",
+      "weightB": 1.0,
+      "missing": "zero"
+    },
+    {
+      "weightA": 1.0,
+      "weightB": 1.0,
+      "missing": "zero",
+      "extra": 1
+    },
+    []
+  ]
+}

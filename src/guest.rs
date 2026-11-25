@@ -185,6 +185,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::opt_in::packet_compare::PacketCompare))
         }
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.score-combine", 1) => {
+            Ok(Box::new(crate::opt_in::score_combine::ScoreCombine))
+        }
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-skk-dictionary", 1) => Ok(Box::new(

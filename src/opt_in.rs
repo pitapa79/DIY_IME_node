@@ -24,6 +24,8 @@ pub mod packet_compare;
 pub mod packet_test_data;
 #[path = "nodes/packet_validate_constraints/mod.rs"]
 pub mod packet_validate_constraints;
+#[path = "nodes/score_combine/mod.rs"]
+pub mod score_combine;
 #[path = "nodes/score_format/mod.rs"]
 pub mod score_format;
 #[path = "nodes/text_compare/mod.rs"]
@@ -81,6 +83,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(score_combine::ScoreCombine)?;
     registry.register(packet_compare::PacketCompare)?;
     registry.register(flow_input_select::FlowInputSelect)?;
     registry.register(dictionary_segment::DictionarySegment)?;
