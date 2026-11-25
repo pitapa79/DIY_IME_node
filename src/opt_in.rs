@@ -9,6 +9,8 @@ pub mod dictionary_reverse;
 pub mod flow_branch;
 #[path = "nodes/packet_test_data/mod.rs"]
 pub mod packet_test_data;
+#[path = "nodes/score_format/mod.rs"]
+pub mod score_format;
 #[path = "nodes/text_compare/mod.rs"]
 pub mod text_compare;
 #[path = "nodes/text_date_format/mod.rs"]
@@ -50,6 +52,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(score_format::ScoreFormat)?;
     registry.register(flow_branch::FlowBranch)?;
     registry.register(packet_test_data::PacketTestData)?;
     registry.register(text_hiragana_to_romaji::TextHiraganaToRomaji)?;

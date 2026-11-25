@@ -140,6 +140,8 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.packet-rebuild", 1) => {
             Ok(Box::new(crate::nodes::packet_rebuild::PacketRebuild))
         }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.score-format", 1) => Ok(Box::new(crate::opt_in::score_format::ScoreFormat)),
         ("experimental.score-add", 1) => Ok(Box::new(crate::nodes::score_add::ScoreAdd)),
         ("experimental.score-multiply", 1) => {
             Ok(Box::new(crate::nodes::score_multiply::ScoreMultiply))

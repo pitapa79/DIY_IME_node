@@ -136,6 +136,14 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$scoreFormat = 'experimental.score-format'
+$officialScoreFormat = Invoke-Batch $OfficialWasm @((Request $scoreFormat @{method='describe'})) 'official-score-format'
+if ($officialScoreFormat[0].ok -or $officialScoreFormat[0].error.code -ne 'unknown-kind') { throw 'score format leaked into official Wasm' }
+$scoreInput = @{state='data'; packet=@{version=1; root=@{type='choice'; options=@(@{value=@{type='text'; text='large'}; score=1.0e308})}}}
+$scoreRequests = @((Request $scoreFormat @{method='execute'; config=@{decimals=2; percent=$true}; inputs=@{in=$scoreInput}}))
+$scoreReplies = Invoke-Batch $Wasm $scoreRequests 'score-format'
+$formattedScore = $scoreReplies[0].data.out.packet.root.items[0].text
+if (-not $scoreReplies[0].ok -or $formattedScore.Length -lt 310 -or -not $formattedScore.EndsWith('00.00%')) { throw 'Wasm percent formatting overflowed' }
 $flowBranch = 'experimental.flow-branch'
 $officialFlowBranch = Invoke-Batch $OfficialWasm @((Request $flowBranch @{method='describe'})) 'official-flow-branch'
 if ($officialFlowBranch[0].ok -or $officialFlowBranch[0].error.code -ne 'unknown-kind') { throw 'flow branch leaked into official Wasm' }
