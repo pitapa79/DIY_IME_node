@@ -194,6 +194,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-replace", 1) => Ok(Box::new(crate::nodes::text_replace::TextReplace)),
         ("experimental.text-split", 1) => Ok(Box::new(crate::nodes::text_split::TextSplit)),
         ("experimental.text-suffix", 1) => Ok(Box::new(crate::nodes::text_suffix::TextSuffix)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-time-format", 1) => {
+            Ok(Box::new(crate::opt_in::text_time_format::TextTimeFormat))
+        }
         ("experimental.text-trim", 1) => Ok(Box::new(crate::nodes::text_trim::TextTrim)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-unicode-normalize", 1) => Ok(Box::new(

@@ -21,6 +21,8 @@ pub mod text_number_notation;
 pub mod text_regex_replace;
 #[path = "nodes/text_regex_search/mod.rs"]
 pub mod text_regex_search;
+#[path = "nodes/text_time_format/mod.rs"]
+pub mod text_time_format;
 #[path = "nodes/text_unicode_normalize/mod.rs"]
 pub mod text_unicode_normalize;
 
@@ -36,5 +38,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(dictionary_reverse::DictionaryReverse)?;
     registry.register(text_hiragana_to_romaji::TextHiraganaToRomaji)?;
     registry.register(text_number_notation::TextNumberNotation)?;
-    registry.register(text_date_format::TextDateFormat)
+    registry.register(text_date_format::TextDateFormat)?;
+    registry.register(text_time_format::TextTimeFormat)
 }

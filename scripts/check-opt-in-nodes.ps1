@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format')
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format')
 $additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
 $additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
 $additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
@@ -154,6 +154,13 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
 
+$timeRequests = @(
+ (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='japanese'}; inputs=@{in=(TextPacket '00:05:07')}})
+ (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='h12'}; inputs=@{in=(TextPacket '24:00')}})
+)
+$timeReplies = Invoke-Batch $Wasm $timeRequests 'time-format'
+if (-not $timeReplies[0].ok -or $timeReplies[0].data.out.packet.root.text -cne '午前12時05分07秒') { throw 'Wasm time format failed at midnight' }
+if ($timeReplies[1].ok -or $timeReplies[1].error.code -ne 'invalid-time') { throw 'Wasm time format accepted 24:00 in the twelve hour clock' }
 $romajiRequests = @(
  (Request 'experimental.text-hiragana-to-romaji' @{method='execute'; config=@{system='hepburn'}; inputs=@{in=(TextPacket 'まっちゃとっあ')}})
 )
