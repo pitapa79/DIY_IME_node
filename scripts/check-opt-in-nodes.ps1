@@ -148,7 +148,62 @@ $languageReplies = Invoke-Batch $Wasm $languageRequests 'language-detect'
 if (-not $languageReplies[0].ok -or $languageReplies[0].data.out.packet.root.text -cne 'und') { throw 'Wasm language detect misclassified mixed scripts' }
 if (-not $languageReplies[1].ok -or $languageReplies[1].data.out.packet.root.text -cne 'und') { throw 'Wasm language detect classified punctuation as kana' }
 if (-not $languageReplies[2].ok -or $languageReplies[2].data.out.packet.root.text -cne 'ja') { throw 'Wasm language detect missed kana' }
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length')
+$randomSelect = 'experimental.choice-random-select'
+$officialRandomSelect = Invoke-Batch $OfficialWasm @((Request $randomSelect @{method='describe'})) 'official-random-select'
+if ($officialRandomSelect[0].ok -or $officialRandomSelect[0].error.code -ne 'unknown-kind') { throw 'random select leaked into official Wasm' }
+$choiceInput = @{state='data'; packet=@{version=1; root=@{type='choice'; options=@(@{value=@{type='text'; text='あ'}}, @{value=@{type='text'; text='い'}}, @{value=@{type='text'; text='う'}})}}}
+$emptyChoice = @{state='data'; packet=@{version=1; root=@{type='choice'; options=@()}}}
+$randomRequests = @(
+ (Request $randomSelect @{method='execute'; config=@{seed=0}; inputs=@{in=$choiceInput}})
+ (Request $randomSelect @{method='execute'; config=@{seed=0}; inputs=@{in=$emptyChoice}})
+)
+$randomReplies = Invoke-Batch $Wasm $randomRequests 'random-select'
+if (-not $randomReplies[0].ok -or $randomReplies[0].data.out.packet.root.text -cne 'う') { throw 'Wasm random select returned the wrong candidate' }
+if (-not $randomReplies[1].ok -or $randomReplies[1].data.out.state -ne 'noOutput') { throw 'Wasm random select did not handle an empty choice' }
+$constraints = 'experimental.packet-validate-constraints'
+$officialConstraints = Invoke-Batch $OfficialWasm @((Request $constraints @{method='describe'})) 'official-constraints'
+if ($officialConstraints[0].ok -or $officialConstraints[0].error.code -ne 'unknown-kind') { throw 'constraints node leaked into official Wasm' }
+$constraintRequests = @(
+ (Request $constraints @{method='execute'; config=@{maxCandidates=$null; maxTextLength=[long]4294967296; allowedRoots=@()}; inputs=@{in=(TextPacket 'a')}})
+ (Request $constraints @{method='execute'; config=@{maxCandidates=$null; maxTextLength=1; allowedRoots=@()}; inputs=@{in=(TextPacket 'あ😀')}})
+)
+$constraintReplies = Invoke-Batch $Wasm $constraintRequests 'constraints'
+if (-not $constraintReplies[0].ok -or $constraintReplies[0].data.valid.packet.root.text -cne 'a') { throw 'Wasm constraints wrapped a large limit' }
+if (-not $constraintReplies[1].ok -or $constraintReplies[1].data.invalid.packet.root.text -cne 'あ😀') { throw 'Wasm constraints did not count Unicode characters' }
+$scoreFormat = 'experimental.score-format'
+$officialScoreFormat = Invoke-Batch $OfficialWasm @((Request $scoreFormat @{method='describe'})) 'official-score-format'
+if ($officialScoreFormat[0].ok -or $officialScoreFormat[0].error.code -ne 'unknown-kind') { throw 'score format leaked into official Wasm' }
+$scoreInput = @{state='data'; packet=@{version=1; root=@{type='choice'; options=@(@{value=@{type='text'; text='large'}; score=1.0e308})}}}
+$scoreRequests = @((Request $scoreFormat @{method='execute'; config=@{decimals=2; percent=$true}; inputs=@{in=$scoreInput}}))
+$scoreReplies = Invoke-Batch $Wasm $scoreRequests 'score-format'
+$formattedScore = $scoreReplies[0].data.out.packet.root.items[0].text
+if (-not $scoreReplies[0].ok -or $formattedScore.Length -lt 310 -or -not $formattedScore.EndsWith('00.00%')) { throw 'Wasm percent formatting overflowed' }
+$flowBranch = 'experimental.flow-branch'
+$officialFlowBranch = Invoke-Batch $OfficialWasm @((Request $flowBranch @{method='describe'})) 'official-flow-branch'
+if ($officialFlowBranch[0].ok -or $officialFlowBranch[0].error.code -ne 'unknown-kind') { throw 'flow branch leaked into official Wasm' }
+$flowBranchRequests = @(
+ (Request $flowBranch @{method='execute'; config=@{}; inputs=@{data=(TextPacket 'payload'); selector=(TextPacket 'b')}})
+ (Request $flowBranch @{method='execute'; config=@{}; inputs=@{data=(TextPacket 'payload'); selector=(TextPacket 'c')}})
+ (Request $flowBranch @{method='execute'; config=@{}; inputs=@{data=@{state='noOutput'}; selector=(TextPacket 'a')}})
+)
+$flowBranchReplies = Invoke-Batch $Wasm $flowBranchRequests 'flow-branch'
+if (-not $flowBranchReplies[0].ok -or $flowBranchReplies[0].data.b.packet.root.text -cne 'payload' -or $flowBranchReplies[0].data.a.state -ne 'noOutput') { throw 'Wasm flow branch routing failed' }
+if ($flowBranchReplies[1].ok -or $flowBranchReplies[1].error.code -ne 'invalid-selector') { throw 'Wasm flow branch accepted an invalid selector' }
+if (-not $flowBranchReplies[2].ok -or $flowBranchReplies[2].data.a.state -ne 'noOutput' -or $flowBranchReplies[2].data.b.state -ne 'noOutput') { throw 'Wasm flow branch did not propagate NoOutput' }
+$testData = 'experimental.packet-test-data'
+$officialTestData = Invoke-Batch $OfficialWasm @((Request $testData @{method='describe'})) 'official-packet-test-data'
+if ($officialTestData[0].ok -or $officialTestData[0].error.code -ne 'unknown-kind') { throw 'packet test data leaked into official Wasm' }
+$testDataRequests = @(
+ (Request $testData @{method='execute'; config=@{shape='text'; size=5; seed=0}; inputs=@{trigger=(TextPacket 'go')}})
+ (Request $testData @{method='execute'; config=@{shape='choice'; size=2; seed=0}; inputs=@{trigger=(TextPacket 'go')}})
+ (Request $testData @{method='execute'; config=@{shape='text'; size=5; seed=0}; inputs=@{trigger=@{state='noOutput'}}})
+)
+$testDataReplies = Invoke-Batch $Wasm $testDataRequests 'packet-test-data'
+if (-not $testDataReplies[0].ok -or $testDataReplies[0].data.out.packet.root.text -cne 'つけあとう') { throw 'Wasm packet test data text generation failed' }
+$testChoice = $testDataReplies[1].data.out.packet.root
+if (-not $testDataReplies[1].ok -or $testChoice.type -ne 'choice' -or $testChoice.options.Count -ne 2 -or $testChoice.options[0].value.text -cne 'つけあ' -or $testChoice.options[0].score -ne 0.444) { throw 'Wasm packet test data choice generation failed' }
+if (-not $testDataReplies[2].ok -or $testDataReplies[2].data.out.state -ne 'noOutput') { throw 'Wasm packet test data did not propagate NoOutput' }
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract')
 $additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
 $additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
 $additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
@@ -165,6 +220,24 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$extractRequests = @((Request 'experimental.text-number-unit-extract' @{method='execute'; config=@{limit=64}; inputs=@{in=(TextPacket '😀-2.5 kg')}}))
+$extractReplies = Invoke-Batch $Wasm $extractRequests 'number-unit-extract'
+$extractRoot = $extractReplies[0].data.out.packet.root
+if (-not $extractReplies[0].ok -or $extractRoot.type -ne 'sequence' -or $extractRoot.items.Count -ne 1 -or $extractRoot.items[0].text -cne '-2.5 kg' -or ($extractRoot.items[0].meta.sourceSpan -join ',') -ne '1,8') { throw 'Wasm number-unit extraction or Unicode span failed' }
+
+$splitRequests = @((Request 'experimental.text-script-split' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'カ・ナ')}}))
+$splitReplies = Invoke-Batch $Wasm $splitRequests 'script-split'
+$splitRoot = $splitReplies[0].data.out.packet.root
+if (-not $splitReplies[0].ok -or $splitRoot.type -ne 'sequence' -or $splitRoot.items.Count -ne 3 -or $splitRoot.items[1].text -cne '・') { throw 'Wasm script split did not separate punctuation' }
+
+$classifyRequests = @(
+ (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'a・')}})
+ (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'かな漢字')}})
+)
+$classifyReplies = Invoke-Batch $Wasm $classifyRequests 'script-classify'
+if (-not $classifyReplies[0].ok -or $classifyReplies[0].data.out.packet.root.text -cne 'latin') { throw 'Wasm script classification treated punctuation as kana' }
+if (-not $classifyReplies[1].ok -or $classifyReplies[1].data.out.packet.root.text -cne 'mixed') { throw 'Wasm script classification did not detect mixed scripts' }
 
 $lengthInput = 'か' + [char]0x3099
 $lengthRequests = @(
