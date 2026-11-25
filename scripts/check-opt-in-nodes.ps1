@@ -161,3 +161,31 @@ $unitRequests = @(
 $unitReplies = Invoke-Batch $Wasm $unitRequests 'unit-notation'
 if (-not $unitReplies[0].ok -or $unitReplies[0].data.out.packet.root.text -cne '10キロメートルと3ミリグラム') { throw 'Wasm unit notation conversion failed' }
 if (-not $unitReplies[1].ok -or $unitReplies[1].data.out.packet.root.text -cne '5Kg') { throw 'Wasm unit notation accepted wrong case' }
+$timeRequests = @(
+ (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='japanese'}; inputs=@{in=(TextPacket '00:05:07')}})
+ (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='h12'}; inputs=@{in=(TextPacket '24:00')}})
+)
+$timeReplies = Invoke-Batch $Wasm $timeRequests 'time-format'
+if (-not $timeReplies[0].ok -or $timeReplies[0].data.out.packet.root.text -cne '午前12時05分07秒') { throw 'Wasm time format failed at midnight' }
+if ($timeReplies[1].ok -or $timeReplies[1].error.code -ne 'invalid-time') { throw 'Wasm time format accepted 24:00 in the twelve hour clock' }
+$romajiRequests = @(
+ (Request 'experimental.text-hiragana-to-romaji' @{method='execute'; config=@{system='hepburn'}; inputs=@{in=(TextPacket 'まっちゃとっあ')}})
+)
+$romajiReplies = Invoke-Batch $Wasm $romajiRequests 'hiragana-to-romaji'
+if (-not $romajiReplies[0].ok -or $romajiReplies[0].data.out.packet.root.text -cne "matchato'a") { throw 'Wasm hiragana-to-romaji conversion failed' }
+
+$numberRequests = @(
+ (Request 'experimental.text-number-notation' @{method='execute'; config=@{mode='arabic'}; inputs=@{in=(TextPacket '一万二千三百四十五')}})
+ (Request 'experimental.text-number-notation' @{method='execute'; config=@{mode='arabic'}; inputs=@{in=(TextPacket '十百')}})
+)
+$numberReplies = Invoke-Batch $Wasm $numberRequests 'number-notation'
+if (-not $numberReplies[0].ok -or $numberReplies[0].data.out.packet.root.text -cne '12345') { throw 'Wasm number notation conversion failed' }
+if ($numberReplies[1].ok -or $numberReplies[1].error.code -ne 'invalid-number') { throw 'Wasm number notation accepted out-of-order units' }
+
+$dateRequests = @(
+ (Request 'experimental.text-date-format' @{method='execute'; config=@{from='iso'; to='japanese'}; inputs=@{in=(TextPacket '0001-01-01')}})
+ (Request 'experimental.text-date-format' @{method='execute'; config=@{from='iso'; to='japanese'}; inputs=@{in=(TextPacket '1900-02-29')}})
+)
+$dateReplies = Invoke-Batch $Wasm $dateRequests 'date-format'
+if (-not $dateReplies[0].ok -or $dateReplies[0].data.out.packet.root.text -cne '0001年1月1日') { throw 'Wasm date format did not preserve the four digit year' }
+if ($dateReplies[1].ok -or $dateReplies[1].error.code -ne 'invalid-date') { throw 'Wasm date format accepted an invalid leap day' }
