@@ -10,6 +10,8 @@ pub mod dictionary_reverse;
 pub use crate::nodes::paragraph_split;
 #[path = "nodes/dictionary_segment/mod.rs"]
 pub mod dictionary_segment;
+#[path = "nodes/dictionary_suffix/mod.rs"]
+pub mod dictionary_suffix;
 #[path = "nodes/flow_branch/mod.rs"]
 pub mod flow_branch;
 #[path = "nodes/packet_test_data/mod.rs"]
@@ -74,6 +76,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
     registry.register(dictionary_segment::DictionarySegment)?;
+    registry.register(dictionary_suffix::DictionarySuffix)?;
     registry.register(text_skk_dictionary::TextSkkDictionary)?;
     registry.register(text_jis_kana::TextJisKana)?;
     registry.register(text_symbol_notation::TextSymbolNotation)?;
