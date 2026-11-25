@@ -136,6 +136,14 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$kanjiVariants = 'experimental.text-kanji-variants'
+$officialKanjiVariants = Invoke-Batch $OfficialWasm @((Request $kanjiVariants @{method='describe'})) 'official-kanji-variants'
+if ($officialKanjiVariants[0].ok -or $officialKanjiVariants[0].error.code -ne 'unknown-kind') { throw 'kanji variants leaked into official Wasm' }
+$kanjiVariantRequests = @((Request $kanjiVariants @{method='execute'; config=@{}; inputs=@{in=(TextPacket '崎')}}))
+$kanjiVariantReplies = Invoke-Batch $Wasm $kanjiVariantRequests 'kanji-variants'
+$kanjiVariantRoot = $kanjiVariantReplies[0].data.out.packet.root
+if (-not $kanjiVariantReplies[0].ok -or $kanjiVariantRoot.type -ne 'choice' -or ($kanjiVariantRoot.options.value.text -join ',') -cne '崎,﨑,嵜') { throw 'Wasm kanji variants candidate order failed' }
+
 $kanjiForm = 'experimental.text-kanji-form'
 $officialKanjiForm = Invoke-Batch $OfficialWasm @((Request $kanjiForm @{method='describe'})) 'official-kanji-form'
 if ($officialKanjiForm[0].ok -or $officialKanjiForm[0].error.code -ne 'unknown-kind') { throw 'kanji form leaked into official Wasm' }

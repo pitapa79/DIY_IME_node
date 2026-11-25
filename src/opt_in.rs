@@ -26,6 +26,8 @@ pub mod text_hiragana_to_romaji;
 pub mod text_kana_width;
 #[path = "nodes/text_kanji_form/mod.rs"]
 pub mod text_kanji_form;
+#[path = "nodes/text_kanji_variants/mod.rs"]
+pub mod text_kanji_variants;
 #[path = "nodes/text_language_detect/mod.rs"]
 pub mod text_language_detect;
 #[path = "nodes/text_length/mod.rs"]
@@ -63,6 +65,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_kanji_variants::TextKanjiVariants)?;
     registry.register(text_kanji_form::TextKanjiForm)?;
     registry.register(paragraph_split::ParagraphSplit)?;
     registry.register(text_quantity_format::TextQuantityFormat)?;

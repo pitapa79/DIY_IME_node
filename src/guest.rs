@@ -179,6 +179,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-kanji-variants", 1) => Ok(Box::new(
+            crate::opt_in::text_kanji_variants::TextKanjiVariants,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-kanji-form", 1) => {
             Ok(Box::new(crate::opt_in::text_kanji_form::TextKanjiForm))
         }
