@@ -86,6 +86,8 @@ fn sokuon_and_hatsuon_rules() {
     assert_eq!(convert("まっちゃ"), "matcha");
     assert_eq!(convert("いっしょ"), "issho");
     assert_eq!(convert("あっ"), "a'");
+    assert_eq!(convert("っあ"), "'a");
+    assert_eq!(convert("っぃ"), "'i");
     // Hatsuon takes an apostrophe only before vowels and y.
     assert_eq!(convert("しんよう"), "shin'you");
     assert_eq!(convert("かんい"), "kan'i");
