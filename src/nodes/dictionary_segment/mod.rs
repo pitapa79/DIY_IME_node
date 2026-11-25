@@ -26,6 +26,8 @@ pub const MAX_LIMIT: usize = 1024;
 pub const DEFAULT_LIMIT: usize = 64;
 /// 最良優先探索の展開上限。決定的に打ち切り、得られた候補だけを返す。
 const MAX_EXPANSIONS: usize = 100_000;
+const MAX_EDGE_CHECKS: usize = 250_000;
+const MAX_STATE_BYTES: usize = 16 * 1024 * 1024;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct SegmentDictionary {
@@ -69,6 +71,9 @@ impl SegmentDictionary {
         if chars.is_empty() {
             return results;
         }
+        if !self.entries.keys().any(|reading| text.contains(reading)) {
+            return vec![vec![text.to_owned()]];
+        }
         let mut heap = BinaryHeap::new();
         heap.push(State {
             unknown: 0,
@@ -76,7 +81,9 @@ impl SegmentDictionary {
             position: 0,
         });
         let mut expansions = 0;
-        while let Some(state) = heap.pop() {
+        let mut edge_checks = 0;
+        let mut state_bytes = 0;
+        'search: while let Some(state) = heap.pop() {
             if state.position == chars.len() {
                 results.push(state.segments);
                 if results.len() >= limit {
@@ -95,11 +102,22 @@ impl SegmentDictionary {
             let remaining = chars.len() - state.position;
             let mut piece = String::new();
             for len in 1..=remaining {
+                if edge_checks == MAX_EDGE_CHECKS {
+                    break 'search;
+                }
+                edge_checks += 1;
                 piece.push(chars[state.position + len - 1]);
                 let known = self.entries.contains_key(piece.as_str());
                 // 未知区間は連続させない（連続する未知文字は1区間にまとめる）。
                 // 既知になる長さまでは、未知でも走査だけは続ける。
                 if known || !last_unknown {
+                    // Charge owned paths even after they leave the heap.
+                    state_bytes += 2 * std::mem::size_of::<State>()
+                        + (state.segments.len() + 1) * std::mem::size_of::<String>()
+                        + (state.position + len) * 4;
+                    if state_bytes > MAX_STATE_BYTES {
+                        break 'search;
+                    }
                     heap.push(State {
                         unknown: state.unknown + if known { 0 } else { len },
                         segments: state

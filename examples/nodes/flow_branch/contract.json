@@ -1,0 +1,39 @@
+{
+  "kind": "experimental.flow-branch",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "data": "payload",
+      "selector": "a",
+      "routed": "a"
+    },
+    {
+      "data": "payload",
+      "selector": "b",
+      "routed": "b"
+    },
+    {
+      "data": "payload",
+      "selector": "c",
+      "error": "invalid-selector"
+    },
+    {
+      "data": null,
+      "selector": "a",
+      "noOutput": true
+    },
+    {
+      "data": "payload",
+      "selector": null,
+      "noOutput": true
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "x": 1
+    },
+    [],
+    "x"
+  ]
+}

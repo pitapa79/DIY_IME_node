@@ -187,6 +187,10 @@ fn convert(text: &str) -> String {
             // 促音: 後続音節の頭子音を重ねる。ch の前は t を重ねる。
             // 後続が音節でない（母音・ん・文末・非ひらがな）場合は ' とする。
             match syllable_at(&chars, index + 1) {
+                Some((romaji, _)) if romaji.starts_with(['a', 'i', 'u', 'e', 'o']) => {
+                    output.push('\'');
+                    index += 1;
+                }
                 Some((romaji, len)) => {
                     if let Some(stripped) = romaji.strip_prefix("ch") {
                         output.push('t');

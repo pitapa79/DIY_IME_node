@@ -133,6 +133,11 @@ fn levenshtein(a: &[char], b: &[char], max: usize) -> Option<usize> {
         let hi = (j + max).min(n);
         if lo == 0 {
             cur[0] = j;
+        } else {
+            cur[lo - 1] = inf;
+        }
+        if hi < n {
+            cur[hi + 1] = inf;
         }
         for i in lo.max(1)..=hi {
             let cost = usize::from(a[i - 1] != b[j - 1]);
@@ -142,7 +147,6 @@ fn levenshtein(a: &[char], b: &[char], max: usize) -> Option<usize> {
             }
         }
         std::mem::swap(&mut prev, &mut cur);
-        cur.fill(inf);
         if prev[lo..=hi].iter().all(|&value| value > max) {
             return None;
         }
