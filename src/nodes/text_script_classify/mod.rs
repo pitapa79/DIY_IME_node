@@ -28,6 +28,7 @@ fn is_combining(c: char) -> bool {
 }
 fn base_class(c: char) -> Class {
     match c as u32 {
+        0x30A0 | 0x30FB => Class::Other,
         0x3040..=0x309F => Class::Hiragana,
         0x30A0..=0x30FF | 0xFF66..=0xFF9D => Class::Katakana,
         0x3400..=0x4DBF | 0x4E00..=0x9FFF | 0x3005 | 0x3006 => Class::Kanji,

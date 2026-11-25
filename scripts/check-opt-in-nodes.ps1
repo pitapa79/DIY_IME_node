@@ -154,6 +154,14 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
 
+$classifyRequests = @(
+ (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'a・')}})
+ (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'かな漢字')}})
+)
+$classifyReplies = Invoke-Batch $Wasm $classifyRequests 'script-classify'
+if (-not $classifyReplies[0].ok -or $classifyReplies[0].data.out.packet.root.text -cne 'latin') { throw 'Wasm script classification treated punctuation as kana' }
+if (-not $classifyReplies[1].ok -or $classifyReplies[1].data.out.packet.root.text -cne 'mixed') { throw 'Wasm script classification did not detect mixed scripts' }
+
 $lengthInput = 'か' + [char]0x3099
 $lengthRequests = @(
  (Request 'experimental.text-length' @{method='execute'; config=@{unit='grapheme'}; inputs=@{in=(TextPacket $lengthInput)}})
