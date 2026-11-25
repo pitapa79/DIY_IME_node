@@ -153,3 +153,9 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$romajiRequests = @(
+ (Request 'experimental.text-hiragana-to-romaji' @{method='execute'; config=@{system='hepburn'}; inputs=@{in=(TextPacket 'まっちゃとっあ')}})
+)
+$romajiReplies = Invoke-Batch $Wasm $romajiRequests 'hiragana-to-romaji'
+if (-not $romajiReplies[0].ok -or $romajiReplies[0].data.out.packet.root.text -cne "matchato'a") { throw 'Wasm hiragana-to-romaji conversion failed' }
