@@ -153,3 +153,12 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$lengthInput = 'か' + [char]0x3099
+$lengthRequests = @(
+ (Request 'experimental.text-length' @{method='execute'; config=@{unit='grapheme'}; inputs=@{in=(TextPacket $lengthInput)}})
+ (Request 'experimental.text-length' @{method='execute'; config=@{unit='scalar'}; inputs=@{in=(TextPacket $lengthInput)}})
+)
+$lengthReplies = Invoke-Batch $Wasm $lengthRequests 'text-length'
+if (-not $lengthReplies[0].ok -or $lengthReplies[0].data.out.packet.root.text -cne '1') { throw 'Wasm grapheme count failed' }
+if (-not $lengthReplies[1].ok -or $lengthReplies[1].data.out.packet.root.text -cne '2') { throw 'Wasm scalar count failed' }
