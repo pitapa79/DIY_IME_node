@@ -9,6 +9,8 @@ pub mod dictionary_reverse;
 pub mod text_compare;
 #[path = "nodes/text_kana_width/mod.rs"]
 pub mod text_kana_width;
+#[path = "nodes/text_kanji_form/mod.rs"]
+pub mod text_kanji_form;
 #[path = "nodes/text_mapping/mod.rs"]
 pub mod text_mapping;
 #[path = "nodes/text_regex_replace/mod.rs"]
@@ -27,5 +29,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_regex_search::TextRegexSearch)?;
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
-    registry.register(dictionary_reverse::DictionaryReverse)
+    registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_kanji_form::TextKanjiForm)
 }
