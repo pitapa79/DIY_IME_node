@@ -9,6 +9,8 @@ pub mod dictionary_prefix;
 pub mod dictionary_reverse;
 #[path = "nodes/text_compare/mod.rs"]
 pub mod text_compare;
+#[path = "nodes/text_hiragana_to_romaji/mod.rs"]
+pub mod text_hiragana_to_romaji;
 #[path = "nodes/text_kana_width/mod.rs"]
 pub mod text_kana_width;
 #[path = "nodes/text_mapping/mod.rs"]
@@ -30,5 +32,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
-    registry.register(choice_random_select::ChoiceRandomSelect)
+    registry.register(choice_random_select::ChoiceRandomSelect)?;
+    registry.register(text_hiragana_to_romaji::TextHiraganaToRomaji)
 }
