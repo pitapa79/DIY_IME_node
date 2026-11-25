@@ -135,3 +135,21 @@ $reverseRoot = $reverseReplies[0].data.out.packet.root
 if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRoot.options.Count -ne 1 -or $reverseRoot.options[0].value.text -cne 'よみ' -or $reverseRoot.options[0].score -ne 2) { throw 'Wasm dictionary reverse did not honor dictionary order and candidate limit' }
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
+
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length')
+$additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
+$additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
+$additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
+for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ $kind = $additionalKinds[$index]
+ if ($additionalOfficial[$index].ok -or $additionalOfficial[$index].error.code -ne 'unknown-kind') { throw "Opt-in kind leaked into official Wasm: $kind" }
+ if (-not $additionalOptIn[$index].ok -or $additionalOptIn[$index].data.kind -cne $kind -or $additionalOptIn[$index].data.version -ne 1) { throw "Could not describe opt-in Wasm kind: $kind" }
+}
+$validationRequests = @(for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ Request $additionalKinds[$index] @{method='validate'; config=$additionalOptIn[$index].data.defaultConfig}
+})
+$validationReplies = Invoke-Batch $Wasm $validationRequests 'additional-default-configs'
+for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
+}
+Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
