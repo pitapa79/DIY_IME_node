@@ -23,6 +23,8 @@ pub mod text_date_format;
 pub mod text_hiragana_to_romaji;
 #[path = "nodes/text_kana_width/mod.rs"]
 pub mod text_kana_width;
+#[path = "nodes/text_language_detect/mod.rs"]
+pub mod text_language_detect;
 #[path = "nodes/text_length/mod.rs"]
 pub mod text_length;
 #[path = "nodes/text_mapping/mod.rs"]
@@ -56,6 +58,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_language_detect::TextLanguageDetect)?;
     registry.register(choice_random_select::ChoiceRandomSelect)?;
     registry.register(packet_validate_constraints::PacketValidateConstraints)?;
     registry.register(score_format::ScoreFormat)?;

@@ -136,6 +136,18 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$language = 'experimental.text-language-detect'
+$officialLanguage = Invoke-Batch $OfficialWasm @((Request $language @{method='describe'})) 'official-language-detect'
+if ($officialLanguage[0].ok -or $officialLanguage[0].error.code -ne 'unknown-kind') { throw 'language detect leaked into official Wasm' }
+$languageRequests = @(
+ (Request $language @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'helloПривет')}})
+ (Request $language @{method='execute'; config=@{}; inputs=@{in=(TextPacket '・')}})
+ (Request $language @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'かな')}})
+)
+$languageReplies = Invoke-Batch $Wasm $languageRequests 'language-detect'
+if (-not $languageReplies[0].ok -or $languageReplies[0].data.out.packet.root.text -cne 'und') { throw 'Wasm language detect misclassified mixed scripts' }
+if (-not $languageReplies[1].ok -or $languageReplies[1].data.out.packet.root.text -cne 'und') { throw 'Wasm language detect classified punctuation as kana' }
+if (-not $languageReplies[2].ok -or $languageReplies[2].data.out.packet.root.text -cne 'ja') { throw 'Wasm language detect missed kana' }
 $randomSelect = 'experimental.choice-random-select'
 $officialRandomSelect = Invoke-Batch $OfficialWasm @((Request $randomSelect @{method='describe'})) 'official-random-select'
 if ($officialRandomSelect[0].ok -or $officialRandomSelect[0].error.code -ne 'unknown-kind') { throw 'random select leaked into official Wasm' }
