@@ -160,6 +160,9 @@ fn quantity_reading(n: u32, name: char) -> Option<String> {
         return Some(format!("{base}{}", counter.plain));
     }
     for (tail, cut) in [("いち", "いっ"), ("ろく", "ろっ"), ("はち", "はっ")] {
+        if name == '冊' && tail == "ろく" {
+            continue;
+        }
         if let Some(stripped) = base.strip_suffix(tail) {
             return Some(format!("{stripped}{cut}{}", counter.sokuon));
         }

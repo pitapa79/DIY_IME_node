@@ -58,6 +58,18 @@ fn fixture_cases_match() {
     }
 }
 #[test]
+fn six_books_does_not_geminate() {
+    assert_eq!(
+        run(data("6冊"), &json!({})).unwrap()["out"],
+        data("ろくさつ")
+    );
+    assert_eq!(
+        run(data("16冊"), &json!({})).unwrap()["out"],
+        data("じゅうろくさつ")
+    );
+    assert_eq!(run(data("6個"), &json!({})).unwrap()["out"], data("ろっこ"));
+}
+#[test]
 fn failures_remain_distinct() {
     let config = TextQuantityFormat.definition().default_config;
     assert_eq!(config, json!({}));

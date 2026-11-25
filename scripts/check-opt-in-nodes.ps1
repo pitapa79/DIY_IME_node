@@ -135,3 +135,10 @@ $reverseRoot = $reverseReplies[0].data.out.packet.root
 if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRoot.options.Count -ne 1 -or $reverseRoot.options[0].value.text -cne 'よみ' -or $reverseRoot.options[0].score -ne 2) { throw 'Wasm dictionary reverse did not honor dictionary order and candidate limit' }
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
+
+$quantity = 'experimental.text-quantity-format'
+$officialQuantity = Invoke-Batch $OfficialWasm @((Request $quantity @{method='describe'})) 'official-quantity-format'
+if ($officialQuantity[0].ok -or $officialQuantity[0].error.code -ne 'unknown-kind') { throw 'quantity format leaked into official Wasm' }
+$quantityRequests = @((Request $quantity @{method='execute'; config=@{}; inputs=@{in=(TextPacket '6冊')}}))
+$quantityReplies = Invoke-Batch $Wasm $quantityRequests 'quantity-format'
+if (-not $quantityReplies[0].ok -or $quantityReplies[0].data.out.packet.root.text -cne 'ろくさつ') { throw 'Wasm quantity format mishandled six books' }
