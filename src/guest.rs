@@ -159,6 +159,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-jis-kana", 1) => {
+            Ok(Box::new(crate::opt_in::text_jis_kana::TextJisKana))
+        }
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-dictionary-prefix", 1) => {
             Ok(Box::new(crate::opt_in::dictionary_prefix::DictionaryPrefix))
         }
