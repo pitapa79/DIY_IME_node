@@ -135,3 +135,16 @@ $reverseRoot = $reverseReplies[0].data.out.packet.root
 if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRoot.options.Count -ne 1 -or $reverseRoot.options[0].value.text -cne 'よみ' -or $reverseRoot.options[0].score -ne 2) { throw 'Wasm dictionary reverse did not honor dictionary order and candidate limit' }
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
+
+$flowBranch = 'experimental.flow-branch'
+$officialFlowBranch = Invoke-Batch $OfficialWasm @((Request $flowBranch @{method='describe'})) 'official-flow-branch'
+if ($officialFlowBranch[0].ok -or $officialFlowBranch[0].error.code -ne 'unknown-kind') { throw 'flow branch leaked into official Wasm' }
+$flowBranchRequests = @(
+ (Request $flowBranch @{method='execute'; config=@{}; inputs=@{data=(TextPacket 'payload'); selector=(TextPacket 'b')}})
+ (Request $flowBranch @{method='execute'; config=@{}; inputs=@{data=(TextPacket 'payload'); selector=(TextPacket 'c')}})
+ (Request $flowBranch @{method='execute'; config=@{}; inputs=@{data=@{state='noOutput'}; selector=(TextPacket 'a')}})
+)
+$flowBranchReplies = Invoke-Batch $Wasm $flowBranchRequests 'flow-branch'
+if (-not $flowBranchReplies[0].ok -or $flowBranchReplies[0].data.b.packet.root.text -cne 'payload' -or $flowBranchReplies[0].data.a.state -ne 'noOutput') { throw 'Wasm flow branch routing failed' }
+if ($flowBranchReplies[1].ok -or $flowBranchReplies[1].error.code -ne 'invalid-selector') { throw 'Wasm flow branch accepted an invalid selector' }
+if (-not $flowBranchReplies[2].ok -or $flowBranchReplies[2].data.a.state -ne 'noOutput' -or $flowBranchReplies[2].data.b.state -ne 'noOutput') { throw 'Wasm flow branch did not propagate NoOutput' }
