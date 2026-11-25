@@ -136,6 +136,19 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$testData = 'experimental.packet-test-data'
+$officialTestData = Invoke-Batch $OfficialWasm @((Request $testData @{method='describe'})) 'official-packet-test-data'
+if ($officialTestData[0].ok -or $officialTestData[0].error.code -ne 'unknown-kind') { throw 'packet test data leaked into official Wasm' }
+$testDataRequests = @(
+ (Request $testData @{method='execute'; config=@{shape='text'; size=5; seed=0}; inputs=@{trigger=(TextPacket 'go')}})
+ (Request $testData @{method='execute'; config=@{shape='choice'; size=2; seed=0}; inputs=@{trigger=(TextPacket 'go')}})
+ (Request $testData @{method='execute'; config=@{shape='text'; size=5; seed=0}; inputs=@{trigger=@{state='noOutput'}}})
+)
+$testDataReplies = Invoke-Batch $Wasm $testDataRequests 'packet-test-data'
+if (-not $testDataReplies[0].ok -or $testDataReplies[0].data.out.packet.root.text -cne 'つけあとう') { throw 'Wasm packet test data text generation failed' }
+$testChoice = $testDataReplies[1].data.out.packet.root
+if (-not $testDataReplies[1].ok -or $testChoice.type -ne 'choice' -or $testChoice.options.Count -ne 2 -or $testChoice.options[0].value.text -cne 'つけあ' -or $testChoice.options[0].score -ne 0.444) { throw 'Wasm packet test data choice generation failed' }
+if (-not $testDataReplies[2].ok -or $testDataReplies[2].data.out.state -ne 'noOutput') { throw 'Wasm packet test data did not propagate NoOutput' }
 $additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract')
 $additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
 $additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'

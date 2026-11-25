@@ -5,6 +5,8 @@ use crate::node::{CoreError, Registry};
 pub mod dictionary_prefix;
 #[path = "nodes/dictionary_reverse/mod.rs"]
 pub mod dictionary_reverse;
+#[path = "nodes/packet_test_data/mod.rs"]
+pub mod packet_test_data;
 #[path = "nodes/text_compare/mod.rs"]
 pub mod text_compare;
 #[path = "nodes/text_date_format/mod.rs"]
@@ -46,6 +48,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(packet_test_data::PacketTestData)?;
     registry.register(text_hiragana_to_romaji::TextHiraganaToRomaji)?;
     registry.register(text_number_notation::TextNumberNotation)?;
     registry.register(text_date_format::TextDateFormat)?;
