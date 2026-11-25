@@ -142,3 +142,64 @@ if ($officialQuantity[0].ok -or $officialQuantity[0].error.code -ne 'unknown-kin
 $quantityRequests = @((Request $quantity @{method='execute'; config=@{}; inputs=@{in=(TextPacket '6冊')}}))
 $quantityReplies = Invoke-Batch $Wasm $quantityRequests 'quantity-format'
 if (-not $quantityReplies[0].ok -or $quantityReplies[0].data.out.packet.root.text -cne 'ろくさつ') { throw 'Wasm quantity format mishandled six books' }
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length')
+$additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
+$additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
+$additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
+for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ $kind = $additionalKinds[$index]
+ if ($additionalOfficial[$index].ok -or $additionalOfficial[$index].error.code -ne 'unknown-kind') { throw "Opt-in kind leaked into official Wasm: $kind" }
+ if (-not $additionalOptIn[$index].ok -or $additionalOptIn[$index].data.kind -cne $kind -or $additionalOptIn[$index].data.version -ne 1) { throw "Could not describe opt-in Wasm kind: $kind" }
+}
+$validationRequests = @(for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ Request $additionalKinds[$index] @{method='validate'; config=$additionalOptIn[$index].data.defaultConfig}
+})
+$validationReplies = Invoke-Batch $Wasm $validationRequests 'additional-default-configs'
+for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
+}
+Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$lengthInput = 'か' + [char]0x3099
+$lengthRequests = @(
+ (Request 'experimental.text-length' @{method='execute'; config=@{unit='grapheme'}; inputs=@{in=(TextPacket $lengthInput)}})
+ (Request 'experimental.text-length' @{method='execute'; config=@{unit='scalar'}; inputs=@{in=(TextPacket $lengthInput)}})
+)
+$lengthReplies = Invoke-Batch $Wasm $lengthRequests 'text-length'
+if (-not $lengthReplies[0].ok -or $lengthReplies[0].data.out.packet.root.text -cne '1') { throw 'Wasm grapheme count failed' }
+if (-not $lengthReplies[1].ok -or $lengthReplies[1].data.out.packet.root.text -cne '2') { throw 'Wasm scalar count failed' }
+$unitRequests = @(
+ (Request 'experimental.text-unit-notation' @{method='execute'; config=@{}; inputs=@{in=(TextPacket '10 kmと3mg')}})
+ (Request 'experimental.text-unit-notation' @{method='execute'; config=@{}; inputs=@{in=(TextPacket '5Kg')}})
+)
+$unitReplies = Invoke-Batch $Wasm $unitRequests 'unit-notation'
+if (-not $unitReplies[0].ok -or $unitReplies[0].data.out.packet.root.text -cne '10キロメートルと3ミリグラム') { throw 'Wasm unit notation conversion failed' }
+if (-not $unitReplies[1].ok -or $unitReplies[1].data.out.packet.root.text -cne '5Kg') { throw 'Wasm unit notation accepted wrong case' }
+$timeRequests = @(
+ (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='japanese'}; inputs=@{in=(TextPacket '00:05:07')}})
+ (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='h12'}; inputs=@{in=(TextPacket '24:00')}})
+)
+$timeReplies = Invoke-Batch $Wasm $timeRequests 'time-format'
+if (-not $timeReplies[0].ok -or $timeReplies[0].data.out.packet.root.text -cne '午前12時05分07秒') { throw 'Wasm time format failed at midnight' }
+if ($timeReplies[1].ok -or $timeReplies[1].error.code -ne 'invalid-time') { throw 'Wasm time format accepted 24:00 in the twelve hour clock' }
+$romajiRequests = @(
+ (Request 'experimental.text-hiragana-to-romaji' @{method='execute'; config=@{system='hepburn'}; inputs=@{in=(TextPacket 'まっちゃとっあ')}})
+)
+$romajiReplies = Invoke-Batch $Wasm $romajiRequests 'hiragana-to-romaji'
+if (-not $romajiReplies[0].ok -or $romajiReplies[0].data.out.packet.root.text -cne "matchato'a") { throw 'Wasm hiragana-to-romaji conversion failed' }
+
+$numberRequests = @(
+ (Request 'experimental.text-number-notation' @{method='execute'; config=@{mode='arabic'}; inputs=@{in=(TextPacket '一万二千三百四十五')}})
+ (Request 'experimental.text-number-notation' @{method='execute'; config=@{mode='arabic'}; inputs=@{in=(TextPacket '十百')}})
+)
+$numberReplies = Invoke-Batch $Wasm $numberRequests 'number-notation'
+if (-not $numberReplies[0].ok -or $numberReplies[0].data.out.packet.root.text -cne '12345') { throw 'Wasm number notation conversion failed' }
+if ($numberReplies[1].ok -or $numberReplies[1].error.code -ne 'invalid-number') { throw 'Wasm number notation accepted out-of-order units' }
+
+$dateRequests = @(
+ (Request 'experimental.text-date-format' @{method='execute'; config=@{from='iso'; to='japanese'}; inputs=@{in=(TextPacket '0001-01-01')}})
+ (Request 'experimental.text-date-format' @{method='execute'; config=@{from='iso'; to='japanese'}; inputs=@{in=(TextPacket '1900-02-29')}})
+)
+$dateReplies = Invoke-Batch $Wasm $dateRequests 'date-format'
+if (-not $dateReplies[0].ok -or $dateReplies[0].data.out.packet.root.text -cne '0001年1月1日') { throw 'Wasm date format did not preserve the four digit year' }
+if ($dateReplies[1].ok -or $dateReplies[1].error.code -ne 'invalid-date') { throw 'Wasm date format accepted an invalid leap day' }
