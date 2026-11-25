@@ -99,6 +99,17 @@ fn combining_marks_never_split_a_run() {
     );
 }
 #[test]
+fn katakana_block_punctuation_forms_an_other_run() {
+    assert_eq!(
+        items("カ・ナ"),
+        vec![
+            ("カ".to_string(), Some([0, 1])),
+            ("・".to_string(), Some([1, 2])),
+            ("ナ".to_string(), Some([2, 3])),
+        ]
+    );
+}
+#[test]
 fn failures_remain_distinct() {
     let config = TextScriptSplit.definition().default_config;
     assert_eq!(config, json!({}));

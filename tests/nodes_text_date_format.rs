@@ -79,6 +79,12 @@ fn leap_year_rules_follow_the_gregorian_calendar() {
     assert!(!ok("2100-02-29"));
 }
 #[test]
+fn japanese_output_preserves_four_digit_year() {
+    let config = json!({ "from": "iso", "to": "japanese" });
+    let result = run(data("0001-01-01"), &config).unwrap();
+    assert_eq!(result, data("0001年1月1日"));
+}
+#[test]
 fn invalid_dates_are_rejected() {
     for (input, from) in [
         ("2024-04-31", "iso"),

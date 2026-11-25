@@ -106,6 +106,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         }
         ("experimental.choice-limit", 1) => Ok(Box::new(crate::nodes::choice_limit::ChoiceLimit)),
         ("experimental.choice-merge", 1) => Ok(Box::new(crate::nodes::choice_merge::ChoiceMerge)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.choice-random-select", 1) => Ok(Box::new(
+            crate::opt_in::choice_random_select::ChoiceRandomSelect,
+        )),
         ("experimental.choice-remove", 1) => {
             Ok(Box::new(crate::nodes::choice_remove::ChoiceRemove))
         }
@@ -115,9 +119,7 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         }
         ("experimental.choice-top-n", 1) => Ok(Box::new(crate::nodes::choice_top_n::ChoiceTopN)),
         #[cfg(feature = "opt-in-nodes")]
-        ("experimental.flow-input-select", 1) => {
-            Ok(Box::new(crate::opt_in::flow_input_select::FlowInputSelect))
-        }
+        ("experimental.flow-branch", 1) => Ok(Box::new(crate::opt_in::flow_branch::FlowBranch)),
         ("experimental.hiragana-katakana", 1) => {
             Ok(Box::new(crate::nodes::hiragana_katakana::HiraganaKatakana))
         }
@@ -135,9 +137,23 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.packet-passthrough", 1) => Ok(Box::new(
             crate::nodes::packet_passthrough::PacketPassthrough,
         )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.packet-validate-constraints", 1) => Ok(Box::new(
+            crate::opt_in::packet_validate_constraints::PacketValidateConstraints,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.packet-test-data", 1) => {
+            Ok(Box::new(crate::opt_in::packet_test_data::PacketTestData))
+        }
         ("experimental.packet-rebuild", 1) => {
             Ok(Box::new(crate::nodes::packet_rebuild::PacketRebuild))
         }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.paragraph-split", 1) => {
+            Ok(Box::new(crate::opt_in::paragraph_split::ParagraphSplit))
+        }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.score-format", 1) => Ok(Box::new(crate::opt_in::score_format::ScoreFormat)),
         ("experimental.score-add", 1) => Ok(Box::new(crate::nodes::score_add::ScoreAdd)),
         ("experimental.score-multiply", 1) => {
             Ok(Box::new(crate::nodes::score_multiply::ScoreMultiply))
@@ -161,7 +177,39 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::opt_in::text_kana_width::TextKanaWidth))
         }
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.flow-input-select", 1) => {
+            Ok(Box::new(crate::opt_in::flow_input_select::FlowInputSelect))
+        }
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-skk-dictionary", 1) => Ok(Box::new(
+            crate::opt_in::text_skk_dictionary::TextSkkDictionary,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-jis-kana", 1) => {
+            Ok(Box::new(crate::opt_in::text_jis_kana::TextJisKana))
+        }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-symbol-notation", 1) => Ok(Box::new(
+            crate::opt_in::text_symbol_notation::TextSymbolNotation,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-kanji-variants", 1) => Ok(Box::new(
+            crate::opt_in::text_kanji_variants::TextKanjiVariants,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-kanji-form", 1) => {
+            Ok(Box::new(crate::opt_in::text_kanji_form::TextKanjiForm))
+        }
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-quantity-format", 1) => Ok(Box::new(
+            crate::opt_in::text_quantity_format::TextQuantityFormat,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-language-detect", 1) => Ok(Box::new(
+            crate::opt_in::text_language_detect::TextLanguageDetect,
+        )),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-date-format", 1) => {
             Ok(Box::new(crate::opt_in::text_date_format::TextDateFormat))
