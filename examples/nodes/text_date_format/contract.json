@@ -1,0 +1,90 @@
+{
+  "kind": "experimental.text-date-format",
+  "version": 1,
+  "defaultConfig": {
+    "from": "iso",
+    "to": "japanese"
+  },
+  "cases": [
+    {
+      "input": "2024-02-29",
+      "config": {
+        "from": "iso",
+        "to": "japanese"
+      },
+      "expected": "2024年2月29日"
+    },
+    {
+      "input": "2024-02-29",
+      "config": {
+        "from": "iso",
+        "to": "slash"
+      },
+      "expected": "2024/02/29"
+    },
+    {
+      "input": "2024/2/29",
+      "config": {
+        "from": "slash",
+        "to": "iso"
+      },
+      "expected": "2024-02-29"
+    },
+    {
+      "input": "1999/12/31",
+      "config": {
+        "from": "slash",
+        "to": "japanese"
+      },
+      "expected": "1999年12月31日"
+    },
+    {
+      "input": "2023年4月1日",
+      "config": {
+        "from": "japanese",
+        "to": "iso"
+      },
+      "expected": "2023-04-01"
+    },
+    {
+      "input": "2000年1月1日",
+      "config": {
+        "from": "japanese",
+        "to": "slash"
+      },
+      "expected": "2000/01/01"
+    },
+    {
+      "input": "2000年2月29日",
+      "config": {
+        "from": "japanese",
+        "to": "iso"
+      },
+      "expected": "2000-02-29"
+    },
+    {
+      "input": "2025-11-25",
+      "config": {
+        "from": "iso",
+        "to": "iso"
+      },
+      "expected": "2025-11-25"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "from": "iso"
+    },
+    {
+      "from": "iso",
+      "to": "us"
+    },
+    {
+      "from": "iso",
+      "to": "iso",
+      "extra": 1
+    },
+    []
+  ]
+}
