@@ -181,6 +181,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::opt_in::flow_input_select::FlowInputSelect))
         }
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.packet-compare", 1) => {
+            Ok(Box::new(crate::opt_in::packet_compare::PacketCompare))
+        }
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-skk-dictionary", 1) => Ok(Box::new(

@@ -18,6 +18,8 @@ pub mod dictionary_suffix;
 pub mod flow_branch;
 #[path = "nodes/flow_input_select/mod.rs"]
 pub mod flow_input_select;
+#[path = "nodes/packet_compare/mod.rs"]
+pub mod packet_compare;
 #[path = "nodes/packet_test_data/mod.rs"]
 pub mod packet_test_data;
 #[path = "nodes/packet_validate_constraints/mod.rs"]
@@ -79,6 +81,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(packet_compare::PacketCompare)?;
     registry.register(flow_input_select::FlowInputSelect)?;
     registry.register(dictionary_segment::DictionarySegment)?;
     registry.register(dictionary_suffix::DictionarySuffix)?;

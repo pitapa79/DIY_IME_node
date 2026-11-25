@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment', 'experimental.text-dictionary-suffix', 'experimental.text-dictionary-fuzzy', 'experimental.flow-input-select' )
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment', 'experimental.text-dictionary-suffix', 'experimental.text-dictionary-fuzzy', 'experimental.flow-input-select' , 'experimental.packet-compare' )
 $skk = 'experimental.text-skk-dictionary'
 $officialSkk = Invoke-Batch $OfficialWasm @((Request $skk @{method='describe'})) 'official-skk-dictionary'
 if ($officialSkk[0].ok -or $officialSkk[0].error.code -ne 'unknown-kind') { throw 'SKK dictionary leaked into official Wasm' }
@@ -377,3 +377,6 @@ if ($dateReplies[1].ok -or $dateReplies[1].error.code -ne 'invalid-date') { thro
 
 $r78 = Invoke-Batch $Wasm @((Request 'experimental.flow-input-select' @{method='execute'; config=@{priority='b-first'}; inputs=@{a=(TextPacket 'a'); b=(TextPacket '')}})) 'flow-input-select'
 if (-not $r78[0].ok -or $r78[0].data.out.state -ne 'data' -or $r78[0].data.out.packet.root.text -cne '') { throw 'Wasm input selection did not preserve empty data' }
+
+$r79 = Invoke-Batch $Wasm @((Request 'experimental.packet-compare' @{method='execute'; config=@{mode='structure'}; inputs=@{a=(TextPacket 'a'); b=(TextPacket 'b')}})) 'packet-compare'
+if (-not $r79[0].ok -or $r79[0].data.matched.packet.root.text -cne 'a' -or $r79[0].data.unmatched.state -ne 'noOutput') { throw 'Wasm packet structure comparison failed' }
