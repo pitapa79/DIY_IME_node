@@ -33,6 +33,8 @@ pub mod text_mapping;
 pub mod text_number_notation;
 #[path = "nodes/text_number_unit_extract/mod.rs"]
 pub mod text_number_unit_extract;
+#[path = "nodes/text_quantity_format/mod.rs"]
+pub mod text_quantity_format;
 #[path = "nodes/text_regex_replace/mod.rs"]
 pub mod text_regex_replace;
 #[path = "nodes/text_regex_search/mod.rs"]
@@ -58,6 +60,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_quantity_format::TextQuantityFormat)?;
     registry.register(text_language_detect::TextLanguageDetect)?;
     registry.register(choice_random_select::ChoiceRandomSelect)?;
     registry.register(packet_validate_constraints::PacketValidateConstraints)?;

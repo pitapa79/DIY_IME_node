@@ -175,6 +175,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-compare", 1) => Ok(Box::new(crate::opt_in::text_compare::TextCompare)),
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-quantity-format", 1) => Ok(Box::new(
+            crate::opt_in::text_quantity_format::TextQuantityFormat,
+        )),
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-language-detect", 1) => Ok(Box::new(
             crate::opt_in::text_language_detect::TextLanguageDetect,
         )),
