@@ -1,0 +1,212 @@
+{
+  "kind": "experimental.text-number-notation",
+  "version": 1,
+  "defaultConfig": {
+    "mode": "kanji-positional"
+  },
+  "cases": [
+    {
+      "input": "0",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "零"
+    },
+    {
+      "input": "10",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "十"
+    },
+    {
+      "input": "100",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "百"
+    },
+    {
+      "input": "101",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "百一"
+    },
+    {
+      "input": "1000",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "千"
+    },
+    {
+      "input": "10000",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "一万"
+    },
+    {
+      "input": "12345",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "一万二千三百四十五"
+    },
+    {
+      "input": "100000000",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "一億"
+    },
+    {
+      "input": "-5",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "マイナス五"
+    },
+    {
+      "input": "0.5",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "零点五"
+    },
+    {
+      "input": "3.14",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "三点一四"
+    },
+    {
+      "input": "1000000000000000",
+      "config": {
+        "mode": "kanji-positional"
+      },
+      "expected": "千兆"
+    },
+    {
+      "input": "10000",
+      "config": {
+        "mode": "kanji-digit"
+      },
+      "expected": "一〇〇〇〇"
+    },
+    {
+      "input": "0",
+      "config": {
+        "mode": "kanji-digit"
+      },
+      "expected": "〇"
+    },
+    {
+      "input": "205",
+      "config": {
+        "mode": "kanji-digit"
+      },
+      "expected": "二〇五"
+    },
+    {
+      "input": "-42",
+      "config": {
+        "mode": "kanji-digit"
+      },
+      "expected": "マイナス四二"
+    },
+    {
+      "input": "0.5",
+      "config": {
+        "mode": "kanji-digit"
+      },
+      "expected": "〇点五"
+    },
+    {
+      "input": "一万",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "10000"
+    },
+    {
+      "input": "百一",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "101"
+    },
+    {
+      "input": "零",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "0"
+    },
+    {
+      "input": "〇",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "0"
+    },
+    {
+      "input": "一〇〇〇〇",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "10000"
+    },
+    {
+      "input": "零点五",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "0.5"
+    },
+    {
+      "input": "マイナス五",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "-5"
+    },
+    {
+      "input": "一万二千三百四十五",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "12345"
+    },
+    {
+      "input": "千",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "1000"
+    },
+    {
+      "input": "十",
+      "config": {
+        "mode": "arabic"
+      },
+      "expected": "10"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "mode": "roman"
+    },
+    {
+      "mode": "arabic",
+      "extra": 1
+    },
+    {
+      "mode": 1
+    },
+    []
+  ]
+}

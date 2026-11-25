@@ -9,6 +9,7 @@ use crate::{
 use serde_json::{Value, json};
 use std::sync::Arc;
 pub const KIND: &str = "experimental.text-kanji-variants";
+const MAX_CHOICES: usize = 32;
 /// 基準字→異体字の明示対応表（#85の旧新字体表とは独立に持つ）。
 const VARIANTS: &[(char, &[char])] = &[
     ('高', &['髙']),
@@ -92,7 +93,7 @@ impl Node for TextKanjiVariants {
                 if let Some(ch) = single
                     && let Some((_, variants)) = VARIANTS.iter().find(|(base, _)| *base == ch)
                 {
-                    for variant in *variants {
+                    for variant in variants.iter().take(MAX_CHOICES - 1) {
                         options.push(text_option(&variant.to_string()));
                     }
                 }
