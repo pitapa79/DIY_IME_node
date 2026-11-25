@@ -13,6 +13,13 @@ use serde_json::{Value, json};
 
 const SAMPLE: &[u8] = include_bytes!("../examples/nodes/dictionary_segment/dictionary.tsv");
 
+#[test]
+fn maximum_length_without_a_match_preserves_the_input() {
+    let dictionary = SegmentDictionary::from_tsv_bytes(SAMPLE).unwrap();
+    let input = "😀".repeat(4096);
+    assert_eq!(dictionary.segment(&input, 1), vec![vec![input]]);
+}
+
 fn text(value: &str) -> Packet {
     Packet::new(Candidate::Text {
         text: value.into(),
