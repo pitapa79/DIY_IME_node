@@ -144,3 +144,34 @@ $scoreRequests = @((Request $scoreFormat @{method='execute'; config=@{decimals=2
 $scoreReplies = Invoke-Batch $Wasm $scoreRequests 'score-format'
 $formattedScore = $scoreReplies[0].data.out.packet.root.items[0].text
 if (-not $scoreReplies[0].ok -or $formattedScore.Length -lt 310 -or -not $formattedScore.EndsWith('00.00%')) { throw 'Wasm percent formatting overflowed' }
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation')
+$additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
+$additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
+$additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
+for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ $kind = $additionalKinds[$index]
+ if ($additionalOfficial[$index].ok -or $additionalOfficial[$index].error.code -ne 'unknown-kind') { throw "Opt-in kind leaked into official Wasm: $kind" }
+ if (-not $additionalOptIn[$index].ok -or $additionalOptIn[$index].data.kind -cne $kind -or $additionalOptIn[$index].data.version -ne 1) { throw "Could not describe opt-in Wasm kind: $kind" }
+}
+$validationRequests = @(for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ Request $additionalKinds[$index] @{method='validate'; config=$additionalOptIn[$index].data.defaultConfig}
+})
+$validationReplies = Invoke-Batch $Wasm $validationRequests 'additional-default-configs'
+for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
+}
+Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$romajiRequests = @(
+ (Request 'experimental.text-hiragana-to-romaji' @{method='execute'; config=@{system='hepburn'}; inputs=@{in=(TextPacket 'まっちゃとっあ')}})
+)
+$romajiReplies = Invoke-Batch $Wasm $romajiRequests 'hiragana-to-romaji'
+if (-not $romajiReplies[0].ok -or $romajiReplies[0].data.out.packet.root.text -cne "matchato'a") { throw 'Wasm hiragana-to-romaji conversion failed' }
+
+$numberRequests = @(
+ (Request 'experimental.text-number-notation' @{method='execute'; config=@{mode='arabic'}; inputs=@{in=(TextPacket '一万二千三百四十五')}})
+ (Request 'experimental.text-number-notation' @{method='execute'; config=@{mode='arabic'}; inputs=@{in=(TextPacket '十百')}})
+)
+$numberReplies = Invoke-Batch $Wasm $numberRequests 'number-notation'
+if (-not $numberReplies[0].ok -or $numberReplies[0].data.out.packet.root.text -cne '12345') { throw 'Wasm number notation conversion failed' }
+if ($numberReplies[1].ok -or $numberReplies[1].error.code -ne 'invalid-number') { throw 'Wasm number notation accepted out-of-order units' }
