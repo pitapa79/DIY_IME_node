@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment', 'experimental.text-dictionary-suffix')
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify', 'experimental.text-script-split', 'experimental.text-number-unit-extract', 'experimental.text-dictionary-segment', 'experimental.text-dictionary-suffix', 'experimental.text-dictionary-fuzzy')
 $skk = 'experimental.text-skk-dictionary'
 $officialSkk = Invoke-Batch $OfficialWasm @((Request $skk @{method='describe'})) 'official-skk-dictionary'
 if ($officialSkk[0].ok -or $officialSkk[0].error.code -ne 'unknown-kind') { throw 'SKK dictionary leaked into official Wasm' }
@@ -292,6 +292,12 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$fuzzyBytes = [Text.Encoding]::UTF8.GetBytes("reading`tsurface`tweight`nかな`t仮名`t1`nかに`t蟹`t2`n")
+$fuzzyRequests = @((Request 'experimental.text-dictionary-fuzzy' @{method='execute'; config=@{path='dictionary.tsv'; limit=2; maxDistance=1}; inputs=@{in=(TextPacket 'かな')}; resources=@{'dictionary.tsv'=@($fuzzyBytes)}}))
+$fuzzyReplies = Invoke-Batch $Wasm $fuzzyRequests 'dictionary-fuzzy'
+$fuzzyOptions = $fuzzyReplies[0].data.out.packet.root.options
+if (-not $fuzzyReplies[0].ok -or ($fuzzyOptions.value.text -join ',') -cne '仮名,蟹') { throw 'Wasm fuzzy dictionary ranking failed' }
 
 $suffixBytes = [Text.Encoding]::UTF8.GetBytes("reading`tsurface`tweight`nほん`t本`t1`nこうほん`t稿本`t2`n")
 $suffixRequests = @((Request 'experimental.text-dictionary-suffix' @{method='execute'; config=@{path='dictionary.tsv'; limit=1}; inputs=@{in=(TextPacket 'ほん')}; resources=@{'dictionary.tsv'=@($suffixBytes)}}))

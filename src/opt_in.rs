@@ -3,6 +3,8 @@ use crate::node::{CoreError, Registry};
 
 #[path = "nodes/choice_random_select/mod.rs"]
 pub mod choice_random_select;
+#[path = "nodes/dictionary_fuzzy/mod.rs"]
+pub mod dictionary_fuzzy;
 #[path = "nodes/dictionary_prefix/mod.rs"]
 pub mod dictionary_prefix;
 #[path = "nodes/dictionary_reverse/mod.rs"]
@@ -77,6 +79,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(dictionary_reverse::DictionaryReverse)?;
     registry.register(dictionary_segment::DictionarySegment)?;
     registry.register(dictionary_suffix::DictionarySuffix)?;
+    registry.register(dictionary_fuzzy::DictionaryFuzzy)?;
     registry.register(text_skk_dictionary::TextSkkDictionary)?;
     registry.register(text_jis_kana::TextJisKana)?;
     registry.register(text_symbol_notation::TextSymbolNotation)?;

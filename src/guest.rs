@@ -211,6 +211,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
             Ok(Box::new(crate::opt_in::text_date_format::TextDateFormat))
         }
         #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-dictionary-fuzzy", 1) => {
+            Ok(Box::new(crate::opt_in::dictionary_fuzzy::DictionaryFuzzy))
+        }
+        #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-dictionary-prefix", 1) => {
             Ok(Box::new(crate::opt_in::dictionary_prefix::DictionaryPrefix))
         }
