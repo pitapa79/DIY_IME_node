@@ -1,0 +1,130 @@
+{
+  "kind": "experimental.score-format",
+  "version": 1,
+  "defaultConfig": {
+    "decimals": 2,
+    "percent": false
+  },
+  "cases": [
+    {
+      "candidates": [
+        {
+          "text": "か",
+          "score": 0.5
+        },
+        {
+          "text": "き",
+          "score": 0.25
+        }
+      ],
+      "expected": [
+        {
+          "text": "0.50",
+          "reading": "か"
+        },
+        {
+          "text": "0.25",
+          "reading": "き"
+        }
+      ]
+    },
+    {
+      "config": {
+        "decimals": 0,
+        "percent": false
+      },
+      "candidates": [
+        {
+          "text": "a",
+          "score": 0.6
+        }
+      ],
+      "expected": [
+        {
+          "text": "1",
+          "reading": "a"
+        }
+      ]
+    },
+    {
+      "config": {
+        "decimals": 1,
+        "percent": true
+      },
+      "candidates": [
+        {
+          "text": "a",
+          "score": 0.125
+        }
+      ],
+      "expected": [
+        {
+          "text": "12.5%",
+          "reading": "a"
+        }
+      ]
+    },
+    {
+      "candidates": [
+        {
+          "text": "a",
+          "score": null
+        },
+        {
+          "text": "b",
+          "score": 1.0
+        }
+      ],
+      "expected": [
+        {
+          "text": "",
+          "reading": "a"
+        },
+        {
+          "text": "1.00",
+          "reading": "b"
+        }
+      ]
+    },
+    {
+      "candidates": [
+        {
+          "sequence": [
+            "x"
+          ],
+          "score": 0.5
+        }
+      ],
+      "expected": [
+        {
+          "text": "0.50",
+          "reading": null
+        }
+      ]
+    },
+    {
+      "candidates": [],
+      "expected": []
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "decimals": 2
+    },
+    {
+      "decimals": 7,
+      "percent": false
+    },
+    {
+      "decimals": 2,
+      "percent": "yes"
+    },
+    {
+      "decimals": 2,
+      "percent": false,
+      "extra": 1
+    },
+    [],
+    "x"
+  ]
+}

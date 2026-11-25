@@ -1,0 +1,46 @@
+{
+  "kind": "experimental.text-language-detect",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "input": "こんにちは",
+      "expected": "ja"
+    },
+    {
+      "input": "カタカナ",
+      "expected": "ja"
+    },
+    {
+      "input": "漢字とひらがな",
+      "expected": "ja"
+    },
+    {
+      "input": "hello world",
+      "expected": "en"
+    },
+    {
+      "input": "漢字",
+      "expected": "und"
+    },
+    {
+      "input": "漢字kanji",
+      "expected": "und"
+    },
+    {
+      "input": "123",
+      "expected": "und"
+    },
+    {
+      "input": "",
+      "expected": "und"
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "x": 1
+    },
+    [],
+    "x"
+  ]
+}

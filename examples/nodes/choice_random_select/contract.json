@@ -1,0 +1,61 @@
+{
+  "kind": "experimental.choice-random-select",
+  "version": 1,
+  "defaultConfig": {
+    "seed": 0
+  },
+  "cases": [
+    {
+      "seed": 0,
+      "candidates": [
+        "あ",
+        "い",
+        "う"
+      ],
+      "expected": "う"
+    },
+    {
+      "seed": 42,
+      "candidates": [
+        "a",
+        "b",
+        "c",
+        "d",
+        "e"
+      ],
+      "expected": "d"
+    },
+    {
+      "seed": 7,
+      "candidates": [
+        "x",
+        "y"
+      ],
+      "expected": "x"
+    },
+    {
+      "seed": 99,
+      "candidates": [
+        "only"
+      ],
+      "expected": "only"
+    },
+    {
+      "seed": 0,
+      "candidates": [],
+      "noOutput": true
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "seed": -1
+    },
+    {
+      "seed": 0,
+      "extra": 1
+    },
+    [],
+    "x"
+  ]
+}
