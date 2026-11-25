@@ -50,6 +50,8 @@ pub mod text_regex_search;
 pub mod text_script_classify;
 #[path = "nodes/text_script_split/mod.rs"]
 pub mod text_script_split;
+#[path = "nodes/text_skk_dictionary/mod.rs"]
+pub mod text_skk_dictionary;
 #[path = "nodes/text_symbol_notation/mod.rs"]
 pub mod text_symbol_notation;
 #[path = "nodes/text_time_format/mod.rs"]
@@ -69,6 +71,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(text_skk_dictionary::TextSkkDictionary)?;
     registry.register(text_jis_kana::TextJisKana)?;
     registry.register(text_symbol_notation::TextSymbolNotation)?;
     registry.register(text_kanji_variants::TextKanjiVariants)?;

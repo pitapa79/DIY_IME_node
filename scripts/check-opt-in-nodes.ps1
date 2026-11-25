@@ -136,6 +136,20 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$skk = 'experimental.text-skk-dictionary'
+$officialSkk = Invoke-Batch $OfficialWasm @((Request $skk @{method='describe'})) 'official-skk-dictionary'
+if ($officialSkk[0].ok -or $officialSkk[0].error.code -ne 'unknown-kind') { throw 'SKK dictionary leaked into official Wasm' }
+$skkBytes = [Text.Encoding]::UTF8.GetBytes('かんじ /漢字;注釈/感じ/')
+$skkConfig = @{path='dictionary.skk'; limit=2}
+$skkRequests = @(
+ (Request $skk @{method='execute'; config=$skkConfig; inputs=@{in=(TextPacket 'かんじ')}; resources=@{'dictionary.skk'=@($skkBytes)}})
+ (Request $skk @{method='execute'; config=$skkConfig; inputs=@{in=(TextPacket 'かんじ')}})
+)
+$skkReplies = Invoke-Batch $Wasm $skkRequests 'skk-dictionary'
+$skkRoot = $skkReplies[0].data.out.packet.root
+if (-not $skkReplies[0].ok -or $skkRoot.type -ne 'choice' -or ($skkRoot.options.value.text -join ',') -cne '漢字,感じ') { throw 'Wasm SKK lookup failed' }
+if ($skkReplies[1].ok -or $skkReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm SKK lookup accepted a missing snapshot' }
+
 $jisKana = 'experimental.text-jis-kana'
 $officialJisKana = Invoke-Batch $OfficialWasm @((Request $jisKana @{method='describe'})) 'official-jis-kana'
 if ($officialJisKana[0].ok -or $officialJisKana[0].error.code -ne 'unknown-kind') { throw 'JIS kana leaked into official Wasm' }
