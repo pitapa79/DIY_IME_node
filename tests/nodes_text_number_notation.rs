@@ -115,6 +115,8 @@ fn invalid_numbers_are_rejected() {
         ("マイナス零", "arabic"),
         ("一万零五", "arabic"),
         ("二千千", "arabic"),
+        ("十百", "arabic"),
+        ("二十三百", "arabic"),
         ("123", "arabic"),
     ] {
         assert_eq!(
