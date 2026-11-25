@@ -153,3 +153,11 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$timeRequests = @(
+ (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='japanese'}; inputs=@{in=(TextPacket '00:05:07')}})
+ (Request 'experimental.text-time-format' @{method='execute'; config=@{from='h24'; to='h12'}; inputs=@{in=(TextPacket '24:00')}})
+)
+$timeReplies = Invoke-Batch $Wasm $timeRequests 'time-format'
+if (-not $timeReplies[0].ok -or $timeReplies[0].data.out.packet.root.text -cne '午前12時05分07秒') { throw 'Wasm time format failed at midnight' }
+if ($timeReplies[1].ok -or $timeReplies[1].error.code -ne 'invalid-time') { throw 'Wasm time format accepted 24:00 in the twelve hour clock' }
