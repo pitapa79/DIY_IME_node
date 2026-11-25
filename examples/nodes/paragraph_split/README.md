@@ -2,7 +2,7 @@
 
 Issue #213。`experimental.paragraph-split@1` / `ParagraphSplit`。
 必須 `in`: ja/Text → `out`: ja/Sequence。完全設定は `{}` のみで、省略時も `{}`。
-未採用・未登録の試作。標準Registry・module・UIへ追加しない。
+未採用の実験ノード。`opt-in-nodes` 機能を有効にしたRegistryとWasmで利用できる。標準Registry・公式配布・UIには追加しない。
 
 CRLFを1改行、単独CRとLFも各1改行と数え、連続改行が2個以上ある連続群の直後で分割する。
 区切り群は直前のTextにすべて保持する。単一改行では分割しない。
