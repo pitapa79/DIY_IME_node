@@ -15,6 +15,8 @@ pub mod text_hiragana_to_romaji;
 pub mod text_kana_width;
 #[path = "nodes/text_mapping/mod.rs"]
 pub mod text_mapping;
+#[path = "nodes/text_number_notation/mod.rs"]
+pub mod text_number_notation;
 #[path = "nodes/text_regex_replace/mod.rs"]
 pub mod text_regex_replace;
 #[path = "nodes/text_regex_search/mod.rs"]
@@ -33,5 +35,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
     registry.register(packet_test_data::PacketTestData)?;
-    registry.register(text_hiragana_to_romaji::TextHiraganaToRomaji)
+    registry.register(text_hiragana_to_romaji::TextHiraganaToRomaji)?;
+    registry.register(text_number_notation::TextNumberNotation)
 }
