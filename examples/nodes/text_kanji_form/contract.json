@@ -1,0 +1,69 @@
+{
+  "kind": "experimental.text-kanji-form",
+  "version": 1,
+  "defaultConfig": {
+    "direction": "to-shinjitai"
+  },
+  "cases": [
+    {
+      "input": "國語と學問",
+      "expected": "国語と学問"
+    },
+    {
+      "input": "櫻の花と鹽",
+      "expected": "桜の花と塩"
+    },
+    {
+      "input": "辨別と瓣膜と辯論",
+      "expected": "弁別と弁膜と弁論"
+    },
+    {
+      "input": "新しい國",
+      "expected": "新しい国"
+    },
+    {
+      "input": "ひらがな",
+      "expected": "ひらがな"
+    },
+    {
+      "input": "国語",
+      "config": {
+        "direction": "to-kyujitai"
+      },
+      "expected": "國語"
+    },
+    {
+      "input": "弁護士",
+      "config": {
+        "direction": "to-kyujitai"
+      },
+      "expected": "辨護士"
+    },
+    {
+      "input": "周辺",
+      "config": {
+        "direction": "to-kyujitai"
+      },
+      "expected": "周邊"
+    },
+    {
+      "input": "桜と学問",
+      "config": {
+        "direction": "to-kyujitai"
+      },
+      "expected": "櫻と學問"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "direction": "sideways"
+    },
+    {
+      "direction": "to-shinjitai",
+      "extra": 1
+    },
+    [],
+    "x"
+  ]
+}

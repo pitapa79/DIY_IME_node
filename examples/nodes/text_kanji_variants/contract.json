@@ -1,0 +1,61 @@
+{
+  "kind": "experimental.text-kanji-variants",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "input": "高",
+      "expected": [
+        "高",
+        "髙"
+      ]
+    },
+    {
+      "input": "崎",
+      "expected": [
+        "崎",
+        "﨑",
+        "嵜"
+      ]
+    },
+    {
+      "input": "島",
+      "expected": [
+        "島",
+        "嶋",
+        "嶌"
+      ]
+    },
+    {
+      "input": "猫",
+      "expected": [
+        "猫"
+      ]
+    },
+    {
+      "input": "高島",
+      "expected": [
+        "高島"
+      ]
+    },
+    {
+      "input": "",
+      "expected": [
+        ""
+      ]
+    },
+    {
+      "input": "﨑",
+      "expected": [
+        "﨑"
+      ]
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "x": 1
+    },
+    [],
+    "x"
+  ]
+}
