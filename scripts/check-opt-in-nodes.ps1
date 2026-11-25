@@ -135,3 +135,14 @@ $reverseRoot = $reverseReplies[0].data.out.packet.root
 if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRoot.options.Count -ne 1 -or $reverseRoot.options[0].value.text -cne 'よみ' -or $reverseRoot.options[0].score -ne 2) { throw 'Wasm dictionary reverse did not honor dictionary order and candidate limit' }
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
+
+$constraints = 'experimental.packet-validate-constraints'
+$officialConstraints = Invoke-Batch $OfficialWasm @((Request $constraints @{method='describe'})) 'official-constraints'
+if ($officialConstraints[0].ok -or $officialConstraints[0].error.code -ne 'unknown-kind') { throw 'constraints node leaked into official Wasm' }
+$constraintRequests = @(
+ (Request $constraints @{method='execute'; config=@{maxCandidates=$null; maxTextLength=[long]4294967296; allowedRoots=@()}; inputs=@{in=(TextPacket 'a')}})
+ (Request $constraints @{method='execute'; config=@{maxCandidates=$null; maxTextLength=1; allowedRoots=@()}; inputs=@{in=(TextPacket 'あ😀')}})
+)
+$constraintReplies = Invoke-Batch $Wasm $constraintRequests 'constraints'
+if (-not $constraintReplies[0].ok -or $constraintReplies[0].data.valid.packet.root.text -cne 'a') { throw 'Wasm constraints wrapped a large limit' }
+if (-not $constraintReplies[1].ok -or $constraintReplies[1].data.invalid.packet.root.text -cne 'あ😀') { throw 'Wasm constraints did not count Unicode characters' }

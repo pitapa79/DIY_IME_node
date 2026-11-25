@@ -102,6 +102,19 @@ fn failures_remain_distinct() {
         );
     }
 }
+#[test]
+fn large_limits_do_not_wrap_on_wasm() {
+    let config = json!({"maxCandidates":4294967296u64,"maxTextLength":4294967296u64,"allowedRoots":[]});
+    for input in [
+        json!({"root":"text","text":"a"}),
+        json!({"root":"choice","count":1}),
+    ] {
+        let packet = build(&input);
+        let outputs = run(packet.clone(), &config).unwrap();
+        assert_eq!(outputs["valid"], packet);
+        assert_eq!(outputs["invalid"], OutputValue::NoOutput);
+    }
+}
 struct Source;
 impl Node for Source {
     fn definition(&self) -> NodeDefinition {

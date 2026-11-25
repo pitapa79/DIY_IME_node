@@ -11,19 +11,19 @@ pub const KIND: &str = "experimental.packet-validate-constraints";
 #[derive(Debug, Clone, Default)]
 pub struct PacketValidateConstraints;
 struct Settings {
-    max_candidates: Option<usize>,
-    max_text_length: Option<usize>,
+    max_candidates: Option<u64>,
+    max_text_length: Option<u64>,
     allowed_roots: BTreeSet<&'static str>,
 }
 fn optional_limit(
     object: &serde_json::Map<String, Value>,
     key: &str,
-) -> Result<Option<usize>, CoreError> {
+) -> Result<Option<u64>, CoreError> {
     match &object[key] {
         Value::Null => Ok(None),
         value => value
             .as_u64()
-            .map(|limit| Some(limit as usize))
+            .map(Some)
             .ok_or_else(|| {
                 CoreError::new(
                     "invalid-config",
@@ -88,10 +88,10 @@ fn satisfies(packet: &Packet, settings: &Settings) -> bool {
     match &packet.root {
         Candidate::Text { text, .. } => settings
             .max_text_length
-            .is_none_or(|limit| text.chars().count() <= limit),
+            .is_none_or(|limit| text.chars().count() as u64 <= limit),
         Candidate::Choice { options } => settings
             .max_candidates
-            .is_none_or(|limit| options.len() <= limit),
+            .is_none_or(|limit| options.len() as u64 <= limit),
         Candidate::Sequence { .. } => true,
     }
 }
