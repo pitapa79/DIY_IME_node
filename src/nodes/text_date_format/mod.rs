@@ -126,7 +126,7 @@ fn render_date(date: (u32, u32, u32), format: Format) -> String {
     match format {
         Format::Iso => format!("{year:04}-{month:02}-{day:02}"),
         Format::Slash => format!("{year:04}/{month:02}/{day:02}"),
-        Format::Japanese => format!("{year}年{month}月{day}日"),
+        Format::Japanese => format!("{year:04}年{month}月{day}日"),
     }
 }
 fn convert(text: &str, settings: &Settings) -> Result<String, CoreError> {

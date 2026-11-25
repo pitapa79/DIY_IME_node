@@ -129,7 +129,7 @@ fn parse_kanji_positional(text: &str) -> Result<String, CoreError> {
     let mut group: u64 = 0;
     let mut pending: Option<u64> = None;
     let mut last_big: u64 = u64::MAX;
-    let mut used_small: Vec<char> = Vec::new();
+    let mut last_small: u64 = 10_000;
     for c in text.chars() {
         match c {
             '一' | '二' | '三' | '四' | '五' | '六' | '七' | '八' | '九' => {
@@ -139,15 +139,15 @@ fn parse_kanji_positional(text: &str) -> Result<String, CoreError> {
                 pending = digit_value(c);
             }
             '十' | '百' | '千' => {
-                if used_small.contains(&c) {
-                    return Err(invalid("a small unit appears twice in one group"));
-                }
-                used_small.push(c);
                 let unit = match c {
                     '十' => 10,
                     '百' => 100,
                     _ => 1000,
                 };
+                if unit >= last_small {
+                    return Err(invalid("small units must descend within a group"));
+                }
+                last_small = unit;
                 group += pending.take().unwrap_or(1) * unit;
             }
             '万' | '億' | '兆' => {
@@ -166,7 +166,7 @@ fn parse_kanji_positional(text: &str) -> Result<String, CoreError> {
                 }
                 total += section * unit;
                 group = 0;
-                used_small.clear();
+                last_small = 10_000;
             }
             _ => return Err(invalid("not a kanji numeral")),
         }
