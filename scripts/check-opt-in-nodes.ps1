@@ -136,7 +136,7 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
-$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length')
+$additionalKinds = @('experimental.text-hiragana-to-romaji', 'experimental.text-number-notation', 'experimental.text-date-format', 'experimental.text-time-format', 'experimental.text-unit-notation', 'experimental.text-length', 'experimental.text-script-classify')
 $additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
 $additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
 $additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
@@ -153,6 +153,14 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
  if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$classifyRequests = @(
+ (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'a・')}})
+ (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'かな漢字')}})
+)
+$classifyReplies = Invoke-Batch $Wasm $classifyRequests 'script-classify'
+if (-not $classifyReplies[0].ok -or $classifyReplies[0].data.out.packet.root.text -cne 'latin') { throw 'Wasm script classification treated punctuation as kana' }
+if (-not $classifyReplies[1].ok -or $classifyReplies[1].data.out.packet.root.text -cne 'mixed') { throw 'Wasm script classification did not detect mixed scripts' }
 
 $lengthInput = 'か' + [char]0x3099
 $lengthRequests = @(

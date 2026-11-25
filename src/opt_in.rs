@@ -23,6 +23,8 @@ pub mod text_number_notation;
 pub mod text_regex_replace;
 #[path = "nodes/text_regex_search/mod.rs"]
 pub mod text_regex_search;
+#[path = "nodes/text_script_classify/mod.rs"]
+pub mod text_script_classify;
 #[path = "nodes/text_time_format/mod.rs"]
 pub mod text_time_format;
 #[path = "nodes/text_unicode_normalize/mod.rs"]
@@ -45,5 +47,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_date_format::TextDateFormat)?;
     registry.register(text_time_format::TextTimeFormat)?;
     registry.register(text_unit_notation::TextUnitNotation)?;
-    registry.register(text_length::TextLength)
+    registry.register(text_length::TextLength)?;
+    registry.register(text_script_classify::TextScriptClassify)
 }
