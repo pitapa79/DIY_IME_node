@@ -87,6 +87,31 @@ fn fixture_cases_match() {
     }
 }
 #[test]
+fn percent_format_does_not_overflow_for_finite_scores() {
+    let input = OutputValue::Data(Arc::new(Packet::new(Candidate::Choice {
+        options: vec![ChoiceOption {
+            value: Candidate::Text {
+                text: "large".into(),
+                meta: None,
+            },
+            score: Some(f64::MAX),
+        }],
+    })));
+    let outputs = run(input, &json!({"decimals":2,"percent":true})).unwrap();
+    let OutputValue::Data(packet) = &outputs["out"] else {
+        panic!("Data required");
+    };
+    let Candidate::Sequence { items } = &packet.root else {
+        panic!("Sequence required");
+    };
+    let Candidate::Text { text, .. } = &items[0] else {
+        panic!("Text required");
+    };
+    assert!(text.starts_with("179769313486231"));
+    assert!(text.ends_with("00.00%"));
+    assert_eq!(text.len(), 315);
+}
+#[test]
 fn failures_remain_distinct() {
     let config = ScoreFormat.definition().default_config;
     assert_eq!(config, json!({ "decimals": 2, "percent": false }));

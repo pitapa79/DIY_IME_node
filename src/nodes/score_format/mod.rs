@@ -50,6 +50,17 @@ fn format_score(score: Option<f64>, settings: &Settings) -> Result<String, CoreE
         ));
     }
     if settings.percent {
+        if !(score * 100.0).is_finite() {
+            // At this magnitude every finite f64 is an integer. Shift its
+            // exact fixed-point representation instead of overflowing f64.
+            let mut result = format!("{score:.0}00");
+            if settings.decimals > 0 {
+                result.push('.');
+                result.push_str(&"0".repeat(settings.decimals));
+            }
+            result.push('%');
+            return Ok(result);
+        }
         Ok(format!(
             "{:.prec$}%",
             score * 100.0,
