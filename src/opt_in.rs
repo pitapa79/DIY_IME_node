@@ -5,6 +5,7 @@ use crate::node::{CoreError, Registry};
 pub mod dictionary_prefix;
 #[path = "nodes/dictionary_reverse/mod.rs"]
 pub mod dictionary_reverse;
+pub use crate::nodes::paragraph_split;
 #[path = "nodes/text_compare/mod.rs"]
 pub mod text_compare;
 #[path = "nodes/text_kana_width/mod.rs"]
@@ -27,5 +28,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_regex_search::TextRegexSearch)?;
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
-    registry.register(dictionary_reverse::DictionaryReverse)
+    registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(paragraph_split::ParagraphSplit)
 }
