@@ -131,6 +131,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.packet-passthrough", 1) => Ok(Box::new(
             crate::nodes::packet_passthrough::PacketPassthrough,
         )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.packet-validate-constraints", 1) => Ok(Box::new(
+            crate::opt_in::packet_validate_constraints::PacketValidateConstraints,
+        )),
         ("experimental.packet-rebuild", 1) => {
             Ok(Box::new(crate::nodes::packet_rebuild::PacketRebuild))
         }
