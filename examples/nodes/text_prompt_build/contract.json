@@ -1,0 +1,74 @@
+{
+  "kind": "experimental.text-prompt-build",
+  "version": 1,
+  "defaultConfig": {
+    "instruction": "",
+    "before": "\n\n",
+    "after": ""
+  },
+  "cases": [
+    {
+      "input": "質問です",
+      "config": {
+        "instruction": "次の質問に答えてください。",
+        "before": "\n\n",
+        "after": ""
+      },
+      "expected": "次の質問に答えてください。\n\n質問です"
+    },
+    {
+      "input": "本文",
+      "config": {
+        "instruction": "",
+        "before": "「",
+        "after": "」"
+      },
+      "expected": "「本文」"
+    },
+    {
+      "input": "x",
+      "config": {
+        "instruction": "",
+        "before": "\n\n",
+        "after": ""
+      },
+      "expected": "\n\nx"
+    },
+    {
+      "input": "",
+      "config": {
+        "instruction": "指示",
+        "before": "",
+        "after": ""
+      },
+      "expected": "指示"
+    },
+    {
+      "input": "{a}そのまま",
+      "config": {
+        "instruction": "指示",
+        "before": "",
+        "after": ""
+      },
+      "expected": "指示{a}そのまま"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "instruction": ""
+    },
+    {
+      "instruction": "",
+      "before": "",
+      "after": "",
+      "extra": 1
+    },
+    {
+      "instruction": 1,
+      "before": "",
+      "after": ""
+    },
+    []
+  ]
+}
