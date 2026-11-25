@@ -1,0 +1,122 @@
+{
+  "kind": "experimental.text-time-format",
+  "version": 1,
+  "defaultConfig": {
+    "from": "h24",
+    "to": "japanese"
+  },
+  "cases": [
+    {
+      "input": "13:05",
+      "config": {
+        "from": "h24",
+        "to": "h12"
+      },
+      "expected": "1:05 PM"
+    },
+    {
+      "input": "0:00",
+      "config": {
+        "from": "h24",
+        "to": "h12"
+      },
+      "expected": "12:00 AM"
+    },
+    {
+      "input": "12:00",
+      "config": {
+        "from": "h24",
+        "to": "h12"
+      },
+      "expected": "12:00 PM"
+    },
+    {
+      "input": "23:59:58",
+      "config": {
+        "from": "h24",
+        "to": "h12"
+      },
+      "expected": "11:59:58 PM"
+    },
+    {
+      "input": "9:05",
+      "config": {
+        "from": "h24",
+        "to": "japanese"
+      },
+      "expected": "午前9時05分"
+    },
+    {
+      "input": "0:00",
+      "config": {
+        "from": "h24",
+        "to": "japanese"
+      },
+      "expected": "午前12時00分"
+    },
+    {
+      "input": "15:30:07",
+      "config": {
+        "from": "h24",
+        "to": "japanese"
+      },
+      "expected": "午後3時30分07秒"
+    },
+    {
+      "input": "1:05 PM",
+      "config": {
+        "from": "h12",
+        "to": "h24"
+      },
+      "expected": "13:05"
+    },
+    {
+      "input": "12:00 AM",
+      "config": {
+        "from": "h12",
+        "to": "h24"
+      },
+      "expected": "00:00"
+    },
+    {
+      "input": "午後11時59分",
+      "config": {
+        "from": "japanese",
+        "to": "h24"
+      },
+      "expected": "23:59"
+    },
+    {
+      "input": "午前12時00分",
+      "config": {
+        "from": "japanese",
+        "to": "h24"
+      },
+      "expected": "00:00"
+    },
+    {
+      "input": "24:00",
+      "config": {
+        "from": "h24",
+        "to": "h24"
+      },
+      "expected": "24:00"
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "from": "h24"
+    },
+    {
+      "from": "h24",
+      "to": "unix"
+    },
+    {
+      "from": "h24",
+      "to": "h24",
+      "extra": 1
+    },
+    []
+  ]
+}
