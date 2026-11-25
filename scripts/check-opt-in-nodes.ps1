@@ -159,3 +159,11 @@ $romajiRequests = @(
 )
 $romajiReplies = Invoke-Batch $Wasm $romajiRequests 'hiragana-to-romaji'
 if (-not $romajiReplies[0].ok -or $romajiReplies[0].data.out.packet.root.text -cne "matchato'a") { throw 'Wasm hiragana-to-romaji conversion failed' }
+
+$numberRequests = @(
+ (Request 'experimental.text-number-notation' @{method='execute'; config=@{mode='arabic'}; inputs=@{in=(TextPacket '一万二千三百四十五')}})
+ (Request 'experimental.text-number-notation' @{method='execute'; config=@{mode='arabic'}; inputs=@{in=(TextPacket '十百')}})
+)
+$numberReplies = Invoke-Batch $Wasm $numberRequests 'number-notation'
+if (-not $numberReplies[0].ok -or $numberReplies[0].data.out.packet.root.text -cne '12345') { throw 'Wasm number notation conversion failed' }
+if ($numberReplies[1].ok -or $numberReplies[1].error.code -ne 'invalid-number') { throw 'Wasm number notation accepted out-of-order units' }
