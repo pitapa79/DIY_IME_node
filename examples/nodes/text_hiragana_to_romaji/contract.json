@@ -1,0 +1,121 @@
+{
+  "kind": "experimental.text-hiragana-to-romaji",
+  "version": 1,
+  "defaultConfig": {
+    "system": "hepburn"
+  },
+  "cases": [
+    {
+      "input": "きゃく",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "kyaku"
+    },
+    {
+      "input": "がっこう",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "gakkou"
+    },
+    {
+      "input": "まっちゃ",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "matcha"
+    },
+    {
+      "input": "いっしょ",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "issho"
+    },
+    {
+      "input": "ずっと",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "zutto"
+    },
+    {
+      "input": "しんよう",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "shin'you"
+    },
+    {
+      "input": "かんい",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "kan'i"
+    },
+    {
+      "input": "とうきょう",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "toukyou"
+    },
+    {
+      "input": "おおきい",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "ookii"
+    },
+    {
+      "input": "ひらがなとカタカナと漢字",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "hiraganatoカタカナto漢字"
+    },
+    {
+      "input": "おちゃをのむ",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "ochawonomu"
+    },
+    {
+      "input": "ぢづ",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "jizu"
+    },
+    {
+      "input": "あっ",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": "a'"
+    },
+    {
+      "input": "",
+      "config": {
+        "system": "hepburn"
+      },
+      "expected": ""
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "system": "kunrei"
+    },
+    {
+      "system": "hepburn",
+      "extra": 1
+    },
+    {
+      "system": 1
+    },
+    []
+  ]
+}

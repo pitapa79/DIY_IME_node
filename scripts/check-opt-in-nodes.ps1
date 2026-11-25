@@ -149,3 +149,26 @@ if (-not $testDataReplies[0].ok -or $testDataReplies[0].data.out.packet.root.tex
 $testChoice = $testDataReplies[1].data.out.packet.root
 if (-not $testDataReplies[1].ok -or $testChoice.type -ne 'choice' -or $testChoice.options.Count -ne 2 -or $testChoice.options[0].value.text -cne 'つけあ' -or $testChoice.options[0].score -ne 0.444) { throw 'Wasm packet test data choice generation failed' }
 if (-not $testDataReplies[2].ok -or $testDataReplies[2].data.out.state -ne 'noOutput') { throw 'Wasm packet test data did not propagate NoOutput' }
+$additionalKinds = @('experimental.text-hiragana-to-romaji')
+$additionalRequests = @($additionalKinds | ForEach-Object { Request $_ @{method='describe'} })
+$additionalOfficial = Invoke-Batch $OfficialWasm $additionalRequests 'additional-official'
+$additionalOptIn = Invoke-Batch $Wasm $additionalRequests 'additional-opt-in'
+for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ $kind = $additionalKinds[$index]
+ if ($additionalOfficial[$index].ok -or $additionalOfficial[$index].error.code -ne 'unknown-kind') { throw "Opt-in kind leaked into official Wasm: $kind" }
+ if (-not $additionalOptIn[$index].ok -or $additionalOptIn[$index].data.kind -cne $kind -or $additionalOptIn[$index].data.version -ne 1) { throw "Could not describe opt-in Wasm kind: $kind" }
+}
+$validationRequests = @(for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ Request $additionalKinds[$index] @{method='validate'; config=$additionalOptIn[$index].data.defaultConfig}
+})
+$validationReplies = Invoke-Batch $Wasm $validationRequests 'additional-default-configs'
+for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
+ if (-not $validationReplies[$index].ok -or -not $validationReplies[$index].data.valid) { throw "Default Wasm configuration rejected: $($additionalKinds[$index])" }
+}
+Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
+
+$romajiRequests = @(
+ (Request 'experimental.text-hiragana-to-romaji' @{method='execute'; config=@{system='hepburn'}; inputs=@{in=(TextPacket 'まっちゃとっあ')}})
+)
+$romajiReplies = Invoke-Batch $Wasm $romajiRequests 'hiragana-to-romaji'
+if (-not $romajiReplies[0].ok -or $romajiReplies[0].data.out.packet.root.text -cne "matchato'a") { throw 'Wasm hiragana-to-romaji conversion failed' }
