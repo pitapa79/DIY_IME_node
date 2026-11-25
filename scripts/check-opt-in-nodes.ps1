@@ -154,6 +154,11 @@ for ($index = 0; $index -lt $additionalKinds.Count; $index++) {
 }
 Write-Output 'Opt-in Wasm: additional definitions, defaults and official-module exclusion passed'
 
+$splitRequests = @((Request 'experimental.text-script-split' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'カ・ナ')}}))
+$splitReplies = Invoke-Batch $Wasm $splitRequests 'script-split'
+$splitRoot = $splitReplies[0].data.out.packet.root
+if (-not $splitReplies[0].ok -or $splitRoot.type -ne 'sequence' -or $splitRoot.items.Count -ne 3 -or $splitRoot.items[1].text -cne '・') { throw 'Wasm script split did not separate punctuation' }
+
 $classifyRequests = @(
  (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'a・')}})
  (Request 'experimental.text-script-classify' @{method='execute'; config=@{}; inputs=@{in=(TextPacket 'かな漢字')}})
