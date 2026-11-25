@@ -1646,7 +1646,7 @@
       "sourceBlob": "03873573c76a17e644fadf2ad443f49064d144aa",
       "path": "Cargo.lock",
       "change": "adapted",
-      "blob": "014c2039793176a6836d148893074f9b932b5e35",
+      "blob": "f2953902570ec08614d539cc5ea469083a4494a1",
       "reason": "Issue #7 adds Windows-only dev probe dependencies windows-sys 0.59.0/windows-targets 0.52.6; original source identity and all SDK/Node/fixture bytes are preserved. Public Node #2 adds two path packages without changing third-party versions."
     },
     {
