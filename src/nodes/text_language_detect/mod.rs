@@ -25,19 +25,22 @@ fn settings(config: &Value) -> Result<(), CoreError> {
 }
 fn detect(text: &str) -> &'static str {
     let mut kana = false;
-    let mut kanji = false;
+    let mut other_letters = false;
     let mut latin = false;
     for ch in text.chars() {
         match ch {
-            '\u{3040}'..='\u{30FF}' | '\u{FF66}'..='\u{FF9D}' => kana = true,
-            '\u{4E00}'..='\u{9FFF}' | '々' => kanji = true,
+            '\u{3040}'..='\u{30FF}' | '\u{FF66}'..='\u{FF9D}' if ch.is_alphabetic() => {
+                kana = true;
+            }
             'A'..='Z' | 'a'..='z' => latin = true,
+            '々' => other_letters = true,
+            _ if ch.is_alphabetic() => other_letters = true,
             _ => {}
         }
     }
     if kana {
         "ja"
-    } else if latin && !kanji {
+    } else if latin && !other_letters {
         "en"
     } else {
         "und"

@@ -50,6 +50,12 @@ fn fixture_cases_match() {
     }
 }
 #[test]
+fn other_scripts_and_punctuation_do_not_create_false_labels() {
+    for (input, expected) in [("helloПривет", "und"), ("・", "und"), ("hello・", "en")] {
+        assert_eq!(run(data(input), &json!({})).unwrap()["out"], data(expected));
+    }
+}
+#[test]
 fn failures_remain_distinct() {
     let config = TextLanguageDetect.definition().default_config;
     assert_eq!(config, json!({}));
