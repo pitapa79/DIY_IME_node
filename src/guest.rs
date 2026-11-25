@@ -184,6 +184,10 @@ fn make_node(kind: &str, version: u32) -> Result<Box<dyn Node>, CoreError> {
         ("experimental.text-number-notation", 1) => Ok(Box::new(
             crate::opt_in::text_number_notation::TextNumberNotation,
         )),
+        #[cfg(feature = "opt-in-nodes")]
+        ("experimental.text-number-unit-extract", 1) => Ok(Box::new(
+            crate::opt_in::text_number_unit_extract::TextNumberUnitExtract,
+        )),
         ("experimental.text-prefix", 1) => Ok(Box::new(crate::nodes::text_prefix::TextPrefix)),
         #[cfg(feature = "opt-in-nodes")]
         ("experimental.text-regex-replace", 1) => Ok(Box::new(

@@ -19,6 +19,8 @@ pub mod text_length;
 pub mod text_mapping;
 #[path = "nodes/text_number_notation/mod.rs"]
 pub mod text_number_notation;
+#[path = "nodes/text_number_unit_extract/mod.rs"]
+pub mod text_number_unit_extract;
 #[path = "nodes/text_regex_replace/mod.rs"]
 pub mod text_regex_replace;
 #[path = "nodes/text_regex_search/mod.rs"]
@@ -51,5 +53,6 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_unit_notation::TextUnitNotation)?;
     registry.register(text_length::TextLength)?;
     registry.register(text_script_classify::TextScriptClassify)?;
-    registry.register(text_script_split::TextScriptSplit)
+    registry.register(text_script_split::TextScriptSplit)?;
+    registry.register(text_number_unit_extract::TextNumberUnitExtract)
 }

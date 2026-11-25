@@ -1,0 +1,188 @@
+{
+  "kind": "experimental.text-number-unit-extract",
+  "version": 1,
+  "defaultConfig": {
+    "limit": 64
+  },
+  "cases": [
+    {
+      "input": "価格は30%です",
+      "config": {
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "30%",
+          "span": [
+            3,
+            6
+          ]
+        }
+      ]
+    },
+    {
+      "input": "-2.5 kgの荷物",
+      "config": {
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "-2.5 kg",
+          "span": [
+            0,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "input": "3年2月15日",
+      "config": {
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "3年",
+          "span": [
+            0,
+            2
+          ]
+        },
+        {
+          "text": "2月",
+          "span": [
+            2,
+            4
+          ]
+        },
+        {
+          "text": "15日",
+          "span": [
+            4,
+            7
+          ]
+        }
+      ]
+    },
+    {
+      "input": "全部で5個と10円",
+      "config": {
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "5個",
+          "span": [
+            3,
+            5
+          ]
+        },
+        {
+          "text": "10円",
+          "span": [
+            6,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "input": "単位なし123と未知の10 xyz",
+      "config": {
+        "limit": 64
+      },
+      "expected": []
+    },
+    {
+      "input": "温度は25℃、湿度60%",
+      "config": {
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "25℃",
+          "span": [
+            3,
+            6
+          ]
+        },
+        {
+          "text": "60%",
+          "span": [
+            9,
+            12
+          ]
+        }
+      ]
+    },
+    {
+      "input": "1-2個",
+      "config": {
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "2個",
+          "span": [
+            2,
+            4
+          ]
+        }
+      ]
+    },
+    {
+      "input": "3時間かかった",
+      "config": {
+        "limit": 64
+      },
+      "expected": [
+        {
+          "text": "3時間",
+          "span": [
+            0,
+            3
+          ]
+        }
+      ]
+    },
+    {
+      "input": "",
+      "config": {
+        "limit": 64
+      },
+      "expected": []
+    },
+    {
+      "input": "1個2個3個",
+      "config": {
+        "limit": 1
+      },
+      "expected": [
+        {
+          "text": "1個",
+          "span": [
+            0,
+            2
+          ]
+        }
+      ]
+    }
+  ],
+  "invalidConfigs": [
+    {},
+    {
+      "limit": 0
+    },
+    {
+      "limit": 1025
+    },
+    {
+      "limit": "64"
+    },
+    {
+      "limit": 64,
+      "extra": 1
+    },
+    []
+  ]
+}
