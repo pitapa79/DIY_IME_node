@@ -135,3 +135,16 @@ $reverseRoot = $reverseReplies[0].data.out.packet.root
 if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRoot.options.Count -ne 1 -or $reverseRoot.options[0].value.text -cne 'よみ' -or $reverseRoot.options[0].score -ne 2) { throw 'Wasm dictionary reverse did not honor dictionary order and candidate limit' }
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
+
+$randomSelect = 'experimental.choice-random-select'
+$officialRandomSelect = Invoke-Batch $OfficialWasm @((Request $randomSelect @{method='describe'})) 'official-random-select'
+if ($officialRandomSelect[0].ok -or $officialRandomSelect[0].error.code -ne 'unknown-kind') { throw 'random select leaked into official Wasm' }
+$choiceInput = @{state='data'; packet=@{version=1; root=@{type='choice'; options=@(@{value=@{type='text'; text='あ'}}, @{value=@{type='text'; text='い'}}, @{value=@{type='text'; text='う'}})}}}
+$emptyChoice = @{state='data'; packet=@{version=1; root=@{type='choice'; options=@()}}}
+$randomRequests = @(
+ (Request $randomSelect @{method='execute'; config=@{seed=0}; inputs=@{in=$choiceInput}})
+ (Request $randomSelect @{method='execute'; config=@{seed=0}; inputs=@{in=$emptyChoice}})
+)
+$randomReplies = Invoke-Batch $Wasm $randomRequests 'random-select'
+if (-not $randomReplies[0].ok -or $randomReplies[0].data.out.packet.root.text -cne 'う') { throw 'Wasm random select returned the wrong candidate' }
+if (-not $randomReplies[1].ok -or $randomReplies[1].data.out.state -ne 'noOutput') { throw 'Wasm random select did not handle an empty choice' }
