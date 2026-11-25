@@ -1,0 +1,94 @@
+{
+  "kind": "experimental.text-script-classify",
+  "version": 1,
+  "defaultConfig": {},
+  "cases": [
+    {
+      "input": "ひらがな",
+      "config": {},
+      "expected": "hiragana"
+    },
+    {
+      "input": "カタカナ",
+      "config": {},
+      "expected": "katakana"
+    },
+    {
+      "input": "ｶﾀｶﾅ",
+      "config": {},
+      "expected": "katakana"
+    },
+    {
+      "input": "漢字",
+      "config": {},
+      "expected": "kanji"
+    },
+    {
+      "input": "abc",
+      "config": {},
+      "expected": "latin"
+    },
+    {
+      "input": "ＡＢＣ",
+      "config": {},
+      "expected": "latin"
+    },
+    {
+      "input": "123",
+      "config": {},
+      "expected": "digit"
+    },
+    {
+      "input": "１２３",
+      "config": {},
+      "expected": "digit"
+    },
+    {
+      "input": "かな漢字",
+      "config": {},
+      "expected": "mixed"
+    },
+    {
+      "input": "abc123",
+      "config": {},
+      "expected": "mixed"
+    },
+    {
+      "input": "東京2024",
+      "config": {},
+      "expected": "mixed"
+    },
+    {
+      "input": "ひらがな！",
+      "config": {},
+      "expected": "hiragana"
+    },
+    {
+      "input": "！？",
+      "config": {},
+      "expected": "neutral"
+    },
+    {
+      "input": " ",
+      "config": {},
+      "expected": "neutral"
+    },
+    {
+      "input": "",
+      "config": {},
+      "expected": "empty"
+    },
+    {
+      "input": "が",
+      "config": {},
+      "expected": "hiragana"
+    }
+  ],
+  "invalidConfigs": [
+    {
+      "x": 1
+    },
+    [],
+    "x"
+  ]
+}
