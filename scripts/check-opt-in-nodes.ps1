@@ -167,3 +167,11 @@ $numberRequests = @(
 $numberReplies = Invoke-Batch $Wasm $numberRequests 'number-notation'
 if (-not $numberReplies[0].ok -or $numberReplies[0].data.out.packet.root.text -cne '12345') { throw 'Wasm number notation conversion failed' }
 if ($numberReplies[1].ok -or $numberReplies[1].error.code -ne 'invalid-number') { throw 'Wasm number notation accepted out-of-order units' }
+
+$dateRequests = @(
+ (Request 'experimental.text-date-format' @{method='execute'; config=@{from='iso'; to='japanese'}; inputs=@{in=(TextPacket '0001-01-01')}})
+ (Request 'experimental.text-date-format' @{method='execute'; config=@{from='iso'; to='japanese'}; inputs=@{in=(TextPacket '1900-02-29')}})
+)
+$dateReplies = Invoke-Batch $Wasm $dateRequests 'date-format'
+if (-not $dateReplies[0].ok -or $dateReplies[0].data.out.packet.root.text -cne '0001年1月1日') { throw 'Wasm date format did not preserve the four digit year' }
+if ($dateReplies[1].ok -or $dateReplies[1].error.code -ne 'invalid-date') { throw 'Wasm date format accepted an invalid leap day' }
