@@ -7,6 +7,7 @@ pub mod choice_random_select;
 pub mod dictionary_prefix;
 #[path = "nodes/dictionary_reverse/mod.rs"]
 pub mod dictionary_reverse;
+pub use crate::nodes::paragraph_split;
 #[path = "nodes/flow_branch/mod.rs"]
 pub mod flow_branch;
 #[path = "nodes/packet_test_data/mod.rs"]
@@ -60,6 +61,7 @@ pub fn register(registry: &mut Registry) -> Result<(), CoreError> {
     registry.register(text_mapping::TextMapping)?;
     registry.register(text_kana_width::TextKanaWidth)?;
     registry.register(dictionary_reverse::DictionaryReverse)?;
+    registry.register(paragraph_split::ParagraphSplit)?;
     registry.register(text_quantity_format::TextQuantityFormat)?;
     registry.register(text_language_detect::TextLanguageDetect)?;
     registry.register(choice_random_select::ChoiceRandomSelect)?;

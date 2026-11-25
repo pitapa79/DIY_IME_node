@@ -136,6 +136,17 @@ if (-not $reverseReplies[0].ok -or $reverseRoot.type -ne 'choice' -or $reverseRo
 if ($reverseReplies[1].ok -or $reverseReplies[1].error.code -ne 'dictionary-path') { throw 'Wasm dictionary reverse accepted a missing snapshot' }
 Write-Output 'Opt-in Wasm: dictionary reverse and official-module exclusion passed'
 
+$paragraph = 'experimental.paragraph-split'
+$officialParagraph = Invoke-Batch $OfficialWasm @((Request $paragraph @{method='describe'})) 'official-paragraph-split'
+if ($officialParagraph[0].ok -or $officialParagraph[0].error.code -ne 'unknown-kind') { throw 'paragraph split leaked into official Wasm' }
+$paragraphRequests = @(
+ (Request $paragraph @{method='execute'; config=@{}; inputs=@{in=(TextPacket "あ`r`n`r`n😀")}})
+ (Request $paragraph @{method='execute'; config=@{}; inputs=@{in=@{state='noOutput'}}})
+)
+$paragraphReplies = Invoke-Batch $Wasm $paragraphRequests 'paragraph-split'
+$paragraphRoot = $paragraphReplies[0].data.out.packet.root
+if (-not $paragraphReplies[0].ok -or $paragraphRoot.type -ne 'sequence' -or $paragraphRoot.items.Count -ne 2 -or $paragraphRoot.items[0].text -cne "あ`r`n`r`n" -or $paragraphRoot.items[1].text -cne '😀') { throw 'Wasm paragraph split failed' }
+if (-not $paragraphReplies[1].ok -or $paragraphReplies[1].data.out.state -ne 'noOutput') { throw 'Wasm paragraph split did not propagate NoOutput' }
 $quantity = 'experimental.text-quantity-format'
 $officialQuantity = Invoke-Batch $OfficialWasm @((Request $quantity @{method='describe'})) 'official-quantity-format'
 if ($officialQuantity[0].ok -or $officialQuantity[0].error.code -ne 'unknown-kind') { throw 'quantity format leaked into official Wasm' }

@@ -83,7 +83,7 @@ fn malformed_versions_kinds_ports_packets_and_configs_fail_then_normal_execution
         "unknown-kind",
     ));
     cases.push((
-        request("experimental.paragraph-split", json!({"method":"describe"})),
+        request("experimental.does-not-exist", json!({"method":"describe"})),
         "unknown-kind",
     ));
     let mut port = convert(text("kya"), "compose");
